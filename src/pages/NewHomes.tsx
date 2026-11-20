@@ -1,6 +1,8 @@
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
+import { NewVsResale } from "@/components/site/NewVsResale";
+import { NewHomesQuestionnaireIntegration } from "@/components/site/NewHomesQuestionnaireIntegration";
 import { NEW_HOMES } from "@/data/newHomes";
 import { Link } from "react-router-dom";
 import { usePageTitle } from "@/hooks/use-page-title";
@@ -13,7 +15,7 @@ const NewHomes = () => {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6 max-w-[1400px]">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-            SoCal’s New Homes · Collaboration
+            Cervantes Realty × SoCal’s New Homes · Exclusive collaboration
           </p>
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
             New construction showcase
@@ -37,6 +39,8 @@ const NewHomes = () => {
           </div>
         </div>
       </section>
+      <NewVsResale />
+      <div className="container mx-auto px-6 max-w-5xl"><NewHomesQuestionnaireIntegration /></div>
       <SiteFooter />
     </div>
   );
