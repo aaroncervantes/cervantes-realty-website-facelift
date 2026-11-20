@@ -14,6 +14,12 @@ import Support from "./pages/Support";
 import Join from "./pages/Join";
 import Terms from "./pages/Terms";
 import ListingDetail from "./pages/ListingDetail";
+import Homes from "./pages/Homes";
+import NewHomes from "./pages/NewHomes";
+import NewHomeDetail from "./pages/NewHomeDetail";
+import Calculator from "./pages/Calculator";
+import Buy from "./pages/Buy";
+import Sell from "./pages/Sell";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminListings from "./pages/admin/AdminListings";
@@ -31,6 +37,12 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/homes" element={<Homes />} />
+            <Route path="/new-homes" element={<NewHomes />} />
+            <Route path="/new-homes/:slug" element={<NewHomeDetail />} />
+            <Route path="/calculator" element={<Calculator />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/sell" element={<Sell />} />
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />

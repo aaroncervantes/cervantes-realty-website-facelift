@@ -2,6 +2,22 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSupabase } from "./supabaseClient";
 import { FALLBACK_LISTINGS, type Listing } from "@/data/listings";
 
+export function isClosedListing(listing: Pick<Listing, "status">): boolean {
+  return /closed|sold/i.test(listing.status);
+}
+
+export function isActiveListing(listing: Pick<Listing, "status">): boolean {
+  return !isClosedListing(listing);
+}
+
+export function filterActive(listings: Listing[]): Listing[] {
+  return listings.filter(isActiveListing);
+}
+
+export function filterClosed(listings: Listing[]): Listing[] {
+  return listings.filter(isClosedListing);
+}
+
 /** Flat row shape matching public.listings */
 export interface ListingRow {
   id: number;

@@ -2,7 +2,9 @@ import { ArrowRight, Mail, Phone } from "lucide-react";
 import type { Listing } from "@/data/listings";
 import { Reveal } from "@/components/site/Reveal";
 import { ScheduleTour } from "@/components/site/ScheduleTour";
+import { MortgageCalculator } from "@/components/site/MortgageCalculator";
 import { BUY_URL } from "@/components/site/SiteHeader";
+import { parsePrice } from "@/lib/mortgage";
 
 function Meta({
   label,
@@ -318,6 +320,14 @@ export function ListingBody({
             className="space-y-6 scroll-mt-40 lg:sticky lg:top-40 lg:self-start lg:max-h-[calc(100vh-184px)] lg:overflow-y-auto no-scrollbar"
           >
             <SidebarCTA listing={listing} isClosed={isClosed} />
+            {!isClosed && (
+              <MortgageCalculator
+                initialPrice={parsePrice(listing.price)}
+                variant="sidebar"
+                title="Payment for this home"
+                showLinkToFull
+              />
+            )}
             <AgentCard listing={listing} />
           </div>
         </div>
