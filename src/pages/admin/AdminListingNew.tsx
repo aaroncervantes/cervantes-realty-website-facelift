@@ -1,30 +1,37 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { emptyListing, upsertListing } from "@/lib/listings";
-import { AdminListingForm } from "./AdminListingForm";
-import { toast } from "sonner";
+import {
+  emptyAdminListing,
+  useCreateListing,
+  type ListingRow,
+} from "@/lib/listings";
+import AdminListingForm from "./AdminListingForm";
 
-export default function AdminListingNew() {
+const AdminListingNew = () => {
+  const create = useCreateListing();
   const navigate = useNavigate();
-  const qc = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: upsertListing,
-    onSuccess: (row) => {
-      toast.success("Listing created");
-      qc.invalidateQueries({ queryKey: ["listings"] });
-      navigate(`/admin/listings/${row.id}/edit`);
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (row: ListingRow) => {
+    setError(null);
+    const { id: _id, created_at: _c, updated_at: _u, ...payload } = row;
+    try {
+      await create.mutateAsync(payload);
+      navigate("/admin/listings");
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
 
   return (
-    <div>
-      <h1 className="font-display text-3xl">New listing</h1>
-      <AdminListingForm
-        initial={emptyListing()}
-        busy={mutation.isPending}
-        onSubmit={(values) => mutation.mutate(values)}
-      />
-    </div>
+    <AdminListingForm
+      initial={emptyAdminListing()}
+      mode="new"
+      onSubmit={onSubmit}
+      submitting={create.isPending}
+      error={error}
+    />
   );
-}
+};
+
+export default AdminListingNew;

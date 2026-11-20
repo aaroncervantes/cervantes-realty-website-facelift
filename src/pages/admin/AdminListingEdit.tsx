@@ -1,49 +1,51 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchListingById, upsertListing } from "@/lib/listings";
-import { AdminListingForm } from "./AdminListingForm";
-import { toast } from "sonner";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  useAdminListing,
+  useUpdateListing,
+  type ListingRow,
+} from "@/lib/listings";
+import AdminListingForm from "./AdminListingForm";
 
-export default function AdminListingEdit() {
+const AdminListingEdit = () => {
   const { id } = useParams();
-  const listingId = Number(id);
+  const { data, isLoading } = useAdminListing(id);
+  const update = useUpdateListing();
   const navigate = useNavigate();
-  const qc = useQueryClient();
-  const { data, isLoading } = useQuery({
-    queryKey: ["listing", listingId],
-    queryFn: () => fetchListingById(listingId),
-    enabled: Number.isFinite(listingId),
-  });
-  const mutation = useMutation({
-    mutationFn: upsertListing,
-    onSuccess: () => {
-      toast.success("Listing saved");
-      qc.invalidateQueries({ queryKey: ["listings"] });
-      qc.invalidateQueries({ queryKey: ["listing", listingId] });
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
 
-  if (isLoading) return <p>Loading…</p>;
-  if (!data) {
+  if (isLoading) {
     return (
-      <p>
-        Listing not found.{" "}
-        <button className="text-gold underline" onClick={() => navigate("/admin/listings")}>
-          Back
-        </button>
+      <p className="text-gray-400 text-sm py-12 text-center">
+        Loading listing…
       </p>
     );
   }
 
+  if (!data) {
+    return (
+      <p className="text-red-600 text-sm py-12 text-center">
+        Listing not found.
+      </p>
+    );
+  }
+
+  const onSubmit = async (row: ListingRow) => {
+    const { id: _id, created_at: _c, updated_at: _u, ...rest } = row;
+    try {
+      await update.mutateAsync({ id: Number(id), ...rest } as ListingRow);
+      navigate("/admin/listings");
+    } catch (err) {
+      alert((err as Error).message);
+    }
+  };
+
   return (
-    <div>
-      <h1 className="font-display text-3xl">Edit listing #{data.id}</h1>
-      <AdminListingForm
-        initial={data}
-        busy={mutation.isPending}
-        onSubmit={(values) => mutation.mutate({ ...values, id: data.id })}
-      />
-    </div>
+    <AdminListingForm
+      initial={data}
+      mode="edit"
+      onSubmit={onSubmit}
+      submitting={update.isPending}
+    />
   );
-}
+};
+
+export default AdminListingEdit;

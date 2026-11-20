@@ -1,6 +1,9 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSupabase } from "./supabaseClient";
+import { FALLBACK_LISTINGS, type Listing } from "@/data/listings";
 
-export interface Listing {
+/** Flat row shape matching public.listings */
+export interface ListingRow {
   id: number;
   price: string;
   status: string;
@@ -44,70 +47,70 @@ export interface Listing {
   admin_notes: string;
   sort_order: number;
   is_published: boolean;
-  created_at?: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-export type ListingInput = Omit<Listing, "id" | "created_at" | "updated_at"> & {
-  id?: number;
-};
-
-export async function fetchPublishedListings(): Promise<Listing[]> {
-  const supabase = getSupabase();
-  if (!supabase) return [];
-  const { data, error } = await supabase
-    .from("listings")
-    .select("*")
-    .eq("is_published", true)
-    .order("sort_order", { ascending: true });
-  if (error) throw error;
-  return (data ?? []) as Listing[];
-}
-
-export async function fetchListingById(id: number): Promise<Listing | null> {
-  const supabase = getSupabase();
-  if (!supabase) return null;
-  const { data, error } = await supabase
-    .from("listings")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
-  if (error) throw error;
-  return data as Listing | null;
-}
-
-export async function fetchAllListingsAdmin(): Promise<Listing[]> {
-  const supabase = getSupabase();
-  if (!supabase) return [];
-  const { data, error } = await supabase
-    .from("listings")
-    .select("*")
-    .order("sort_order", { ascending: true });
-  if (error) throw error;
-  return (data ?? []) as Listing[];
-}
-
-export async function upsertListing(input: ListingInput): Promise<Listing> {
-  const supabase = getSupabase();
-  if (!supabase) throw new Error("Supabase not configured");
-  const { data, error } = await supabase
-    .from("listings")
-    .upsert(input)
-    .select("*")
-    .single();
-  if (error) throw error;
-  return data as Listing;
-}
-
-export async function deleteListing(id: number): Promise<void> {
-  const supabase = getSupabase();
-  if (!supabase) throw new Error("Supabase not configured");
-  const { error } = await supabase.from("listings").delete().eq("id", id);
-  if (error) throw error;
-}
-
-export function emptyListing(): ListingInput {
+export function fromRow(e: ListingRow): Listing {
   return {
+    id: e.id,
+    price: e.price,
+    status: e.status,
+    beds: e.beds,
+    baths: e.baths,
+    sqft: e.sqft,
+    type: e.type,
+    address: e.address,
+    cityStateZip: e.city_state_zip,
+    mls: e.mls,
+    image: e.image,
+    gallery: e.gallery || [],
+    badges: e.badges || [],
+    photosCount: e.photos_count,
+    description: e.description,
+    overview: {
+      propertyType: e.overview_property_type,
+      location: e.overview_location,
+      mlsId: e.overview_mls_id,
+      lastUpdated: e.overview_last_updated,
+      status: e.overview_status,
+    },
+    features: {
+      interior: {
+        bedrooms: e.interior_bedrooms,
+        fullBaths: e.interior_full_baths,
+        halfBaths: e.interior_half_baths || undefined,
+        flooring: e.interior_flooring,
+        appliances: e.interior_appliances,
+        otherFeatures: e.interior_other,
+      },
+      exterior: {
+        stories: e.exterior_stories,
+        garageSpaces: e.exterior_garage,
+        waterSource: e.exterior_water,
+        roof: e.exterior_roof,
+        airConditioning: e.exterior_ac,
+        otherFeatures: e.exterior_other,
+      },
+      details: {
+        neighborhood: e.details_neighborhood,
+        architectureStyle: e.details_architecture,
+        viewDescription: e.details_view,
+      },
+    },
+    agent: {
+      name: e.agent_name,
+      role: e.agent_role,
+      phone: e.agent_phone,
+      email: e.agent_email,
+      image: e.agent_image,
+    },
+  };
+}
+
+export function emptyAdminListing(): ListingRow {
+  return {
+    id: 0,
     price: "",
     status: "For Sale",
     beds: "",
@@ -145,10 +148,184 @@ export function emptyListing(): ListingInput {
     agent_name: "Aaron Cervantes",
     agent_role: "Founder - Realtor",
     agent_phone: "",
-    agent_email: "aaron@cervantesre.com",
+    agent_email: "",
     agent_image: "",
     admin_notes: "",
     sort_order: 0,
     is_published: true,
+    created_at: "",
+    updated_at: "",
   };
+}
+
+export function usePublicListings() {
+  return useQuery({
+    queryKey: ["listings", "public"],
+    queryFn: async () => {
+      const supabase = getSupabase();
+      if (!supabase) return [...FALLBACK_LISTINGS];
+      const { data, error } = await supabase
+        .from("listings")
+        .select("*")
+        .eq("is_published", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data as ListingRow[]).map(fromRow);
+    },
+    staleTime: 60_000,
+  });
+}
+
+export function useListingDetail(id: string | undefined) {
+  return useQuery({
+    queryKey: ["listings", "detail", id],
+    queryFn: async () => {
+      const supabase = getSupabase();
+      if (!supabase)
+        return FALLBACK_LISTINGS.find((s) => s.id.toString() === id) || null;
+      const { data, error } = await supabase
+        .from("listings")
+        .select("*")
+        .eq("id", Number(id))
+        .maybeSingle();
+      if (error) throw error;
+      return data ? fromRow(data as ListingRow) : null;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useAdminListings() {
+  return useQuery({
+    queryKey: ["listings", "admin"],
+    queryFn: async () => {
+      const supabase = getSupabase();
+      if (!supabase) return [];
+      const { data, error } = await supabase
+        .from("listings")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data as ListingRow[];
+    },
+  });
+}
+
+export function useAdminListing(id: string | undefined) {
+  return useQuery({
+    queryKey: ["listings", "admin", id],
+    queryFn: async () => {
+      const supabase = getSupabase();
+      if (!supabase) return null;
+      const { data, error } = await supabase
+        .from("listings")
+        .select("*")
+        .eq("id", Number(id))
+        .maybeSingle();
+      if (error) throw error;
+      return (data as ListingRow) || null;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useCreateListing() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (row: Partial<ListingRow>) => {
+      const supabase = getSupabase();
+      if (!supabase) throw new Error("Supabase is not configured yet.");
+      const { data, error } = await supabase
+        .from("listings")
+        .insert(row)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as ListingRow;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["listings"] }),
+  });
+}
+
+export function useUpdateListing() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (row: ListingRow) => {
+      const supabase = getSupabase();
+      if (!supabase) throw new Error("Supabase is not configured yet.");
+      const { data, error } = await supabase
+        .from("listings")
+        .update(row)
+        .eq("id", row.id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as ListingRow;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["listings"] }),
+  });
+}
+
+export function useDeleteListing() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const supabase = getSupabase();
+      if (!supabase) throw new Error("Supabase is not configured yet.");
+      const { error } = await supabase.from("listings").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["listings"] }),
+  });
+}
+
+export function useTogglePublished() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id,
+      is_published,
+    }: {
+      id: number;
+      is_published: boolean;
+    }) => {
+      const supabase = getSupabase();
+      if (!supabase) throw new Error("Supabase is not configured yet.");
+      const { error } = await supabase
+        .from("listings")
+        .update({ is_published })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["listings"] }),
+  });
+}
+
+export function useDuplicateListing() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const supabase = getSupabase();
+      if (!supabase) throw new Error("Supabase is not configured yet.");
+      const { data: n, error: s } = await supabase
+        .from("listings")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (s) throw s;
+      const { id: _id, created_at, updated_at, ...rest } = n as ListingRow;
+      const { data, error } = await supabase
+        .from("listings")
+        .insert({
+          ...rest,
+          is_published: false,
+          admin_notes: "Duplicated listing",
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      return data as ListingRow;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["listings"] }),
+  });
 }

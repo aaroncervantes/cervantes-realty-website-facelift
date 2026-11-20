@@ -1,36 +1,35 @@
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { ClosingCTA } from "@/components/ClosingCTA";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
 
-export default function Join() {
+const Join = () => {
   return (
-    <div className="min-h-screen bg-cream">
-      <div className="relative bg-ink">
-        <SiteHeader />
-        <div className="mx-auto max-w-3xl px-5 pb-16 pt-28 md:px-8">
-          <h1 className="font-display text-4xl text-cream md:text-5xl">Join Our Team</h1>
-        </div>
-      </div>
-      <main className="mx-auto max-w-3xl px-5 py-12 md:px-8">
-        
-        <div className="space-y-5 leading-relaxed text-ink/80">
-          <p>
-            We're always looking for driven, passionate individuals to join Cervantes
-            Realty. If you're dedicated to excellence and want to grow your career in
-            luxury real estate, we'd love to hear from you.
+    <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white flex flex-col">
+      <SiteHeader darkTrigger />
+      <main className="flex-1 py-24 md:py-32">
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <h1 className="font-serif text-5xl md:text-6xl mb-8 font-medium">
+            Join Our Team
+          </h1>
+          <p className="text-lg text-gray-600 font-serif italic mb-10 max-w-2xl mx-auto leading-relaxed">
+            We're always looking for driven, passionate individuals to join
+            Cervantes Realty. If you're dedicated to excellence and want to grow
+            your career in luxury real estate, we'd love to hear from you.
           </p>
-          <p>
-            Reach out through our{" "}
-            <a href="/contact" className="text-gold underline">
-              contact page
-            </a>{" "}
-            to explore current opportunities.
+          <p className="text-gray-600 mb-10">
+            Reach out to us to explore current opportunities and see how you can
+            become part of our dream team.
           </p>
+          <a
+            href="/contact"
+            className="inline-block bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold hover:bg-[#c9a84c] transition-colors uppercase tracking-wider rounded"
+          >
+            Contact Us to Apply
+          </a>
         </div>
-
       </main>
-      <ClosingCTA />
       <SiteFooter />
     </div>
   );
-}
+};
+
+export default Join;

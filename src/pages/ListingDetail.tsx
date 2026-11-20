@@ -1,144 +1,116 @@
 import { useParams, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { fetchListingById } from "@/lib/listings";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { ScheduleTour } from "@/components/ScheduleTour";
-import type { ReactNode } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Menu } from "lucide-react";
+import { useListingDetail } from "@/lib/listings";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { SELL_URL, BUY_URL } from "@/components/site/SiteHeader";
+import { ListingGallery } from "@/components/listing/ListingGallery";
+import { ListingHeader } from "@/components/listing/ListingHeader";
+import { ListingNav } from "@/components/listing/ListingNav";
+import { ListingBody } from "@/components/listing/ListingDetails";
+import { MobileListingBar } from "@/components/listing/MobileListingBar";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
-export default function ListingDetail() {
-  const { id } = useParams();
-  const listingId = Number(id);
-  const { data: listing, isLoading, error } = useQuery({
-    queryKey: ["listing", listingId],
-    queryFn: () => fetchListingById(listingId),
-    enabled: Number.isFinite(listingId),
-  });
-
+function ListingPageHeader() {
   return (
-    <div className="min-h-screen bg-cream">
-      <div className="relative bg-ink pb-10">
-        <SiteHeader />
-        <div className="h-20" />
+    <header className="sticky top-0 z-50 bg-[#f7f5f2]/95 backdrop-blur-md border-b border-gray-200/60">
+      <div className="container mx-auto px-6 h-24 flex items-center justify-between max-w-7xl">
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src="https://assets.cdn.filesafe.space/yvIB8uaPt79VRC8MA1HI/media/69e6c389571cca8e954ff6a8.png"
+            alt="Cervantes Realty"
+            className="h-16 md:h-20 w-auto object-contain"
+          />
+        </Link>
+        <nav className="hidden md:flex items-center gap-10 text-xs font-semibold tracking-widest uppercase">
+          <a
+            href={SELL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-60 transition-opacity"
+          >
+            Sell
+          </a>
+          <a
+            href={BUY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-60 transition-opacity"
+          >
+            Buy
+          </a>
+          <Link to="/team" className="hover:opacity-60 transition-opacity">
+            Team
+          </Link>
+          <Link to="/contact" className="hover:opacity-60 transition-opacity">
+            Contact
+          </Link>
+        </nav>
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="p-2 hover:bg-black/5 rounded-md transition-colors">
+                <Menu className="w-6 h-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="bg-[#f7f5f2] border-l-0 w-[300px] sm:w-[400px]"
+            >
+              <nav className="flex flex-col gap-8 mt-12 text-base tracking-widest uppercase font-medium">
+                <a href={SELL_URL} target="_blank" rel="noopener noreferrer">
+                  Sell
+                </a>
+                <a href={BUY_URL} target="_blank" rel="noopener noreferrer">
+                  Buy
+                </a>
+                <Link to="/team">Team</Link>
+                <Link to="/contact">Contact</Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
-      <main className="mx-auto max-w-6xl px-5 py-10 md:px-8">
-        {isLoading && <p>Loading…</p>}
-        {error && <p className="text-red-700">Could not load listing.</p>}
-        {!isLoading && !listing && (
-          <p>
-            Listing not found. <Link to="/" className="text-gold underline">Home</Link>
-          </p>
-        )}
-        {listing && (
-          <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr]">
-            <div>
-              <div className="relative aspect-[16/10] overflow-hidden bg-ink/5">
-                <img
-                  src={listing.image}
-                  alt={listing.address}
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute left-3 top-3 flex gap-1">
-                  {listing.badges?.map((b) => (
-                    <Badge key={b}>{b}</Badge>
-                  ))}
-                </div>
-              </div>
-              {listing.gallery?.length > 1 && (
-                <div className="mt-3 grid grid-cols-3 gap-2">
-                  {listing.gallery.slice(0, 6).map((src) => (
-                    <img key={src} src={src} alt="" className="aspect-video object-cover" />
-                  ))}
-                </div>
-              )}
-              <h1 className="mt-8 font-display text-4xl">{listing.price}</h1>
-              <p className="mt-1 text-gold">{listing.status}</p>
-              <p className="mt-3 text-lg">
-                {listing.address}, {listing.city_state_zip}
-              </p>
-              <p className="mt-1 text-sm text-ink/55">
-                {listing.beds} Beds · {listing.baths} Baths · {listing.sqft} · {listing.type} · {listing.mls}
-              </p>
-              <p className="mt-6 leading-relaxed text-ink/80">{listing.description}</p>
+    </header>
+  );
+}
 
-              <Section title="Overview">
-                <KV label="Property type" value={listing.overview_property_type} />
-                <KV label="Location" value={listing.overview_location} />
-                <KV label="MLS" value={listing.overview_mls_id} />
-                <KV label="Updated" value={listing.overview_last_updated} />
-                <KV label="Status" value={listing.overview_status} />
-              </Section>
-              <Section title="Interior">
-                <KV label="Bedrooms" value={listing.interior_bedrooms} />
-                <KV label="Full baths" value={listing.interior_full_baths} />
-                <KV label="Flooring" value={listing.interior_flooring} />
-                <KV label="Appliances" value={listing.interior_appliances} />
-                <KV label="Other" value={listing.interior_other} />
-              </Section>
-              <Section title="Exterior">
-                <KV label="Stories" value={listing.exterior_stories} />
-                <KV label="Garage" value={listing.exterior_garage} />
-                <KV label="Water" value={listing.exterior_water} />
-                <KV label="Roof" value={listing.exterior_roof} />
-                <KV label="A/C" value={listing.exterior_ac} />
-                <KV label="Other" value={listing.exterior_other} />
-              </Section>
-              <Section title="Details">
-                <KV label="Neighborhood" value={listing.details_neighborhood} />
-                <KV label="Architecture" value={listing.details_architecture} />
-                <KV label="View" value={listing.details_view} />
-              </Section>
-            </div>
-            <aside className="space-y-6">
-              <ScheduleTour />
-              <div className="border border-ink/10 bg-white/50 p-6">
-                <div className="flex items-center gap-4">
-                  {listing.agent_image && (
-                    <img
-                      src={listing.agent_image}
-                      alt={listing.agent_name}
-                      className="h-16 w-16 object-cover"
-                    />
-                  )}
-                  <div>
-                    <p className="font-medium">{listing.agent_name}</p>
-                    <p className="text-sm text-ink/55">{listing.agent_role}</p>
-                  </div>
-                </div>
-                {listing.agent_phone && (
-                  <p className="mt-4 text-sm">{listing.agent_phone}</p>
-                )}
-                {listing.agent_email && (
-                  <a className="text-sm text-gold" href={`mailto:${listing.agent_email}`}>
-                    {listing.agent_email}
-                  </a>
-                )}
-              </div>
-            </aside>
-          </div>
-        )}
-      </main>
+const ListingDetail = () => {
+  const { id } = useParams();
+  const { data, isLoading } = useListingDetail(id);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-400 text-sm">
+        Loading property…
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-500 text-sm">
+        Property not found or no longer available.
+      </div>
+    );
+  }
+
+  const isClosed = /closed|sold/i.test(data.status);
+
+  return (
+    <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white">
+      <ListingPageHeader />
+      <ListingGallery listing={data} />
+      <ListingHeader listing={data} isClosed={isClosed} />
+      <ListingNav listing={data} isClosed={isClosed} />
+      <ListingBody listing={data} isClosed={isClosed} />
       <SiteFooter />
+      <MobileListingBar listing={data} isClosed={isClosed} />
     </div>
   );
-}
+};
 
-function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="mt-10 border-t border-ink/10 pt-6">
-      <h2 className="font-display text-2xl">{title}</h2>
-      <dl className="mt-4 grid gap-3 sm:grid-cols-2">{children}</dl>
-    </section>
-  );
-}
-
-function KV({ label, value }: { label: string; value?: string }) {
-  if (!value) return null;
-  return (
-    <div>
-      <dt className="text-xs uppercase tracking-wide text-ink/45">{label}</dt>
-      <dd className="mt-1 text-sm">{value}</dd>
-    </div>
-  );
-}
+export default ListingDetail;

@@ -1,36 +1,53 @@
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { Values } from "@/components/Values";
-import { ClosingCTA } from "@/components/ClosingCTA";
 import { team } from "@/data/team";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { Values } from "@/components/site/Values";
+import { SiteFooter } from "@/components/site/SiteFooter";
 
-export default function Team() {
+const Team = () => {
   return (
-    <div className="min-h-screen bg-cream">
-      <div className="bg-ink">
-        <SiteHeader />
-        <div className="mx-auto max-w-6xl px-5 pb-14 pt-28 md:px-8">
-          <h1 className="font-display text-4xl text-cream md:text-5xl">Our Team</h1>
-          <p className="mt-3 max-w-xl text-cream/70">
-            Dedicated professionals committed to finding your perfect home in the world.
-          </p>
+    <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white">
+      <SiteHeader />
+
+      <section className="py-24 md:py-32">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="text-center mb-20">
+            <h1 className="font-serif text-5xl md:text-6xl mb-6 font-medium">
+              Our Team
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto font-serif italic">
+              Dedicated professionals committed to finding your perfect home in
+              the world.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-12">
+            {team.map((member) => (
+              <div key={member.name} className="group cursor-pointer">
+                <div className="relative overflow-hidden mb-6 aspect-[3/4]">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover transition-all duration-500"
+                  />
+                </div>
+                <h3 className="font-serif text-2xl font-medium mb-1">
+                  {member.name}
+                </h3>
+                <p className="text-sm uppercase tracking-widest text-gray-500 mb-4">
+                  {member.role}
+                </p>
+                <p className="text-gray-600 leading-relaxed text-sm">
+                  {member.bio}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <main className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-3 md:px-8">
-        {team.map((m) => (
-          <article key={m.name} className="bg-white/40">
-            <img src={m.image} alt={m.name} className="aspect-[4/5] w-full object-cover" />
-            <div className="p-5">
-              <h2 className="font-display text-2xl">{m.name}</h2>
-              <p className="text-sm text-gold">{m.role}</p>
-              <p className="mt-3 text-sm text-ink/70">{m.bio}</p>
-            </div>
-          </article>
-        ))}
-      </main>
+      </section>
+
       <Values />
-      <ClosingCTA />
       <SiteFooter />
     </div>
   );
-}
+};
+
+export default Team;

@@ -1,27 +1,29 @@
-import { Link } from "react-router-dom";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-export default function NotFound() {
+const NotFound = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.error(
+      "404 Error: User attempted to access non-existent route:",
+      location.pathname,
+    );
+  }, [location.pathname]);
+
   return (
-    <div className="min-h-screen bg-cream">
-      <div className="bg-ink">
-        <SiteHeader />
-        <div className="mx-auto max-w-3xl px-5 pb-20 pt-32 text-center md:px-8">
-          <p className="text-sm uppercase tracking-[0.2em] text-gold">404</p>
-          <h1 className="mt-3 font-display text-4xl text-cream md:text-5xl">
-            Page not found
-          </h1>
-          <p className="mx-auto mt-4 max-w-md text-cream/70">
-            The page you are looking for does not exist or has moved.
-          </p>
-          <Button asChild variant="gold" className="mt-8">
-            <Link to="/">Back home</Link>
-          </Button>
-        </div>
+    <div className="flex min-h-screen items-center justify-center bg-muted">
+      <div className="text-center">
+        <h1 className="mb-4 text-4xl font-bold">404</h1>
+        <p className="mb-4 text-xl text-muted-foreground">
+          Oops! Page not found
+        </p>
+        <a href="/" className="text-primary underline hover:text-primary/90">
+          Return to Home
+        </a>
       </div>
-      <SiteFooter />
     </div>
   );
-}
+};
+
+export default NotFound;

@@ -1,46 +1,70 @@
-import { Navigate, Outlet, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Building2, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
 
-export default function AdminLayout() {
+const AdminLayout = () => {
   const { isAuthed, loading, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !isAuthed) navigate("/admin/login", { replace: true });
+  }, [loading, isAuthed, navigate]);
+
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-cream">
+      <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-400 text-sm">
         Loading…
       </div>
     );
   }
-  if (!isAuthed) return <Navigate to="/admin/login" replace />;
+
+  if (!isAuthed) return null;
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="border-b border-ink/10 bg-ink text-cream">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
-          <div className="flex items-center gap-6">
-            <Link to="/admin/listings" className="font-display text-xl">
-              Cervantes Admin
-            </Link>
-            <Link to="/admin/listings" className="text-sm text-cream/70 hover:text-gold">
-              Listings
-            </Link>
-            <Link to="/" className="text-sm text-cream/70 hover:text-gold">
-              View site
-            </Link>
+    <div className="min-h-screen bg-[#f7f5f2]">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src="https://assets.cdn.filesafe.space/yvIB8uaPt79VRC8MA1HI/media/69e6c389571cca8e954ff6a8.png"
+              alt="Cervantes Realty"
+              className="h-8 w-auto object-contain"
+            />
+            <span className="text-xs font-semibold uppercase tracking-widest text-gray-400 hidden sm:inline">
+              CMS
+            </span>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-cream/30 text-cream hover:bg-cream/10"
-            onClick={() => signOut()}
-          >
-            Sign out
-          </Button>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/admin/listings"
+              className="text-xs font-semibold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] flex items-center gap-1.5"
+            >
+              <Building2 className="w-3.5 h-3.5" /> Listings
+            </Link>
+            <a
+              href="/"
+              className="text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-[#1a1a1a]"
+            >
+              View Site
+            </a>
+            <button
+              onClick={async () => {
+                await signOut();
+                navigate("/admin/login");
+              }}
+              className="text-xs font-semibold uppercase tracking-wider text-gray-500 hover:text-red-600 flex items-center gap-1.5"
+            >
+              <LogOut className="w-3.5 h-3.5" /> Logout
+            </button>
+          </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-5 py-8 md:px-8">
+      <main className="max-w-6xl mx-auto px-6 py-10">
         <Outlet />
       </main>
     </div>
   );
-}
+};
+
+export default AdminLayout;

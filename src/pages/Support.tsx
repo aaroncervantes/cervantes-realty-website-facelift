@@ -1,40 +1,44 @@
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { ClosingCTA } from "@/components/ClosingCTA";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
 
-export default function Support() {
+const Support = () => {
   return (
-    <div className="min-h-screen bg-cream">
-      <div className="relative bg-ink">
-        <SiteHeader />
-        <div className="mx-auto max-w-3xl px-5 pb-16 pt-28 md:px-8">
-          <h1 className="font-display text-4xl text-cream md:text-5xl">Support</h1>
-        </div>
-      </div>
-      <main className="mx-auto max-w-3xl px-5 py-12 md:px-8">
-        
-        <div className="space-y-5 leading-relaxed text-ink/80">
-          <p>
-            We are here to help you with any questions or concerns regarding our
-            services, properties, or your real estate journey.
+    <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white flex flex-col">
+      <SiteHeader darkTrigger />
+      <main className="flex-1 py-24 md:py-32">
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <h1 className="font-serif text-5xl md:text-6xl mb-8 font-medium">
+            Support
+          </h1>
+          <p className="text-lg text-gray-600 font-serif italic mb-12 max-w-2xl mx-auto">
+            We are here to help you with any questions or concerns you may have
+            regarding our services, properties, or your real estate journey.
           </p>
-          <h2 className="font-display text-2xl text-ink">Need immediate assistance?</h2>
-          <p>
-            The fastest way to get in touch is through our{" "}
-            <a href="/contact" className="text-gold underline">
-              contact page
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 md:p-14 text-left">
+            <h2 className="font-serif text-2xl font-bold mb-4">
+              Need immediate assistance?
+            </h2>
+            <p className="text-gray-600 mb-8 leading-relaxed">
+              The fastest way to get in touch with our team is through our
+              contact page, where you can direct your inquiry to the right
+              department.
+            </p>
+            <a
+              href="/contact"
+              className="inline-block bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold hover:bg-[#c9a84c] transition-colors uppercase tracking-wider rounded"
+            >
+              Go to Contact Page
             </a>
-            , where you can direct your inquiry to the right place.
-          </p>
-          <p>
-            Our support team typically responds within 24 hours during regular business
-            days.
-          </p>
+            <p className="text-sm text-gray-500 mt-8">
+              Our support team typically responds within 24 hours during regular
+              business days.
+            </p>
+          </div>
         </div>
-
       </main>
-      <ClosingCTA />
       <SiteFooter />
     </div>
   );
-}
+};
+
+export default Support;
