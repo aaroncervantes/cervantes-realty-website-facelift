@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
-import { BUY_TYPEFORM } from "@/lib/typeform";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const Calculator = () => {
+  usePageTitle("Mortgage calculator");
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
@@ -17,25 +18,26 @@ const Calculator = () => {
             What will your mortgage cost?
           </h1>
           <p className="text-gray-600 mb-10 max-w-xl">
-            Adjust the numbers and see principal &amp; interest instantly. Then
-            get pre-approved when you’re ready — this is an estimate, not a
-            lender quote.
+            Adjust the numbers — including an optional tax &amp; insurance
+            estimate. Then get pre-approval help when you’re ready.
           </p>
-          <MortgageCalculator variant="page" title="Your estimate" />
+          <MortgageCalculator
+            variant="page"
+            title="Your estimate"
+            showPreapproval
+          />
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <a
-              href={BUY_TYPEFORM}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/buy"
               className="bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:bg-[#c9a84c] transition-colors"
             >
-              Get help buying
-            </a>
+              Buy guide
+            </Link>
             <Link
               to="/homes"
               className="border border-[#1a1a1a] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:border-[#c9a84c] transition-colors"
             >
-              Browse active homes
+              Browse homes
             </Link>
           </div>
         </div>

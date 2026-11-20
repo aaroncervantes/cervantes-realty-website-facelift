@@ -4,10 +4,12 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
 import { getNewHome } from "@/data/newHomes";
 import { formatCurrency } from "@/lib/mortgage";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const NewHomeDetail = () => {
   const { slug } = useParams();
   const home = slug ? getNewHome(slug) : undefined;
+  usePageTitle(home ? home.title : "Showcase");
 
   if (!home) {
     return (
@@ -42,7 +44,7 @@ const NewHomeDetail = () => {
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-                  {home.area} · {home.style}
+                  {home.area} · {home.style} · SoCal’s New Homes
                 </p>
                 <h1 className="font-serif text-4xl md:text-5xl mb-4">
                   {home.title}
@@ -53,19 +55,34 @@ const NewHomeDetail = () => {
                 <p className="text-sm text-gray-600 mb-6">
                   {home.beds} beds · {home.baths} baths · {home.sqft} sqft
                 </p>
-                <p className="text-lg text-gray-700 leading-relaxed max-w-2xl">
+                <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mb-10">
                   {home.blurb}
                 </p>
-                <div className="mt-8 p-6 bg-[#1a1a1a] text-white">
+
+                <h2 className="font-serif text-2xl mb-4">
+                  Why buyers compare this to resale
+                </h2>
+                <ul className="space-y-4 mb-10">
+                  {home.compareToResale.map((line) => (
+                    <li
+                      key={line}
+                      className="border-l-2 border-[#c9a84c] pl-4 text-gray-700 leading-relaxed"
+                    >
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="p-6 bg-[#1a1a1a] text-white">
                   <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
                     Not a Cervantes listing
                   </p>
                   <p className="text-sm text-white/80 leading-relaxed">
                     Featured for market awareness via SoCal’s New Homes. You
                     cannot inquire about this product here. Contact the builder
-                    or visit the community for availability. If you want help
-                    comparing new vs resale strategy, we can still talk —
-                    generally, not about this specific home.
+                    or visit the community for availability. Want help comparing
+                    new vs resale strategy? Talk to us generally — not about this
+                    specific home.
                   </p>
                   <Link
                     to="/buy"

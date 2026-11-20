@@ -11,6 +11,7 @@ export interface NewHome {
   sqft: string;
   style: string;
   blurb: string;
+  compareToResale: [string, string, string];
   image: string;
   gallery: string[];
 }
@@ -28,6 +29,11 @@ export const NEW_HOMES: NewHome[] = [
     style: "Ranch contemporary",
     blurb:
       "Low-maintenance single-story footprints with open kitchens and outdoor rooms — the kind of new builds we see families touring most often inland.",
+    compareToResale: [
+      "Builder warranties can cover systems early — resale often needs inspection credits instead.",
+      "HOA dues are common on new tracts; bake them into the monthly before you fall in love.",
+      "Mello-Roos or CFD taxes can add real dollars — ask before you compare to a similar resale payment.",
+    ],
     image:
       "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png",
     gallery: [
@@ -46,6 +52,11 @@ export const NEW_HOMES: NewHome[] = [
     style: "Modern townhome",
     blurb:
       "Attached new construction with rooftop decks and lock-and-leave living — popular with first-time buyers who want newer systems without a full single-family price.",
+    compareToResale: [
+      "Newer roofs, HVAC, and insulation vs. mid-century resale repairs.",
+      "Shared walls and HOA rules trade privacy for lower entry price.",
+      "Resale detached nearby may cost more upfront but skip Mello-Roos — run both payments.",
+    ],
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp",
     gallery: [
@@ -63,7 +74,12 @@ export const NEW_HOMES: NewHome[] = [
     sqft: "1,700–2,600",
     style: "Desert contemporary",
     blurb:
-      "Larger lots and newer construction for the payment — a common SoCal’s New Homes post theme when buyers want space without coastal pricing.",
+      "Larger lots and newer construction for the payment — a common SoCal’s New Homes theme when buyers want space without coastal pricing.",
+    compareToResale: [
+      "You often get more square footage new — vs. character and established landscaping on resale.",
+      "Commute and insurance (wind/fire) can swing the ‘cheap’ payment — underwrite the lifestyle.",
+      "Resale may negotiate harder on price; new builds negotiate on upgrades and closing credits.",
+    ],
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/293f82cb-43f7-4ff0-80f5-d18cdf464dab.png",
     gallery: [
@@ -82,6 +98,11 @@ export const NEW_HOMES: NewHome[] = [
     style: "Paired / duet",
     blurb:
       "New paired homes with private yards — often the bridge between a condo and a detached resale when inventory is tight.",
+    compareToResale: [
+      "Yard + new systems without full lot maintenance of a 1950s single-family.",
+      "Check shared-drive / party-wall rules vs. a freestanding resale.",
+      "Resale might win on school pocket or street feel — tour both with the same payment target.",
+    ],
     image:
       "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png",
     gallery: [

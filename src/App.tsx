@@ -20,6 +20,9 @@ import NewHomeDetail from "./pages/NewHomeDetail";
 import Calculator from "./pages/Calculator";
 import Buy from "./pages/Buy";
 import Sell from "./pages/Sell";
+import Story from "./pages/Story";
+import Markets from "./pages/Markets";
+import MarketDetail from "./pages/MarketDetail";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminListings from "./pages/admin/AdminListings";
@@ -43,6 +46,9 @@ const App = () => (
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/buy" element={<Buy />} />
             <Route path="/sell" element={<Sell />} />
+            <Route path="/stories/:slug" element={<Story />} />
+            <Route path="/markets" element={<Markets />} />
+            <Route path="/markets/:slug" element={<MarketDetail />} />
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />

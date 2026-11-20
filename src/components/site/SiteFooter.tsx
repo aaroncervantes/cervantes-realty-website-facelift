@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 import { Instagram } from "lucide-react";
+import {
+  LICENSE_LINE,
+  REPLY_HOURS,
+  SNH_INSTAGRAM,
+} from "@/lib/site";
 
 export function SiteFooter() {
   return (
@@ -13,6 +18,9 @@ export function SiteFooter() {
             Cervantes Realty collaborates with SoCal’s New Homes to help buyers
             understand both enclosed resale opportunities and the
             new-construction landscape — with clear next steps either way.
+          </p>
+          <p className="mt-4 text-sm text-gray-500">
+            We reply within {REPLY_HOURS} hours · {LICENSE_LINE}
           </p>
         </div>
 
@@ -47,9 +55,20 @@ export function SiteFooter() {
                 </svg>
               </a>
             </div>
-            <p className="mt-4 text-[10px] uppercase tracking-wider text-gray-400">
-              + SoCal’s New Homes on social
-            </p>
+            {SNH_INSTAGRAM ? (
+              <a
+                href={SNH_INSTAGRAM}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 text-[10px] uppercase tracking-wider text-gray-500 hover:text-[#c9a84c]"
+              >
+                SoCal’s New Homes on Instagram →
+              </a>
+            ) : (
+              <p className="mt-4 text-[10px] uppercase tracking-wider text-gray-400">
+                + SoCal’s New Homes on social
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col items-center md:items-start">
@@ -75,10 +94,26 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  to="/markets"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  Markets
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/calculator"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
                   Mortgage Calculator
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/stories/rhea-st"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  Case Study
                 </Link>
               </li>
               <li>

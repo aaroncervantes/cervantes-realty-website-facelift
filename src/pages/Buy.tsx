@@ -1,37 +1,69 @@
 import { Link } from "react-router-dom";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { BUY_TYPEFORM } from "@/lib/typeform";
+import { buyTypeform } from "@/lib/typeform";
+import { REPLY_HOURS } from "@/lib/site";
+import { usePageTitle } from "@/hooks/use-page-title";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const STEPS = [
   {
     n: "01",
     title: "Get pre-approved",
-    body: "A real letter beats a guess. We connect you with lenders who close on time — FHA, conventional, and first-time programs.",
+    body: "A real letter beats a guess. We connect you with lenders who close on time.",
   },
   {
     n: "02",
     title: "Know the full monthly",
-    body: "Use our calculator for P&I, then we layer taxes, insurance, and HOA so the payment isn’t a surprise.",
+    body: "Use our calculator for P&I, then layer taxes, insurance, and HOA.",
   },
   {
     n: "03",
     title: "Tour the right homes",
-    body: "Active enclosed resales you can actually write on — plus a browse-only look at new construction patterns via SoCal’s New Homes.",
+    body: "Enclosed resales you can write on — plus browse-only new construction context.",
   },
   {
     n: "04",
     title: "Offer with strategy",
-    body: "Price, contingencies, and timing — structured so sellers take you seriously without you overpaying on adrenaline.",
+    body: "Price, contingencies, timing — competitive without reckless overpaying.",
   },
   {
     n: "05",
     title: "Escrow to keys",
-    body: "Inspection, appraisal, contingencies, walkthrough. You’re never guessing what day you’re on.",
+    body: "Inspection, appraisal, contingencies, walkthrough — you’re never guessing the day.",
+  },
+];
+
+const FAQS = [
+  {
+    q: "Do I need 20% down?",
+    a: "No. FHA can go to 3.5%, many conventional options start at 3–5%. Under 20% usually means PMI — we weigh that against getting into the right home.",
+  },
+  {
+    q: "What’s the supplemental tax surprise?",
+    a: "In California, buying often triggers a supplemental tax bill based on the new assessed value. We flag it before you’re shocked at the mailbox.",
+  },
+  {
+    q: "Should I wait for rates to drop?",
+    a: "Buyers who are ready often lock when the home is right and refinance later. Timing the bottom costs more people than rate noise.",
+  },
+  {
+    q: "Pre-qualification vs pre-approval?",
+    a: "Pre-qual is a napkin estimate. Pre-approval is verified. SoCal sellers ignore napkin math.",
+  },
+  {
+    q: "Can I buy with imperfect credit?",
+    a: "Often yes — product depends on score and story. We route you to lenders who actually close those files.",
   },
 ];
 
 const Buy = () => {
+  usePageTitle("Buy guide");
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
@@ -43,10 +75,12 @@ const Buy = () => {
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
             Buying, step by step
           </h1>
-          <p className="text-gray-600 text-lg mb-12 leading-relaxed">
-            Luxury guidance with useful clarity — resale inventory you can tour,
-            new-build context when it helps, and a simple path from “thinking”
-            to keys.
+          <p className="text-gray-600 text-lg mb-4 leading-relaxed">
+            Luxury guidance with useful clarity — resale you can tour, new-build
+            context when it helps.
+          </p>
+          <p className="text-sm text-gray-500 mb-12">
+            We reply within {REPLY_HOURS} hours.
           </p>
           <ol className="space-y-10 mb-16">
             {STEPS.map((step) => (
@@ -61,9 +95,24 @@ const Buy = () => {
               </li>
             ))}
           </ol>
+
+          <h2 className="font-serif text-3xl mb-6">Buyer FAQ</h2>
+          <Accordion type="single" collapsible className="mb-16 border-t border-gray-200">
+            {FAQS.map((f, i) => (
+              <AccordionItem key={f.q} value={`q-${i}`}>
+                <AccordionTrigger className="text-left font-serif text-lg">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <a
-              href={BUY_TYPEFORM}
+              href={buyTypeform("buy")}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:bg-[#c9a84c] transition-colors"
@@ -78,13 +127,17 @@ const Buy = () => {
             </Link>
           </div>
           <p className="text-sm text-gray-500">
-            Prefer to browse first?{" "}
+            Prefer to browse?{" "}
             <Link to="/homes" className="underline hover:text-[#c9a84c]">
-              Active homes
+              Homes
             </Link>{" "}
             ·{" "}
             <Link to="/new-homes" className="underline hover:text-[#c9a84c]">
-              New homes showcase
+              New homes
+            </Link>{" "}
+            ·{" "}
+            <Link to="/markets" className="underline hover:text-[#c9a84c]">
+              Markets
             </Link>
           </p>
         </div>

@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
-import { usePublicListings, filterActive, filterClosed } from "@/lib/listings";
+import {
+  usePublicListings,
+  enclosedInventory,
+  listingStatusKind,
+} from "@/lib/listings";
 import { NEW_HOMES } from "@/data/newHomes";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ProofStrip } from "@/components/site/ProofStrip";
@@ -7,15 +11,14 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { ListingCard } from "@/components/listing/ListingCard";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
 import { ServiceAreas } from "@/components/site/ServiceAreas";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const Index = () => {
+  usePageTitle("Find Your Home in the World");
   const { data, isLoading } = usePublicListings();
   const listings = data || [];
-  // Active first, then recently closed — one enclosed inventory strip
-  const enclosed = [
-    ...filterActive(listings),
-    ...filterClosed(listings),
-  ].slice(0, 8);
+  const enclosed = enclosedInventory(listings).slice(0, 8);
+  const actives = enclosed.filter((l) => listingStatusKind(l) !== "closed");
   const showcase = NEW_HOMES.slice(0, 3);
 
   return (
@@ -23,15 +26,15 @@ const Index = () => {
       <SiteHeader />
 
       <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
             src="https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png"
             alt="Luxurious modern living room"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover scale-105 animate-[cr-kenburns_28s_ease-in-out_infinite_alternate]"
           />
           <div className="absolute inset-0 bg-black/30 mix-blend-multiply" />
         </div>
-        <div className="relative z-10 text-center px-4 max-w-4xl">
+        <div className="relative z-10 text-center px-4 max-w-4xl animate-[cr-fadeup_1.1s_ease-out_both]">
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-medium drop-shadow-lg">
             Find Your Home in the World
           </h1>
@@ -78,10 +81,10 @@ const Index = () => {
                   Cervantes Realty
                 </p>
                 <h3 className="font-serif text-3xl md:text-4xl mb-3">
-                  Active enclosed homes
+                  Enclosed inventory
                 </h3>
                 <p className="text-white/80 text-sm max-w-sm">
-                  Your listings — full address, tour, and real next steps.
+                  Active & recently closed — full address, tour, real next steps.
                 </p>
               </div>
             </Link>
@@ -133,13 +136,20 @@ const Index = () => {
               Loading listings…
             </p>
           )}
+          {!isLoading && actives.length === 0 && (
+            <div className="mb-8 border border-gray-200 p-8 bg-[#f7f5f2]">
+              <p className="font-serif text-xl mb-2">No active homes right now</p>
+              <p className="text-sm text-gray-600 mb-4">
+                We’ll find the next one — or study recent closings below.
+              </p>
+              <Link to="/buy" className="text-xs font-bold uppercase tracking-wider underline">
+                Start a buy conversation
+              </Link>
+            </div>
+          )}
           {!isLoading && enclosed.length === 0 && (
             <p className="text-gray-400 text-sm py-8 text-center">
-              No listings right now — check back soon or{" "}
-              <Link to="/buy" className="underline">
-                start a buy conversation
-              </Link>
-              .
+              No listings right now.
             </p>
           )}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -154,9 +164,14 @@ const Index = () => {
         <div className="container mx-auto px-6 max-w-[1400px]">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-                SoCal’s New Homes
-              </p>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold">
+                  SoCal’s New Homes
+                </span>
+                <span className="text-[9px] uppercase tracking-wider text-gray-400 border border-gray-300 px-2 py-0.5">
+                  Partner showcase
+                </span>
+              </div>
               <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a]">
                 Popular new builds we’re seeing
               </h2>
@@ -169,9 +184,8 @@ const Index = () => {
             </Link>
           </div>
           <p className="text-sm text-gray-500 mb-10 max-w-2xl">
-            Featured for market awareness only. These are not Cervantes listings
-            and cannot be inquired on here — talk to the builder or community for
-            details.
+            Featured for market awareness only. Not Cervantes listings — no
+            inquire on these products.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {showcase.map((home) => (
@@ -194,14 +208,16 @@ const Index = () => {
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
-            <div className="bg-[#1e1e1e] text-white p-12 md:p-16 lg:p-20 flex flex-col justify-center items-start">
+            <div className="bg-[#1e1e1e] text-white p-12 md:p-16 lg:p-20 flex flex-col justify-center items-start border-t border-[#c9a84c]/40">
               <h2 className="font-serif text-4xl md:text-5xl mb-6 font-medium">
                 Cervantes Concierge
               </h2>
-              <p className="text-lg md:text-xl font-serif italic mb-10 text-white/90 leading-relaxed">
+              <p className="text-lg md:text-xl font-serif italic mb-6 text-white/90 leading-relaxed">
                 Concierge helps you sell your home faster and for more money —
-                with no hassle for you. Kick your feet up and let us be Real
-                Estate Professionals.
+                with no hassle for you.
+              </p>
+              <p className="text-sm text-[#c9a84c] font-serif italic mb-10">
+                “Sold our home in 6 days above asking.” — Michael S.
               </p>
               <Link
                 to="/sell"
@@ -213,6 +229,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <ProofStrip />
 
       <section className="py-16 md:py-20 bg-white">
         <div className="container mx-auto px-6 max-w-5xl">
@@ -227,7 +245,7 @@ const Index = () => {
               {
                 to: "/calculator",
                 title: "Mortgage calculator",
-                copy: "Price, down, rate, term — see P&I instantly.",
+                copy: "Price, down, rate, tax/ins toggle — see the number.",
               },
               {
                 to: "/buy",
@@ -237,7 +255,7 @@ const Index = () => {
               {
                 to: "/sell",
                 title: "Sell guide",
-                copy: "Concierge system: price, prep, offers, close.",
+                copy: "Concierge + rough seller net before you list.",
               },
             ].map((item) => (
               <Link
@@ -255,7 +273,6 @@ const Index = () => {
         </div>
       </section>
 
-      <ProofStrip />
       <ServiceAreas />
       <SiteFooter />
     </div>

@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { buyTypeform } from "@/lib/typeform";
 import {
   DEFAULT_DOWN_PERCENT,
   DEFAULT_RATE,
   DEFAULT_TERM_YEARS,
+  RATE_UPDATED_LABEL,
   calcMortgage,
   formatCurrency,
   parsePrice,
@@ -17,6 +19,7 @@ interface MortgageCalculatorProps {
   title?: string;
   className?: string;
   showLinkToFull?: boolean;
+  showPreapproval?: boolean;
 }
 
 export function MortgageCalculator({
@@ -25,12 +28,14 @@ export function MortgageCalculator({
   title = "Estimate your payment",
   className = "",
   showLinkToFull = false,
+  showPreapproval = false,
 }: MortgageCalculatorProps) {
   const startPrice = parsePrice(initialPrice) || 650000;
   const [price, setPrice] = useState(startPrice);
   const [downPercent, setDownPercent] = useState(DEFAULT_DOWN_PERCENT);
   const [rate, setRate] = useState(DEFAULT_RATE);
   const [termYears, setTermYears] = useState(DEFAULT_TERM_YEARS);
+  const [includeTaxIns, setIncludeTaxIns] = useState(false);
 
   const downPayment = (price * downPercent) / 100;
   const result = useMemo(
@@ -40,8 +45,9 @@ export function MortgageCalculator({
         downPayment,
         ratePercent: rate,
         termYears,
+        includeTaxIns,
       }),
-    [price, downPayment, rate, termYears],
+    [price, downPayment, rate, termYears, includeTaxIns],
   );
 
   const isCompact = variant === "compact";
@@ -67,13 +73,12 @@ export function MortgageCalculator({
           </h3>
         </div>
         <div className="text-right shrink-0">
-          <p className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">
-            Rate chip
-          </p>
           <p className="text-sm font-semibold text-[#1a1a1a]">
             {DEFAULT_RATE.toFixed(2)}%
           </p>
-          <p className="text-[10px] text-gray-400">30-yr · updated weekly</p>
+          <p className="text-[10px] text-gray-400">
+            30-yr · Updated {RATE_UPDATED_LABEL}
+          </p>
         </div>
       </div>
 
@@ -148,16 +153,35 @@ export function MortgageCalculator({
         </label>
       </div>
 
+      <label className="mt-5 flex items-center gap-3 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={includeTaxIns}
+          onChange={(e) => setIncludeTaxIns(e.target.checked)}
+          className="accent-[#c9a84c] w-4 h-4"
+        />
+        <span className="text-sm text-gray-600">
+          Add estimated taxes (~1.1%) &amp; insurance (~0.35%)
+        </span>
+      </label>
+
       <div className="mt-8 border-t border-gray-100 pt-6">
         <p className="text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-1">
-          Estimated monthly P&amp;I
+          {includeTaxIns ? "Estimated monthly total" : "Estimated monthly P&I"}
         </p>
         <p className="font-serif text-4xl md:text-5xl text-[#1a1a1a] font-medium">
-          {formatCurrency(result.monthlyPI)}
+          {formatCurrency(includeTaxIns ? result.monthlyTotal : result.monthlyPI)}
           <span className="text-base text-gray-400 font-sans font-normal ml-1">
             /mo
           </span>
         </p>
+        {includeTaxIns && (
+          <p className="text-xs text-gray-500 mt-2">
+            P&amp;I {formatCurrency(result.monthlyPI)} · Tax{" "}
+            {formatCurrency(result.monthlyTax)} · Ins{" "}
+            {formatCurrency(result.monthlyIns)}
+          </p>
+        )}
         <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">
           <div>
             <dt className="text-[11px] uppercase tracking-wider text-gray-400">
@@ -177,17 +201,28 @@ export function MortgageCalculator({
           </div>
         </dl>
         <p className="mt-4 text-[11px] text-gray-400 leading-relaxed">
-          Principal &amp; interest only. Taxes, insurance, and HOA not included.
-          Estimate only — not a lender quote.
+          Estimate only — not a lender quote. HOA and Mello-Roos not included.
         </p>
-        {showLinkToFull && (
-          <Link
-            to="/calculator"
-            className="inline-block mt-4 text-xs font-bold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
-          >
-            Open full calculator →
-          </Link>
-        )}
+        <div className="mt-4 flex flex-wrap gap-4">
+          {showLinkToFull && (
+            <Link
+              to="/calculator"
+              className="text-xs font-bold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
+            >
+              Open full calculator →
+            </Link>
+          )}
+          {showPreapproval && (
+            <a
+              href={buyTypeform("calculator")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] hover:opacity-80"
+            >
+              Ready? Get pre-approval help →
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

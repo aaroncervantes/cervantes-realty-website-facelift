@@ -3,7 +3,7 @@ import type { Listing } from "@/data/listings";
 import { Reveal } from "@/components/site/Reveal";
 import { ScheduleTour } from "@/components/site/ScheduleTour";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
-import { BUY_URL } from "@/components/site/SiteHeader";
+import { buyTypeform } from "@/lib/typeform";
 import { parsePrice } from "@/lib/mortgage";
 
 function Meta({
@@ -133,7 +133,7 @@ function SidebarCTA({
           something similar? I'll help you find it.
         </p>
         <a
-          href={BUY_URL}
+          href={buyTypeform("listing")}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full bg-[#c9a84c] text-white py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider text-center hover:opacity-90 transition-opacity mb-3"

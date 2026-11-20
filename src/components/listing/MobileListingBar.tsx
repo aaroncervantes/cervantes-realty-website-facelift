@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import type { Listing } from "@/data/listings";
-import { BUY_URL } from "@/components/site/SiteHeader";
+import { buyTypeform } from "@/lib/typeform";
+import { smsLink } from "@/lib/site";
+import {
+  DEFAULT_DOWN_PERCENT,
+  DEFAULT_RATE,
+  DEFAULT_TERM_YEARS,
+  calcMortgage,
+  formatCurrency,
+  parsePrice,
+} from "@/lib/mortgage";
 
 export function MobileListingBar({
   listing,
@@ -10,6 +19,13 @@ export function MobileListingBar({
   isClosed: boolean;
 }) {
   const [show, setShow] = useState(false);
+  const price = parsePrice(listing.price);
+  const est = calcMortgage({
+    price,
+    downPayment: (price * DEFAULT_DOWN_PERCENT) / 100,
+    ratePercent: DEFAULT_RATE,
+    termYears: DEFAULT_TERM_YEARS,
+  });
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 700);
@@ -28,25 +44,44 @@ export function MobileListingBar({
         <p className="font-serif text-lg font-bold leading-none text-[#1a1a1a]">
           {listing.price}
         </p>
-        <p className="text-[11px] text-gray-500 truncate">{listing.address}</p>
+        {!isClosed && price > 0 ? (
+          <a
+            href="#schedule-tour"
+            className="text-[11px] text-[#c9a84c] font-semibold"
+          >
+            Est. {formatCurrency(est.monthlyPI)}/mo · Adjust
+          </a>
+        ) : (
+          <p className="text-[11px] text-gray-500 truncate">{listing.address}</p>
+        )}
       </div>
-      {isClosed ? (
+      <div className="flex gap-2 shrink-0">
         <a
-          href={BUY_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#c9a84c] text-white px-5 py-3 rounded-lg text-xs font-bold uppercase tracking-wider whitespace-nowrap"
+          href={smsLink(
+            `Hi Aaron, I'm looking at ${listing.address}${isClosed ? " (sold — want something similar)" : ""}.`,
+          )}
+          className="border border-gray-300 px-3 py-3 text-[10px] font-bold uppercase tracking-wider"
         >
-          Get a home like this
+          Text
         </a>
-      ) : (
-        <a
-          href="#schedule-tour"
-          className="bg-[#c9a84c] text-white px-5 py-3 rounded-lg text-xs font-bold uppercase tracking-wider whitespace-nowrap"
-        >
-          Schedule a Tour
-        </a>
-      )}
+        {isClosed ? (
+          <a
+            href={buyTypeform("listing")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#c9a84c] text-white px-4 py-3 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
+          >
+            Like this
+          </a>
+        ) : (
+          <a
+            href="#schedule-tour"
+            className="bg-[#c9a84c] text-white px-4 py-3 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
+          >
+            Tour
+          </a>
+        )}
+      </div>
     </div>
   );
 }

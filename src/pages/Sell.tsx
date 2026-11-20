@@ -1,32 +1,61 @@
 import { Link } from "react-router-dom";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { SELL_TYPEFORM } from "@/lib/typeform";
+import { SellerNet } from "@/components/site/SellerNet";
+import { sellTypeform } from "@/lib/typeform";
+import { REPLY_HOURS } from "@/lib/site";
+import { usePageTitle } from "@/hooks/use-page-title";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const MOVES = [
   {
     n: "01",
     title: "Valuation",
-    body: "Real comps and a pricing plan built to attract the right buyers — not a guess or a Zestimate.",
+    body: "Real comps and a pricing plan built to attract the right buyers.",
   },
   {
     n: "02",
     title: "Prep & list",
-    body: "Photos, staging guidance, and marketing that travels — Concierge handles the hassle.",
+    body: "Photos, staging guidance, marketing that travels — Concierge handles the hassle.",
   },
   {
     n: "03",
     title: "Offers & negotiation",
-    body: "Multiple offers when the market allows. Highest isn’t always best — we protect your net.",
+    body: "Highest isn’t always best — we protect your net.",
   },
   {
     n: "04",
     title: "Close & celebrate",
-    body: "Escrow, inspections, and clear communication until keys and funds move.",
+    body: "Escrow, inspections, clear communication until funds and keys move.",
+  },
+];
+
+const FAQS = [
+  {
+    q: "What if I price too high?",
+    a: "Overpricing is the #1 reason homes go stale. We price to the block and the current buyer pool — not hope.",
+  },
+  {
+    q: "How long will it take?",
+    a: "Depends on pocket and condition. We give a real day-range from live comps, not a generic promise.",
+  },
+  {
+    q: "Is staging worth it?",
+    a: "Often yes on vacant or dated homes. We tell you when a $2k stage beats a $20k price cut.",
+  },
+  {
+    q: "Do I have to be at every showing?",
+    a: "No — that’s Concierge. Kick your feet up; we run the process and keep you updated.",
   },
 ];
 
 const Sell = () => {
+  usePageTitle("Sell with Concierge");
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
@@ -38,9 +67,12 @@ const Sell = () => {
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
             Sell smarter. Walk away richer.
           </h1>
-          <p className="text-gray-600 text-lg mb-12 leading-relaxed">
+          <p className="text-gray-600 text-lg mb-4 leading-relaxed">
             Kick your feet up. We run a system designed to sell faster and for
             more — with less stress on you.
+          </p>
+          <p className="text-sm text-gray-500 mb-12">
+            We reply within {REPLY_HOURS} hours.
           </p>
           <ol className="space-y-10 mb-16">
             {MOVES.map((step) => (
@@ -55,9 +87,28 @@ const Sell = () => {
               </li>
             ))}
           </ol>
+
+          <div className="mb-16">
+            <SellerNet />
+          </div>
+
+          <h2 className="font-serif text-3xl mb-6">Seller FAQ</h2>
+          <Accordion type="single" collapsible className="mb-16 border-t border-gray-200">
+            {FAQS.map((f, i) => (
+              <AccordionItem key={f.q} value={`q-${i}`}>
+                <AccordionTrigger className="text-left font-serif text-lg">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-600 leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
           <div className="flex flex-col sm:flex-row gap-4">
             <a
-              href={SELL_TYPEFORM}
+              href={sellTypeform("sell")}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:bg-[#c9a84c] transition-colors"

@@ -3,8 +3,10 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
 import { NEW_HOMES } from "@/data/newHomes";
 import { Link } from "react-router-dom";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const NewHomes = () => {
+  usePageTitle("New construction showcase");
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />

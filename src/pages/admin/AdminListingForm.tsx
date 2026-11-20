@@ -367,6 +367,13 @@ export default function AdminListingForm({
             >
               <Plus className="w-3.5 h-3.5" /> Add image
             </button>
+            {(!form.image.trim() ||
+              form.gallery.map((g) => g.trim()).filter(Boolean).length < 5) && (
+              <p className="mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2">
+                Photo quality tip: add a primary image and at least 5 gallery
+                photos before publishing.
+              </p>
+            )}
           </div>
         </div>
       </Section>

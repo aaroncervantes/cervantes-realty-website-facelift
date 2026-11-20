@@ -1,8 +1,15 @@
-/** Simple P&I mortgage math — estimates only, not a lender quote. */
+/** Simple mortgage math — estimates only, not a lender quote. */
 
-export const DEFAULT_RATE = 6.3;
+import { MORTGAGE_RATE_UPDATED } from "./site";
+
+const envRate = Number(import.meta.env.VITE_MORTGAGE_RATE);
+export const DEFAULT_RATE =
+  Number.isFinite(envRate) && envRate > 0 ? envRate : 6.3;
 export const DEFAULT_TERM_YEARS = 30;
 export const DEFAULT_DOWN_PERCENT = 20;
+export const TAX_RATE_ANNUAL = 0.011;
+export const INSURANCE_RATE_ANNUAL = 0.0035;
+export const RATE_UPDATED_LABEL = MORTGAGE_RATE_UPDATED;
 
 export function parsePrice(input: string | number | undefined | null): number {
   if (typeof input === "number") return Number.isFinite(input) ? input : 0;
@@ -31,11 +38,15 @@ export interface MortgageInput {
   downPayment: number;
   ratePercent: number;
   termYears: number;
+  includeTaxIns?: boolean;
 }
 
 export interface MortgageResult {
   loanAmount: number;
   monthlyPI: number;
+  monthlyTax: number;
+  monthlyIns: number;
+  monthlyTotal: number;
   totalInterest: number;
   totalPaid: number;
   paymentCount: number;
@@ -46,6 +57,7 @@ export function calcMortgage({
   downPayment,
   ratePercent,
   termYears,
+  includeTaxIns = false,
 }: MortgageInput): MortgageResult {
   const loanAmount = Math.max(0, price - Math.max(0, downPayment));
   const paymentCount = Math.max(1, Math.round(termYears * 12));
@@ -61,12 +73,18 @@ export function calcMortgage({
     monthlyPI = (loanAmount * monthlyRate * factor) / (factor - 1);
   }
 
+  const monthlyTax = includeTaxIns ? (price * TAX_RATE_ANNUAL) / 12 : 0;
+  const monthlyIns = includeTaxIns ? (price * INSURANCE_RATE_ANNUAL) / 12 : 0;
+  const monthlyTotal = monthlyPI + monthlyTax + monthlyIns;
   const totalPaid = monthlyPI * paymentCount;
   const totalInterest = Math.max(0, totalPaid - loanAmount);
 
   return {
     loanAmount,
     monthlyPI,
+    monthlyTax,
+    monthlyIns,
+    monthlyTotal,
     totalInterest,
     totalPaid,
     paymentCount,
