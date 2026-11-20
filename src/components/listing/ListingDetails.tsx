@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Mail, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
-import { PropertyDecisionNotes } from "./PropertyDecisionNotes";
 import type { Listing } from "@/data/listings";
 import { Reveal } from "@/components/site/Reveal";
 import { ScheduleTour } from "@/components/site/ScheduleTour";
@@ -251,9 +249,6 @@ export function ListingBody({
                 </div>
               </div>
             </Reveal>
-
-            <PropertyDecisionNotes listing={listing} />
-            <Link to={`/listing/${listing.id}/brief`} className="inline-flex text-xs uppercase tracking-wider font-bold underline underline-offset-4 hover:text-[#c9a84c]">View printable property brief →</Link>
 
             <Reveal id="features-section" className="scroll-mt-40">
               <div>
