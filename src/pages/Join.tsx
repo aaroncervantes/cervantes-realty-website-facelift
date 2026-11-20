@@ -15,6 +15,7 @@ const Join = () => {
             Cervantes Realty. If you're dedicated to excellence and want to grow
             your career in luxury real estate, we'd love to hear from you.
           </p>
+          <div className="grid sm:grid-cols-2 gap-5 mb-10 text-left"><div className="border border-gray-200 bg-white p-6"><h2 className="font-serif text-2xl mb-3">A. Independent Brand Agent</h2><p className="text-sm text-gray-600">Develop your own social media presence, lead generation and professional identity with shared team support.</p></div><div className="border border-gray-200 bg-white p-6"><h2 className="font-serif text-2xl mb-3">B. SoCal’s New Homes Agent</h2><p className="text-sm text-gray-600">Participate in the team’s SoCal’s New Homes marketing platform and assigned lead opportunities.</p></div></div>
           <p className="text-gray-600 mb-10">
             Reach out to us to explore current opportunities and see how you can
             become part of our dream team.
