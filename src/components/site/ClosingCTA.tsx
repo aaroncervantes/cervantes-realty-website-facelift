@@ -1,7 +1,5 @@
-const SELL_URL =
-  "https://form.typeform.com/to/AJGF8W1h?typeform-source=cervantesestates.com#about";
-const BUY_URL =
-  "https://form.typeform.com/to/MYDWRuKV?typeform-source=cervantesestates.com#new-menu-item";
+import { SELL_TYPEFORM as SELL_URL, BUY_TYPEFORM as BUY_URL } from "@/lib/typeform";
+
 
 export function ClosingCTA() {
   return (

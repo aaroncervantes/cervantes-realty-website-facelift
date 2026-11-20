@@ -4,11 +4,10 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { SELL_TYPEFORM, BUY_TYPEFORM } from "@/lib/typeform";
 
-export const SELL_URL =
-  "https://form.typeform.com/to/AJGF8W1h?typeform-source=cervantesestates.com#about";
-export const BUY_URL =
-  "https://form.typeform.com/to/MYDWRuKV?typeform-source=cervantesestates.com#new-menu-item";
+export const SELL_URL = SELL_TYPEFORM;
+export const BUY_URL = BUY_TYPEFORM;
 
 const LOGO =
   "https://assets.cdn.filesafe.space/yvIB8uaPt79VRC8MA1HI/media/69e6c389571cca8e954ff6a8.png";
