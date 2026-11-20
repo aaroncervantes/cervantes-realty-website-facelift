@@ -14,6 +14,7 @@ import Support from "./pages/Support";
 import Join from "./pages/Join";
 import Terms from "./pages/Terms";
 import ListingDetail from "./pages/ListingDetail";
+import PropertyBrief from "./pages/PropertyBrief";
 import Homes from "./pages/Homes";
 import NewHomes from "./pages/NewHomes";
 import NewHomeDetail from "./pages/NewHomeDetail";
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="/join" element={<Join />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/listing/:id" element={<ListingDetail />} />
+            <Route path="/listing/:id/brief" element={<PropertyBrief />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route
