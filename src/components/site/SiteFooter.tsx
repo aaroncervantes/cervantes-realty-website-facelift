@@ -62,7 +62,7 @@ export function SiteFooter() {
                   to="/homes"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Active Homes
+                  Homes
                 </Link>
               </li>
               <li>

@@ -11,8 +11,11 @@ import { ServiceAreas } from "@/components/site/ServiceAreas";
 const Index = () => {
   const { data, isLoading } = usePublicListings();
   const listings = data || [];
-  const active = filterActive(listings).slice(0, 4);
-  const closed = filterClosed(listings).slice(0, 3);
+  // Active first, then recently closed — one enclosed inventory strip
+  const enclosed = [
+    ...filterActive(listings),
+    ...filterClosed(listings),
+  ].slice(0, 8);
   const showcase = NEW_HOMES.slice(0, 3);
 
   return (
@@ -115,7 +118,7 @@ const Index = () => {
                 Enclosed inventory
               </p>
               <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a]">
-                Active homes
+                Active & recently closed
               </h2>
             </div>
             <Link
@@ -130,9 +133,9 @@ const Index = () => {
               Loading listings…
             </p>
           )}
-          {!isLoading && active.length === 0 && (
+          {!isLoading && enclosed.length === 0 && (
             <p className="text-gray-400 text-sm py-8 text-center">
-              No active listings right now — check back soon or{" "}
+              No listings right now — check back soon or{" "}
               <Link to="/buy" className="underline">
                 start a buy conversation
               </Link>
@@ -140,7 +143,7 @@ const Index = () => {
             </p>
           )}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {active.map((listing) => (
+            {enclosed.map((listing) => (
               <ListingCard key={listing.id} listing={listing} />
             ))}
           </div>
@@ -251,21 +254,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {closed.length > 0 && (
-        <section className="py-16 md:py-24 bg-[#f7f5f2]">
-          <div className="container mx-auto px-6 max-w-[1400px]">
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a] mb-8">
-              Recently closed
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {closed.map((listing) => (
-                <ListingCard key={listing.id} listing={listing} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       <ProofStrip />
       <ServiceAreas />
