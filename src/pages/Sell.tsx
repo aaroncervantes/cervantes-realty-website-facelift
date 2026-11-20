@@ -13,26 +13,12 @@ import {
 } from "@/components/ui/accordion";
 
 const MOVES = [
-  {
-    n: "01",
-    title: "Valuation",
-    body: "Real comps and a pricing plan built to attract the right buyers.",
-  },
-  {
-    n: "02",
-    title: "Prep & list",
-    body: "Photos, staging guidance, marketing that travels — Concierge handles the hassle.",
-  },
-  {
-    n: "03",
-    title: "Offers & negotiation",
-    body: "Highest isn’t always best — we protect your net.",
-  },
-  {
-    n: "04",
-    title: "Close & celebrate",
-    body: "Escrow, inspections, clear communication until funds and keys move.",
-  },
+  { n: "01", title: "Consultation & valuation", body: "Review the property, recent comparable sales, timing and your priorities before setting a pricing approach." },
+  { n: "02", title: "Property preparation", body: "Prioritize worthwhile improvements, presentation, cleaning and photography without unnecessary spending." },
+  { n: "03", title: "Marketing launch", body: "Prepare listing materials, coordinate exposure and manage showing requests with a clear communication plan." },
+  { n: "04", title: "Offers & negotiation", body: "Compare price, financing, contingencies and closing timelines, not simply the highest headline number." },
+  { n: "05", title: "Escrow & due diligence", body: "Track contractual milestones, inspections, disclosures and communication with transaction partners." },
+  { n: "06", title: "Closing & transition", body: "Coordinate final steps, possession timing and the transition to your next chapter." },
 ];
 
 const FAQS = [
