@@ -10,6 +10,7 @@ import { ProofStrip } from "@/components/site/ProofStrip";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { ListingCard } from "@/components/listing/ListingCard";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
+import { NewVsResale } from "@/components/site/NewVsResale";
 import { ServiceAreas } from "@/components/site/ServiceAreas";
 import { usePageTitle } from "@/hooks/use-page-title";
 
@@ -169,7 +170,7 @@ const Index = () => {
                   SoCal’s New Homes
                 </span>
                 <span className="text-[9px] uppercase tracking-wider text-gray-400 border border-gray-300 px-2 py-0.5">
-                  Partner showcase
+                  Exclusive collaboration
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a]">
@@ -273,6 +274,7 @@ const Index = () => {
         </div>
       </section>
 
+      <NewVsResale />
       <ServiceAreas />
       <SiteFooter />
     </div>
