@@ -34,6 +34,22 @@ const ListingDetail = () => {
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white">
       <SiteHeader />
       <ListingGallery listing={data} />
+      {data.videoUrl && (
+        <div className="container mx-auto px-6 max-w-7xl py-8">
+          <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3">
+            Walkthrough
+          </p>
+          <div className="aspect-video overflow-hidden border border-gray-200 bg-black">
+            <iframe
+              title={`${data.address} walkthrough`}
+              src={data.videoUrl}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
       <ListingHeader listing={data} isClosed={isClosed} />
       <ListingNav listing={data} isClosed={isClosed} />
       <ListingBody listing={data} isClosed={isClosed} />

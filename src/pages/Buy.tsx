@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { buyTypeform } from "@/lib/typeform";
 import { REPLY_HOURS } from "@/lib/site";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 import {
   Accordion,
   AccordionContent,
@@ -64,6 +65,7 @@ const FAQS = [
 
 const Buy = () => {
   usePageTitle("Buy guide");
+  const { t } = useLang();
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
@@ -73,14 +75,14 @@ const Buy = () => {
             Buy with Cervantes
           </p>
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
-            Buying, step by step
+            {t.buyTitle}
           </h1>
           <p className="text-gray-600 text-lg mb-4 leading-relaxed">
             Luxury guidance with useful clarity — resale you can tour, new-build
             context when it helps.
           </p>
           <p className="text-sm text-gray-500 mb-12">
-            We reply within {REPLY_HOURS} hours.
+            {t.reply} {REPLY_HOURS} {t.hours}.
           </p>
           <ol className="space-y-10 mb-16">
             {STEPS.map((step) => (
@@ -134,6 +136,14 @@ const Buy = () => {
             ·{" "}
             <Link to="/new-homes" className="underline hover:text-[#c9a84c]">
               New homes
+            </Link>{" "}
+            ·{" "}
+            <Link to="/compare" className="underline hover:text-[#c9a84c]">
+              New vs resale
+            </Link>{" "}
+            ·{" "}
+            <Link to="/rent-vs-buy" className="underline hover:text-[#c9a84c]">
+              Rent vs buy
             </Link>{" "}
             ·{" "}
             <Link to="/markets" className="underline hover:text-[#c9a84c]">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PropertyDecisionNotes } from "./PropertyDecisionNotes";
@@ -5,6 +6,7 @@ import type { Listing } from "@/data/listings";
 import { Reveal } from "@/components/site/Reveal";
 import { ScheduleTour } from "@/components/site/ScheduleTour";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
+import { DecisionNotes } from "@/components/listing/DecisionNotes";
 import { buyTypeform } from "@/lib/typeform";
 import { parsePrice } from "@/lib/mortgage";
 
@@ -213,10 +215,18 @@ export function ListingBody({
                   <h2 className="font-serif text-2xl md:text-3xl font-bold mb-4 text-[#1a1a1a]">
                     About this home
                   </h2>
-                  <p className="text-gray-700 leading-relaxed text-base md:text-lg max-w-2xl">
+                  <p className="text-gray-700 leading-relaxed text-base md:text-lg max-w-2xl mb-6">
                     {listing.description}
                   </p>
+                  <Link
+                    to={`/listing/${listing.id}/brief`}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
+                  >
+                    View Property Brief
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
+                <DecisionNotes listing={listing} />
                 <div>
                   <h3 className="text-xs uppercase tracking-widest font-bold text-[#c9a84c] mb-5 pb-2 border-b border-gray-200">
                     Overview

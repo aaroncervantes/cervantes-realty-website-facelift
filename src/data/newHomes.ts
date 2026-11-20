@@ -6,15 +6,24 @@ export interface NewHome {
   title: string;
   area: string;
   fromPrice: number;
+  priceHigh?: number;
   beds: string;
   baths: string;
   sqft: string;
   style: string;
   blurb: string;
   compareToResale: [string, string, string];
+  whyBuyers: string;
+  hoa: string;
+  specialAssessments: string;
+  incentives: string;
+  verifiedDate: string;
   image: string;
   gallery: string[];
+  videoUrl?: string;
 }
+
+const NV = "Not yet verified";
 
 export const NEW_HOMES: NewHome[] = [
   {
@@ -23,6 +32,7 @@ export const NEW_HOMES: NewHome[] = [
     title: "Single-story plans inland",
     area: "Inland Empire",
     fromPrice: 589000,
+    priceHigh: 720000,
     beds: "3–4",
     baths: "2–3",
     sqft: "1,600–2,200",
@@ -34,6 +44,12 @@ export const NEW_HOMES: NewHome[] = [
       "HOA dues are common on new tracts; bake them into the monthly before you fall in love.",
       "Mello-Roos or CFD taxes can add real dollars — ask before you compare to a similar resale payment.",
     ],
+    whyBuyers:
+      "Buyers who want single-level living and newer systems without coastal pricing often start here — then compare a similar resale payment with HOA and special taxes included.",
+    hoa: "Common on master-planned tracts — confirm current dues with the builder",
+    specialAssessments: "Mello-Roos / CFD possible — verify before modeling payment",
+    incentives: NV,
+    verifiedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png",
     gallery: [
@@ -46,6 +62,7 @@ export const NEW_HOMES: NewHome[] = [
     title: "Townhome clusters near the coast",
     area: "Orange County",
     fromPrice: 725000,
+    priceHigh: 890000,
     beds: "2–3",
     baths: "2.5–3",
     sqft: "1,400–1,900",
@@ -57,6 +74,12 @@ export const NEW_HOMES: NewHome[] = [
       "Shared walls and HOA rules trade privacy for lower entry price.",
       "Resale detached nearby may cost more upfront but skip Mello-Roos — run both payments.",
     ],
+    whyBuyers:
+      "A bridge between condo convenience and more space — strong when the monthly (HOA included) still fits after coastal premiums.",
+    hoa: "Expect HOA — dues vary by community",
+    specialAssessments: NV,
+    incentives: NV,
+    verifiedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp",
     gallery: [
@@ -69,6 +92,7 @@ export const NEW_HOMES: NewHome[] = [
     title: "High-desert value builds",
     area: "High Desert",
     fromPrice: 449000,
+    priceHigh: 575000,
     beds: "3–5",
     baths: "2–3",
     sqft: "1,700–2,600",
@@ -80,6 +104,12 @@ export const NEW_HOMES: NewHome[] = [
       "Commute and insurance (wind/fire) can swing the ‘cheap’ payment — underwrite the lifestyle.",
       "Resale may negotiate harder on price; new builds negotiate on upgrades and closing credits.",
     ],
+    whyBuyers:
+      "Space and newer construction for the dollar — best when commute and insurance are modeled honestly alongside the note.",
+    hoa: NV,
+    specialAssessments: NV,
+    incentives: NV,
+    verifiedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/293f82cb-43f7-4ff0-80f5-d18cdf464dab.png",
     gallery: [
@@ -92,6 +122,7 @@ export const NEW_HOMES: NewHome[] = [
     title: "Paired homes in LA County",
     area: "Los Angeles County",
     fromPrice: 820000,
+    priceHigh: 980000,
     beds: "3–4",
     baths: "3–3.5",
     sqft: "1,800–2,400",
@@ -103,6 +134,12 @@ export const NEW_HOMES: NewHome[] = [
       "Check shared-drive / party-wall rules vs. a freestanding resale.",
       "Resale might win on school pocket or street feel — tour both with the same payment target.",
     ],
+    whyBuyers:
+      "When detached resale inventory is thin, paired new homes can deliver yard + systems — if party-wall rules still feel like home.",
+    hoa: "Often yes on paired/duet products — confirm",
+    specialAssessments: NV,
+    incentives: NV,
+    verifiedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png",
     gallery: [

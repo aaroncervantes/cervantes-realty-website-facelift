@@ -102,10 +102,34 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  to="/compare"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  New vs Resale
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/rent-vs-buy"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  Rent vs Buy
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/calculator"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
                   Mortgage Calculator
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/join"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  Join Our Team
                 </Link>
               </li>
               <li>

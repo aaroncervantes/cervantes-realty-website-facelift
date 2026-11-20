@@ -2,9 +2,21 @@ import { Link, useParams } from "react-router-dom";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
+import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { getNewHome } from "@/data/newHomes";
 import { formatCurrency } from "@/lib/mortgage";
 import { usePageTitle } from "@/hooks/use-page-title";
+
+function Snap({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[10px] uppercase tracking-widest text-gray-400 font-medium">
+        {label}
+      </dt>
+      <dd className="text-sm font-semibold text-[#1a1a1a] mt-1">{value}</dd>
+    </div>
+  );
+}
 
 const NewHomeDetail = () => {
   const { slug } = useParams();
@@ -22,6 +34,10 @@ const NewHomeDetail = () => {
     );
   }
 
+  const priceRange = home.priceHigh
+    ? `${formatCurrency(home.fromPrice)} – ${formatCurrency(home.priceHigh)}`
+    : `From ${formatCurrency(home.fromPrice)}`;
+
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
@@ -34,7 +50,7 @@ const NewHomeDetail = () => {
             ← Showcase
           </Link>
           <div className="grid lg:grid-cols-3 gap-10 mt-8 items-start">
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-10">
               <div className="aspect-[16/10] overflow-hidden">
                 <img
                   src={home.image}
@@ -42,21 +58,56 @@ const NewHomeDetail = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
+              {home.videoUrl && (
+                <div className="aspect-video overflow-hidden border border-gray-200">
+                  <iframe
+                    title={`${home.title} video`}
+                    src={home.videoUrl}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              )}
               <div>
+                <CollaborationMark className="mb-4" />
                 <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-                  {home.area} · {home.style} · SoCal’s New Homes
+                  {home.area} · {home.style}
                 </p>
                 <h1 className="font-serif text-4xl md:text-5xl mb-4">
                   {home.title}
                 </h1>
-                <p className="text-2xl font-bold mb-2">
-                  From {formatCurrency(home.fromPrice)}
-                </p>
-                <p className="text-sm text-gray-600 mb-6">
+                <p className="text-2xl font-bold mb-2">{priceRange}</p>
+                <p className="text-sm text-gray-600 mb-8">
                   {home.beds} beds · {home.baths} baths · {home.sqft} sqft
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mb-10">
                   {home.blurb}
+                </p>
+
+                <h2 className="font-serif text-2xl mb-5">Community snapshot</h2>
+                <dl className="grid grid-cols-2 gap-x-8 gap-y-6 mb-4 max-w-2xl">
+                  <Snap label="General area" value={home.area} />
+                  <Snap label="Price range" value={priceRange} />
+                  <Snap label="Beds" value={home.beds} />
+                  <Snap label="Baths" value={home.baths} />
+                  <Snap label="Square footage" value={home.sqft} />
+                  <Snap label="Style" value={home.style} />
+                  <Snap label="HOA" value={home.hoa} />
+                  <Snap label="Special assessments" value={home.specialAssessments} />
+                  <Snap label="Builder incentives" value={home.incentives} />
+                  <Snap label="Info verified" value={home.verifiedDate} />
+                </dl>
+                <p className="text-xs text-gray-400 mb-12">
+                  Exact community addresses are not shown. Browse-only — not a
+                  Cervantes listing.
+                </p>
+
+                <h2 className="font-serif text-2xl mb-3">
+                  Why buyers consider this community
+                </h2>
+                <p className="text-gray-700 leading-relaxed max-w-2xl mb-10">
+                  {home.whyBuyers}
                 </p>
 
                 <h2 className="font-serif text-2xl mb-4">
@@ -78,18 +129,25 @@ const NewHomeDetail = () => {
                     Not a Cervantes listing
                   </p>
                   <p className="text-sm text-white/80 leading-relaxed">
-                    Featured for market awareness via SoCal’s New Homes. You
-                    cannot inquire about this product here. Contact the builder
-                    or visit the community for availability. Want help comparing
-                    new vs resale strategy? Talk to us generally — not about this
-                    specific home.
+                    Featured for market awareness via SoCal’s New Homes. No
+                    inquire on this product. Contact the builder or visit the
+                    community for availability. Want strategy help comparing new
+                    vs resale? Talk to us generally.
                   </p>
-                  <Link
-                    to="/buy"
-                    className="inline-block mt-6 bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-100"
-                  >
-                    Talk buying strategy
-                  </Link>
+                  <div className="mt-6 flex flex-wrap gap-4">
+                    <Link
+                      to="/compare"
+                      className="bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-100"
+                    >
+                      New vs resale
+                    </Link>
+                    <Link
+                      to="/buy"
+                      className="border border-white/40 px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-white/10"
+                    >
+                      Buy guide
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

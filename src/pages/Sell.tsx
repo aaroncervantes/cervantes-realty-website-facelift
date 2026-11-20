@@ -2,24 +2,17 @@ import { Link } from "react-router-dom";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SellerNet } from "@/components/site/SellerNet";
+import { ConciergeTimeline } from "@/components/site/ConciergeTimeline";
 import { sellTypeform } from "@/lib/typeform";
 import { REPLY_HOURS } from "@/lib/site";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-const MOVES = [
-  { n: "01", title: "Consultation & valuation", body: "Review the property, recent comparable sales, timing and your priorities before setting a pricing approach." },
-  { n: "02", title: "Property preparation", body: "Prioritize worthwhile improvements, presentation, cleaning and photography without unnecessary spending." },
-  { n: "03", title: "Marketing launch", body: "Prepare listing materials, coordinate exposure and manage showing requests with a clear communication plan." },
-  { n: "04", title: "Offers & negotiation", body: "Compare price, financing, contingencies and closing timelines, not simply the highest headline number." },
-  { n: "05", title: "Escrow & due diligence", body: "Track contractual milestones, inspections, disclosures and communication with transaction partners." },
-  { n: "06", title: "Closing & transition", body: "Coordinate final steps, possession timing and the transition to your next chapter." },
-];
 
 const FAQS = [
   {
@@ -42,6 +35,7 @@ const FAQS = [
 
 const Sell = () => {
   usePageTitle("Sell with Concierge");
+  const { t } = useLang();
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
@@ -51,28 +45,19 @@ const Sell = () => {
             Cervantes Concierge
           </p>
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
-            Sell smarter. Walk away richer.
+            {t.sellTitle}
           </h1>
           <p className="text-gray-600 text-lg mb-4 leading-relaxed">
             Kick your feet up. We run a system designed to sell faster and for
             more — with less stress on you.
           </p>
-          <p className="text-sm text-gray-500 mb-12">
-            We reply within {REPLY_HOURS} hours.
+          <p className="text-sm text-gray-500 mb-16">
+            {t.reply} {REPLY_HOURS} {t.hours}.
           </p>
-          <ol className="space-y-10 mb-16">
-            {MOVES.map((step) => (
-              <li key={step.n} className="flex gap-6">
-                <span className="text-[#c9a84c] font-bold text-sm tracking-widest shrink-0">
-                  {step.n}
-                </span>
-                <div>
-                  <h2 className="font-serif text-2xl mb-2">{step.title}</h2>
-                  <p className="text-gray-600 leading-relaxed">{step.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+
+          <div className="mb-20">
+            <ConciergeTimeline />
+          </div>
 
           <div className="mb-16">
             <SellerNet />

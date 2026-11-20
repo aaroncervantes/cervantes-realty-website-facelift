@@ -95,3 +95,23 @@
     transform: translate3d(0, 0, 0);
   }
 }
+
+@keyframes cr-drawline {
+  from {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[cr-kenburns_28s_ease-in-out_infinite_alternate\],
+  .animate-\[cr-fadeup_1\.1s_ease-out_both\],
+  .animate-\[cr-fadeup_0\.7s_ease-out_both\],
+  .animate-\[cr-fadeup_0\.6s_ease-out_both\] {
+    animation: none !important;
+  }
+}

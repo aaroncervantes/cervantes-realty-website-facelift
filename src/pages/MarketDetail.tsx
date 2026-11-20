@@ -34,7 +34,7 @@ const MarketDetail = () => {
             ← Markets
           </Link>
           <div className="grid lg:grid-cols-3 gap-10 mt-8 items-start">
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-10">
               <div className="aspect-[16/10] overflow-hidden">
                 <img
                   src={market.image}
@@ -52,8 +52,8 @@ const MarketDetail = () => {
                 <p className="text-lg text-gray-700 leading-relaxed mb-4">
                   {market.vibe}
                 </p>
-                <p className="text-sm text-gray-500 mb-8">{market.median}</p>
-                <ul className="space-y-4 mb-10">
+                <p className="text-sm text-gray-500 mb-10">{market.median}</p>
+                <ul className="space-y-4 mb-12">
                   {market.bullets.map((b) => (
                     <li
                       key={b}
@@ -63,14 +63,38 @@ const MarketDetail = () => {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={buyTypeform("market")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-[#c9a84c]"
-                >
-                  Talk {market.name} with us
-                </a>
+
+                <h2 className="font-serif text-3xl mb-3">The Local Perspective</h2>
+                <p className="text-xs text-gray-400 mb-6">
+                  Content reviewed {market.reviewedDate}
+                </p>
+                <div className="space-y-6 mb-10">
+                  {market.localPerspective.map((p) => (
+                    <p
+                      key={p.slice(0, 32)}
+                      className="text-gray-700 leading-relaxed border-b border-gray-100 pb-6 last:border-0"
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href={buyTypeform("market")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-[#c9a84c]"
+                  >
+                    Talk {market.name} with us
+                  </a>
+                  <Link
+                    to="/compare"
+                    className="border border-[#1a1a1a] px-8 py-4 text-xs font-bold uppercase tracking-wider hover:border-[#c9a84c]"
+                  >
+                    New vs resale
+                  </Link>
+                </div>
               </div>
             </div>
             <div className="lg:sticky lg:top-36">

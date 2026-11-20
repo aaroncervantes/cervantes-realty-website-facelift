@@ -6,6 +6,8 @@ export interface Market {
   vibe: string;
   samplePrice: number;
   bullets: string[];
+  localPerspective: string[];
+  reviewedDate: string;
   image: string;
 }
 
@@ -22,6 +24,14 @@ export const MARKETS: Market[] = [
       "Strong demand keeps well-prepped homes moving.",
       "Pair a payment estimate with school and commute priorities early.",
     ],
+    localPerspective: [
+      "Housing styles swing from craftsman and mid-century to townhomes — pocket matters more than the city label.",
+      "Lifestyle trade-off: more urban energy and coastal access vs. inland space for the same payment.",
+      "Commute: 710 / 405 / 91 shape daily life — tour at the hour you’d actually drive.",
+      "New vs resale: established streets win on character; new product is thinner — compare warranties vs. lot and HOA honestly.",
+      "Taxes/HOA: many detached resales have no HOA; still model supplemental tax after purchase.",
+    ],
+    reviewedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/293f82cb-43f7-4ff0-80f5-d18cdf464dab.png",
   },
@@ -37,6 +47,14 @@ export const MARKETS: Market[] = [
       "New construction and resale both active; compare warranties vs. character.",
       "Great for buyers priced out of the basin who still want ownership.",
     ],
+    localPerspective: [
+      "Expect ranch and contemporary footprints on larger lots — space is the product.",
+      "Lifestyle: quiet and sky vs. longer errands and fewer walkable cores.",
+      "Commute to the basin can dominate the ‘cheap payment’ story — stress-test it.",
+      "New vs resale: new builds for systems and sqft; resale for landscaping and negotiation room.",
+      "Insurance (wind/fire) can move the monthly as much as rate — get quotes early.",
+    ],
+    reviewedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp",
   },
@@ -52,6 +70,14 @@ export const MARKETS: Market[] = [
       "First-time buyers win with pre-approval and clean terms.",
       "We help you separate Zestimate noise from real closings.",
     ],
+    localPerspective: [
+      "Mid-century single-family dominates — floor plans and lot size vary hard by street.",
+      "Family-oriented demand means weekends matter; be ready when the right one hits.",
+      "Freeway access is a lifestyle feature — noise and convenience trade off.",
+      "New vs resale: paired/new product appears in pockets; most competition is still resale.",
+      "HOA is less common on detached stock; still verify assessments and tax implications.",
+    ],
+    reviewedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png",
   },
@@ -67,6 +93,14 @@ export const MARKETS: Market[] = [
       "Single-story plans are a perennial tour request.",
       "We keep the comparison honest: warranty vs. lot vs. monthly.",
     ],
+    localPerspective: [
+      "Master-planned new construction sits beside older tracts — two different monthly stories.",
+      "Buyers often optimize for single-story and yard; payment is the filter.",
+      "Commute toward OC/LA is the lifestyle tax — model time, not just miles.",
+      "New vs resale: this is where our collaboration shines — warranties and incentives vs. established streets.",
+      "Always ask about Mello-Roos/CFD and HOA before you fall for a ‘from’ price.",
+    ],
+    reviewedDate: "Nov 20, 2026",
     image:
       "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png",
   },

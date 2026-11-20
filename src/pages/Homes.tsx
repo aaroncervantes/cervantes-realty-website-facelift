@@ -111,12 +111,44 @@ const Homes = () => {
             <p className="text-gray-500 text-sm py-8">No closed listings yet.</p>
           )}
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
             {(emptyActives && filter === "active" ? closeds : shown).map(
               (listing) => (
                 <ListingCard key={listing.id} listing={listing} />
               ),
             )}
+          </div>
+
+          <div className="border border-gray-200 overflow-hidden bg-white">
+            <div className="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-1">
+                  Service map
+                </p>
+                <h2 className="font-serif text-2xl">Southern California</h2>
+              </div>
+              <Link
+                to="/markets"
+                className="text-xs font-bold uppercase tracking-wider hover:text-[#c9a84c]"
+              >
+                Market pages →
+              </Link>
+            </div>
+            <iframe
+              title="Cervantes Realty service area map"
+              src="https://maps.google.com/maps?q=Long%20Beach%2C%20CA&z=9&output=embed"
+              className="w-full h-[320px] md:h-[400px] border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <p className="px-6 py-4 text-xs text-gray-500">
+              Orientation only — not a pin-for-every-listing map. Use filters
+              above and{" "}
+              <Link to="/markets" className="underline">
+                markets
+              </Link>{" "}
+              for local perspective.
+            </p>
           </div>
         </div>
       </section>

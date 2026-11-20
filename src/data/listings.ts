@@ -53,6 +53,8 @@ export interface Listing {
     };
   };
   agent: ListingAgent;
+  /** Optional walkthrough embed URL — only render when present */
+  videoUrl?: string;
 }
 
 /** Fallback listings when Supabase is not configured */

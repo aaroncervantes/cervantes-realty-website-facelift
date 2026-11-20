@@ -19,14 +19,14 @@ const Team = () => {
               the world.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="grid md:grid-cols-3 gap-12 mb-24">
             {team.map((member) => (
               <div key={member.name} className="group cursor-pointer">
                 <div className="relative overflow-hidden mb-6 aspect-[3/4]">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover transition-all duration-500"
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                   />
                 </div>
                 <h3 className="font-serif text-2xl font-medium mb-1">
@@ -40,6 +40,19 @@ const Team = () => {
                 </p>
               </div>
             ))}
+          </div>
+
+          <div className="max-w-2xl mx-auto text-center border-t border-gray-200 pt-16">
+            <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3">
+              Trusted partners
+            </p>
+            <p className="font-serif text-xl md:text-2xl text-[#1a1a1a] mb-4">
+              Lender · Inspector · Escrow · Title · Transaction coordination
+            </p>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              We introduce vetted professionals as needed — no logo wall, no
+              paid placements. Ask us who fits your deal.
+            </p>
           </div>
         </div>
       </section>

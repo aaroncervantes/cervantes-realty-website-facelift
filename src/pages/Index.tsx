@@ -10,8 +10,8 @@ import { ProofStrip } from "@/components/site/ProofStrip";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { ListingCard } from "@/components/listing/ListingCard";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
-import { NewVsResale } from "@/components/site/NewVsResale";
 import { ServiceAreas } from "@/components/site/ServiceAreas";
+import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 const Index = () => {
@@ -165,14 +165,7 @@ const Index = () => {
         <div className="container mx-auto px-6 max-w-[1400px]">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold">
-                  SoCal’s New Homes
-                </span>
-                <span className="text-[9px] uppercase tracking-wider text-gray-400 border border-gray-300 px-2 py-0.5">
-                  Exclusive collaboration
-                </span>
-              </div>
+              <CollaborationMark className="mb-4" />
               <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a]">
                 Popular new builds we’re seeing
               </h2>
@@ -249,14 +242,14 @@ const Index = () => {
                 copy: "Price, down, rate, tax/ins toggle — see the number.",
               },
               {
-                to: "/buy",
-                title: "Buy guide",
-                copy: "Pre-approval to keys — clear steps, then a form.",
+                to: "/compare",
+                title: "New vs resale",
+                copy: "Editorial comparison with shared payment math.",
               },
               {
                 to: "/sell",
                 title: "Sell guide",
-                copy: "Concierge + rough seller net before you list.",
+                copy: "Six-stage Concierge timeline + seller net.",
               },
             ].map((item) => (
               <Link
@@ -274,7 +267,6 @@ const Index = () => {
         </div>
       </section>
 
-      <NewVsResale />
       <ServiceAreas />
       <SiteFooter />
     </div>

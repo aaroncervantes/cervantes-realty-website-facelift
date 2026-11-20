@@ -5,9 +5,11 @@ import { Values } from "@/components/site/Values";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { REPLY_HOURS, AGENT_EMAIL, smsLink } from "@/lib/site";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 
 const Contact = () => {
   usePageTitle("Contact");
+  const { t } = useLang();
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white flex flex-col">
       <SiteHeader darkTrigger />
@@ -24,11 +26,11 @@ const Contact = () => {
           </div>
           <div className="container relative z-10 mx-auto px-6 max-w-4xl text-center">
             <h1 className="font-serif text-5xl md:text-7xl mb-6 font-medium">
-              Contact Us
+              {t.contactTitle}
             </h1>
             <p className="text-lg md:text-xl text-white/70 font-serif italic max-w-2xl mx-auto">
               Start with the path that fits — guides first, forms when you’re
-              ready. We reply within {REPLY_HOURS} hours.
+              ready. {t.reply} {REPLY_HOURS} {t.hours}.
             </p>
           </div>
         </section>

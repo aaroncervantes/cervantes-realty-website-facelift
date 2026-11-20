@@ -6,6 +6,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SELL_TYPEFORM, BUY_TYPEFORM } from "@/lib/typeform";
+import { LangToggle } from "@/lib/i18n";
 
 /** Kept for listing pages that still deep-link Typeforms as CTAs */
 export const SELL_URL = SELL_TYPEFORM;
@@ -25,8 +26,8 @@ const NAV = [
 export function SiteHeader({ darkTrigger = false }: { darkTrigger?: boolean }) {
   return (
     <header className="sticky top-0 z-50 bg-[#f7f5f2]/90 backdrop-blur-md">
-      <div className="container mx-auto px-6 h-28 flex items-center justify-between max-w-7xl">
-        <Link to="/" className="flex items-center gap-2">
+      <div className="container mx-auto px-6 h-28 flex items-center justify-between max-w-7xl gap-4">
+        <Link to="/" className="flex items-center gap-2 shrink-0">
           <img
             src={LOGO}
             alt="Cervantes Realty"
@@ -43,8 +44,10 @@ export function SiteHeader({ darkTrigger = false }: { darkTrigger?: boolean }) {
               {item.label}
             </Link>
           ))}
+          <LangToggle />
         </nav>
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-3">
+          <LangToggle />
           <Sheet>
             <SheetTrigger asChild>
               <button className="p-2 hover:bg-black/5 rounded-md transition-colors">

@@ -156,6 +156,7 @@ export function fromRow(e: ListingRow): Listing {
       email: e.agent_email,
       image: e.agent_image,
     },
+    videoUrl: (e as ListingRow & { video_url?: string }).video_url || undefined,
   };
 }
 
