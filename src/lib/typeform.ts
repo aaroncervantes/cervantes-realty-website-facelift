@@ -1,7 +1,7 @@
 const SELL_BASE =
-  "https://form.typeform.com/to/AJGF8W1h?typeform-source=cervantesestates.com#about";
+  "https://form.typeform.com/to/AJGF8W1h?typeform-source=cervantesre.com#about";
 const BUY_BASE =
-  "https://form.typeform.com/to/MYDWRuKV?typeform-source=cervantesestates.com#new-menu-item";
+  "https://form.typeform.com/to/MYDWRuKV?typeform-source=cervantesre.com#new-menu-item";
 
 export type LeadSource =
   | "calculator"
