@@ -30,6 +30,8 @@ function restyle(
   style: maplibregl.StyleSpecification,
   names: string[],
 ): maplibregl.StyleSpecification {
+  // Match jessetek restyle: paint key must match layer type or MapLibre aborts
+  // with "unknown property line-color" and never fires `load`.
   const keep: maplibregl.LayerSpecification[] = [];
   for (const layer of style.layers || []) {
     const id = layer.id;
@@ -42,27 +44,36 @@ function restyle(
     }
     const paint = { ...(layer.paint || {}) } as Record<string, unknown>;
     const next = { ...layer, paint } as maplibregl.LayerSpecification;
+    const colorKey =
+      layer.type === "fill"
+        ? "fill-color"
+        : layer.type === "line"
+          ? "line-color"
+          : null;
 
     if (layer.type === "background") {
       paint["background-color"] = LAND;
-    } else if (id === "water") {
-      paint["fill-color"] = WATER;
-    } else if (id === "waterway") {
-      paint["line-color"] = WATER;
-    } else if (id === "park") {
+    } else if (id === "water" && colorKey) {
+      paint[colorKey] = WATER;
+    } else if (id === "waterway" && colorKey) {
+      paint[colorKey] = WATER;
+    } else if (id === "park" && layer.type === "fill") {
       paint["fill-color"] = PARK;
       paint["fill-opacity"] = 0.75;
-    } else if (id === "landcover_wood") {
+    } else if (id === "landcover_wood" && layer.type === "fill") {
       paint["fill-color"] = WOOD;
       paint["fill-opacity"] = 0.7;
-    } else if (/^highway_motorway.*casing$/.test(id)) {
-      paint["line-color"] = HIGHWAY_EDGE;
-    } else if (/^highway_motorway/.test(id)) {
-      paint["line-color"] = HIGHWAY;
-    } else if (/^highway_major_casing$/.test(id)) {
-      paint["line-color"] = ROAD_EDGE;
-    } else if (/^highway_(major|minor|path)/.test(id) || /^road_/.test(id)) {
-      paint["line-color"] = ROAD;
+    } else if (colorKey && /^highway_motorway.*casing$/.test(id)) {
+      paint[colorKey] = HIGHWAY_EDGE;
+    } else if (colorKey && /^highway_motorway/.test(id)) {
+      paint[colorKey] = HIGHWAY;
+    } else if (colorKey && /^highway_major_casing$/.test(id)) {
+      paint[colorKey] = ROAD_EDGE;
+    } else if (
+      colorKey &&
+      (/^highway_(major|minor|path)/.test(id) || /^road_/.test(id))
+    ) {
+      paint[colorKey] = ROAD;
     } else if (layer.type === "symbol") {
       const waterish = /water/.test(id);
       paint["text-color"] = waterish ? "#6FA6C4" : MUTE;
@@ -175,6 +186,11 @@ export function ServiceAreaMap({
         map.touchZoomRotate.disableRotation();
         map.keyboard.disableRotation();
         mapRef.current = map;
+
+        map.on("error", (e) => {
+          console.error("service-area map error", e?.error || e);
+          if (!cancelled) setFailed(true);
+        });
 
         const setActive = (f: ServiceAreaFeature | null) => {
           const m = mapRef.current;
@@ -414,9 +430,11 @@ export function ServiceAreaMap({
             else setActive(f);
           });
 
+          map.resize();
           setReady(true);
         });
-      } catch {
+      } catch (err) {
+        console.error("service-area map boot failed", err);
         if (!cancelled) setFailed(true);
       }
     }
