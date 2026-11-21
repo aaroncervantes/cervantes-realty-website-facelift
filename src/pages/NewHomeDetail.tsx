@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
@@ -8,6 +9,7 @@ import { useShowcaseDetail } from "@/lib/showcaseHomes";
 import { formatCurrency } from "@/lib/mortgage";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useLang } from "@/lib/i18n";
+import { snhQuestionnaire } from "@/lib/site";
 
 function Snap({ label, value }: { label: string; value: string }) {
   return (
@@ -45,9 +47,12 @@ const NewHomeDetail = () => {
     );
   }
 
-  const priceRange = home.priceHigh
-    ? `${formatCurrency(home.fromPrice)} – ${formatCurrency(home.priceHigh)}`
-    : `${t.fromPrice} ${formatCurrency(home.fromPrice)}`;
+  const priceRange =
+    home.priceLabel ||
+    (home.priceHigh
+      ? `${formatCurrency(home.fromPrice)} – ${formatCurrency(home.priceHigh)}`
+      : `${t.fromPrice} ${formatCurrency(home.fromPrice)}`);
+  const askDevante = snhQuestionnaire("new-homes");
 
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
@@ -137,18 +142,24 @@ const NewHomeDetail = () => {
                   <p className="text-sm text-white/80 leading-relaxed">
                     {t.notCervantesBody}
                   </p>
+                  <p className="mt-4 text-xs text-white/50 leading-relaxed">
+                    {t.showcasePriceNote}
+                  </p>
                   <div className="mt-6 flex flex-wrap gap-4">
+                    <a
+                      href={askDevante}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-100"
+                    >
+                      {t.contactDevante}
+                      <ExternalLink className="w-3.5 h-3.5" aria-hidden />
+                    </a>
                     <Link
                       to="/compare"
-                      className="bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-100"
-                    >
-                      {t.newVsResale}
-                    </Link>
-                    <Link
-                      to="/buy"
                       className="border border-white/40 px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-white/10"
                     >
-                      {t.buyGuide}
+                      {t.newVsResale}
                     </Link>
                   </div>
                 </div>

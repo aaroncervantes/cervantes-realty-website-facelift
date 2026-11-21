@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSupabase } from "./supabaseClient";
-import { FALLBACK_NEW_HOMES, type NewHome } from "@/data/newHomes";
+import {
+  FALLBACK_NEW_HOMES,
+  getNewHome,
+  type NewHome,
+} from "@/data/newHomes";
 
 /** Flat row matching public.showcase_homes */
 export interface ShowcaseHomeRow {
@@ -132,10 +136,7 @@ export function useShowcaseDetail(slug: string | undefined) {
       if (!slug) return null;
       const supabase = getSupabase();
       if (!supabase) {
-        return (
-          FALLBACK_NEW_HOMES.find((h) => h.slug === slug || h.id === slug) ||
-          null
-        );
+        return getNewHome(slug) || null;
       }
       const { data, error } = await supabase
         .from("showcase_homes")
@@ -144,15 +145,20 @@ export function useShowcaseDetail(slug: string | undefined) {
         .maybeSingle();
       if (error) {
         console.warn("showcase detail:", error.message);
-        return (
-          FALLBACK_NEW_HOMES.find((h) => h.slug === slug || h.id === slug) ||
-          null
-        );
+        return getNewHome(slug) || null;
       }
       if (data) return fromShowcaseRow(data as ShowcaseHomeRow);
-      return (
-        FALLBACK_NEW_HOMES.find((h) => h.slug === slug || h.id === slug) || null
-      );
+      // Try current slug after alias resolve (legacy builder-named URLs)
+      const seeded = getNewHome(slug);
+      if (seeded && seeded.slug !== slug) {
+        const { data: aliased } = await supabase
+          .from("showcase_homes")
+          .select("*")
+          .eq("slug", seeded.slug)
+          .maybeSingle();
+        if (aliased) return fromShowcaseRow(aliased as ShowcaseHomeRow);
+      }
+      return seeded || null;
     },
     enabled: !!slug,
   });

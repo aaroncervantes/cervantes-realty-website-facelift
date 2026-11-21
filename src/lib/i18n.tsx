@@ -127,6 +127,9 @@ type Strings = {
   labelIncentives: string;
   labelVerified: string;
   showcaseAddressNote: string;
+  showcaseBadge: string;
+  showcasePriceNote: string;
+  contactDevante: string;
   whyBuyersTitle: string;
   whyCompareTitle: string;
   notCervantesListing: string;
@@ -410,12 +413,16 @@ const STRINGS: Record<Lang, Strings> = {
     labelIncentives: "Builder incentives",
     labelVerified: "Info verified",
     showcaseAddressNote:
-      "Exact community addresses are not shown. Browse-only — not a Cervantes listing.",
-    whyBuyersTitle: "Why buyers consider this community",
+      "Exact community names and street addresses are not shown. Ask Devante for private details.",
+    showcaseBadge: "Showcase · Ask Devante",
+    showcasePriceNote:
+      "Prices and availability are based on currently published information and can change without notice.",
+    contactDevante: "Contact Devante",
+    whyBuyersTitle: "Next step",
     whyCompareTitle: "Why buyers compare this to resale",
-    notCervantesListing: "Not a Cervantes listing",
+    notCervantesListing: "SoCal’s New Homes",
     notCervantesBody:
-      "Featured for market awareness via SoCal’s New Homes. No inquire on this product. Contact the builder or visit the community for availability. Want strategy help comparing new vs resale? Talk to us generally.",
+      "Featured for market awareness — not a Cervantes Realty listing. Contact Devante for availability, incentives, and a private tour. Want strategy help comparing new vs resale? Use the compare tool or talk with Cervantes generally.",
     newVsResale: "New vs resale",
     estPaymentFrom: "Est. payment from",
 
@@ -835,12 +842,16 @@ const STRINGS: Record<Lang, Strings> = {
     labelIncentives: "Incentivos del constructor",
     labelVerified: "Info verificada",
     showcaseAddressNote:
-      "No se muestran direcciones exactas. Solo exploración — no es un listado de Cervantes.",
-    whyBuyersTitle: "Por qué los compradores consideran esta comunidad",
+      "No se muestran nombres exactos de comunidad ni direcciones. Pregunta a Devante por detalles privados.",
+    showcaseBadge: "Escaparate · Pregunta a Devante",
+    showcasePriceNote:
+      "Precios y disponibilidad se basan en información publicada y pueden cambiar sin aviso.",
+    contactDevante: "Contactar a Devante",
+    whyBuyersTitle: "Siguiente paso",
     whyCompareTitle: "Por qué la comparan con reventa",
-    notCervantesListing: "No es un listado de Cervantes",
+    notCervantesListing: "SoCal’s New Homes",
     notCervantesBody:
-      "Destacado para conciencia de mercado vía SoCal’s New Homes. Sin consultas en este producto. Contacta al constructor o visita la comunidad para disponibilidad. ¿Quieres ayuda estratégica nueva vs reventa? Habla con nosotros en general.",
+      "Destacado para conciencia de mercado — no es un listado de Cervantes Realty. Contacta a Devante para disponibilidad, incentivos y un tour privado. ¿Quieres ayuda estratégica nueva vs reventa? Usa la herramienta de comparación o habla con Cervantes en general.",
     newVsResale: "Nueva vs reventa",
     estPaymentFrom: "Pago est. desde",
 
