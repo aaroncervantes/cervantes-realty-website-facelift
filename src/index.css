@@ -295,6 +295,21 @@
   content: "The map could not load. Use the city list.";
 }
 
+.svc-map-skeleton {
+  display: grid;
+  place-items: center;
+}
+
+.svc-skeleton-label {
+  margin: 0;
+  font: 500 14px/1 Manrope, sans-serif;
+  color: #8a8780;
+}
+
+.svc-side-skeleton {
+  background: linear-gradient(180deg, #fff 0%, #f7f5f2 100%);
+}
+
 .svc-btn {
   width: 44px;
   height: 44px;
