@@ -15,8 +15,8 @@ const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 /** Apple Maps light cartography — deeper, punchier water + greens. */
 const LAND = "#F6F1E6";
 const WATER = "#5BA3D0";
-const PARK = "#7EBF5A";
-const WOOD = "#6FB04A";
+const PARK = "#A8C98A";
+const WOOD = "#9BBF7C";
 const ROAD = "#FFFFFF";
 const ROAD_EDGE = "#D5CFC0";
 const HIGHWAY = "#FFD966";
