@@ -122,12 +122,16 @@ const Index = () => {
               to="/new-homes"
               className="group relative min-h-[280px] overflow-hidden bg-[#1e1e1e] text-white"
             >
-              <img
-                src={SNH_DOOR_IMAGE}
-                alt=""
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
-              />
+              {SNH_DOOR_IMAGE ? (
+                <img
+                  src={SNH_DOOR_IMAGE}
+                  alt=""
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a]" />
+              )}
               <div className="relative z-10 p-10 md:p-14 flex flex-col justify-end h-full min-h-[280px]">
                 <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
                   SoCal’s New Homes

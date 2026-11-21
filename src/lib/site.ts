@@ -28,8 +28,8 @@ export const HERO_IMAGE =
   "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png";
 export const ENCLOSED_DOOR_IMAGE =
   "https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp";
-export const SNH_DOOR_IMAGE =
-  "https://pdlecpunupzyqreocjnn.supabase.co/storage/v1/object/public/listing-media/showcase/gated-north-fontana-townhomes/01-0459a7a302f44a7c.jpg";
+/** Dual-door SNH panel — blank until CMS has a hero; Index falls back gracefully. */
+export const SNH_DOOR_IMAGE = "";
 
 /**
  * Live SoCal’s New Homes questionnaire (Railway).

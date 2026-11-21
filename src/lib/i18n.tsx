@@ -129,6 +129,7 @@ type Strings = {
   showcaseAddressNote: string;
   showcaseBadge: string;
   showcasePriceNote: string;
+  photosComingSoon: string;
   contactDevante: string;
   whyBuyersTitle: string;
   whyCompareTitle: string;
@@ -417,6 +418,7 @@ const STRINGS: Record<Lang, Strings> = {
     showcaseBadge: "Showcase · Ask Devante",
     showcasePriceNote:
       "Prices and availability are based on currently published information and can change without notice.",
+    photosComingSoon: "Photos coming soon",
     contactDevante: "Contact Devante",
     whyBuyersTitle: "Next step",
     whyCompareTitle: "Why buyers compare this to resale",
@@ -846,6 +848,7 @@ const STRINGS: Record<Lang, Strings> = {
     showcaseBadge: "Escaparate · Pregunta a Devante",
     showcasePriceNote:
       "Precios y disponibilidad se basan en información publicada y pueden cambiar sin aviso.",
+    photosComingSoon: "Fotos próximamente",
     contactDevante: "Contactar a Devante",
     whyBuyersTitle: "Siguiente paso",
     whyCompareTitle: "Por qué la comparan con reventa",

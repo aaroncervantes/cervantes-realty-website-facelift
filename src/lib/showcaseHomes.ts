@@ -35,6 +35,7 @@ export interface ShowcaseHomeRow {
 }
 
 export function fromShowcaseRow(r: ShowcaseHomeRow): NewHome {
+  const seeded = getNewHome(r.slug);
   return {
     id: String(r.id),
     slug: r.slug,
@@ -42,6 +43,7 @@ export function fromShowcaseRow(r: ShowcaseHomeRow): NewHome {
     area: r.area,
     fromPrice: Number(r.from_price),
     priceHigh: r.price_high != null ? Number(r.price_high) : undefined,
+    priceLabel: seeded?.priceLabel,
     beds: r.beds,
     baths: r.baths,
     sqft: r.sqft,
@@ -57,7 +59,7 @@ export function fromShowcaseRow(r: ShowcaseHomeRow): NewHome {
     specialAssessments: r.special_assessments,
     incentives: r.incentives,
     verifiedDate: r.verified_date,
-    image: r.image,
+    image: r.image || "",
     gallery: r.gallery || [],
     videoUrl: r.video_url || undefined,
   };
@@ -297,8 +299,9 @@ export function useSeedShowcaseFromStatic() {
         special_assessments: h.specialAssessments,
         incentives: h.incentives,
         verified_date: h.verifiedDate,
-        image: h.image,
-        gallery: h.gallery,
+        // Photos stay empty — upload zips in CMS
+        image: "",
+        gallery: [] as string[],
         video_url: h.videoUrl || "",
         sort_order: i + 1,
         is_published: true,
