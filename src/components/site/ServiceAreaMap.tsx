@@ -19,8 +19,8 @@ const PARK = "#A8C98A";
 const WOOD = "#9BBF7C";
 const ROAD = "#FFFFFF";
 const ROAD_EDGE = "#D5CFC0";
-const HIGHWAY = "#FFD966";
-const HIGHWAY_EDGE = "#E8C14A";
+const HIGHWAY = "#E8DCB0";
+const HIGHWAY_EDGE = "#D4C89A";
 const BUILDING = "#EFE9DD";
 const INK = "#1a1a1a";
 const MUTE = "#594F3F";
@@ -89,7 +89,7 @@ function restyle(
     ) {
       paint[colorKey] = ROAD_EDGE;
     } else if (colorKey && /^highway_(trunk|primary)/.test(id)) {
-      paint[colorKey] = "#FBF1C4";
+      paint[colorKey] = "#F0EAD2";
     } else if (colorKey && /^highway_major_casing$/.test(id)) {
       paint[colorKey] = ROAD_EDGE;
     } else if (
