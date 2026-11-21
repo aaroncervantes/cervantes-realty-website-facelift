@@ -3,7 +3,13 @@ import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { Values } from "@/components/site/Values";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { REPLY_HOURS, AGENT_EMAIL, smsLink } from "@/lib/site";
+import {
+  REPLY_HOURS,
+  AGENT_EMAIL,
+  AGENT_PHONE_DISPLAY,
+  CALENDLY_URL,
+  smsLink,
+} from "@/lib/site";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useLang } from "@/lib/i18n";
 
@@ -72,7 +78,7 @@ const Contact = () => {
                 </div>
               </Link>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm flex-wrap">
               <a
                 href={`mailto:${AGENT_EMAIL}`}
                 className="underline hover:text-[#c9a84c] text-center"
@@ -83,20 +89,19 @@ const Contact = () => {
                 href={smsLink("Hi Aaron, I'd like to chat about real estate.")}
                 className="underline hover:text-[#c9a84c] text-center"
               >
-                Text us
+                Text {AGENT_PHONE_DISPLAY}
               </a>
-              <a
-                href="https://calendly.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-[#c9a84c] text-center"
-              >
-                15-min clarity call
-              </a>
+              {CALENDLY_URL ? (
+                <a
+                  href={CALENDLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-[#c9a84c] text-center"
+                >
+                  15-min clarity call
+                </a>
+              ) : null}
             </div>
-            <p className="text-center text-[11px] text-gray-400 mt-4">
-              Swap the Calendly link when your booking URL is ready.
-            </p>
           </div>
         </section>
       </main>

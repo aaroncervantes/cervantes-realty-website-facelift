@@ -20,9 +20,9 @@ export const STORIES: Story[] = [
     image:
       "https://vibe.filesafe.space/1781750305487395093/attachments/293f82cb-43f7-4ff0-80f5-d18cdf464dab.png",
     body: [
-      "This Long Beach single-family sat in a quiet pocket buyers overlook until they walk it. Open light, updated kitchen, private yard — the kind of home that photographs soft and shows stronger in person.",
-      "On the buy side, we structured terms that stood out without reckless overpaying. On the sell side, marketing and negotiation protected net — full market value with no seller-paid closing costs in the represented-seller closing.",
-      "That’s Concierge in practice: clear comps, clear offers, clear communication — then keys.",
+      "549 E Rhea St sat in a quiet Long Beach pocket buyers overlook until they walk it. Open light, updated kitchen, private yard — soft in photos, stronger in person.",
+      "We represented both sides of the table. Buyer terms stood out without reckless overpaying. Seller marketing and negotiation protected net — competitive close with no seller-paid closing costs on the represented-seller side.",
+      "That’s Concierge in practice: live comps, clear offers, same-day updates — then keys. One deal, both lenses, no mystery.",
     ],
   },
 ];

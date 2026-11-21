@@ -515,7 +515,7 @@ export default function AdminListingForm({
           label="Agent Phone"
           value={form.agent_phone}
           onChange={(v) => set("agent_phone", v)}
-          placeholder="(562) 555-0199"
+          placeholder="(661) 839-4931"
         />
         <Field
           label="Agent Email"

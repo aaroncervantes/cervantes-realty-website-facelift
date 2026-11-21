@@ -115,3 +115,19 @@
     animation: none !important;
   }
 }
+
+@media print {
+  @page {
+    margin: 0.6in;
+  }
+
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  a[href]::after {
+    content: none !important;
+  }
+}

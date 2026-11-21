@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import { useMemo } from "react";
 import { useListingDetail } from "@/lib/listings";
 import { StatusPill } from "@/components/listing/StatusPill";
 import {
@@ -16,6 +17,13 @@ const PropertyBrief = () => {
   const { id } = useParams();
   const { data, isLoading } = useListingDetail(id);
   usePageTitle(data ? `Brief · ${data.address}` : "Property brief");
+
+  const gallery = useMemo(() => {
+    if (!data) return [] as string[];
+    const g = data.gallery?.filter(Boolean) ?? [];
+    if (g.length) return g;
+    return data.image ? [data.image] : [];
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -43,6 +51,8 @@ const PropertyBrief = () => {
     ratePercent: DEFAULT_RATE,
     termYears: DEFAULT_TERM_YEARS,
   });
+  const hero = gallery[0] || data.image;
+  const thumbs = gallery.slice(1, 5);
 
   return (
     <div className="min-h-screen bg-white text-[#1a1a1a] print:bg-white">
@@ -64,7 +74,7 @@ const PropertyBrief = () => {
         </div>
       </div>
 
-      <article className="container mx-auto px-6 py-10 md:py-14 max-w-3xl">
+      <article className="container mx-auto px-6 py-10 md:py-14 max-w-3xl print:max-w-none print:px-0 print:py-0">
         <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
           Cervantes Realty · Property brief
         </p>
@@ -72,19 +82,38 @@ const PropertyBrief = () => {
           <StatusPill listing={data} />
           <span className="text-xs text-gray-500">{data.mls}</span>
         </div>
-        <h1 className="font-serif text-4xl md:text-5xl mb-2">{data.address}</h1>
+        <h1 className="font-serif text-4xl md:text-5xl mb-2 print:text-3xl">
+          {data.address}
+        </h1>
         <p className="text-gray-600 mb-6">{data.cityStateZip}</p>
-        <p className="font-serif text-3xl mb-8">{data.price}</p>
+        <p className="font-serif text-3xl mb-8 print:text-2xl">{data.price}</p>
 
-        <div className="aspect-[16/10] overflow-hidden mb-10">
-          <img
-            src={data.image}
-            alt={data.address}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        {hero && (
+          <div className="aspect-[16/10] overflow-hidden mb-4 print:break-inside-avoid">
+            <img
+              src={hero}
+              alt={data.address}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
 
-        <dl className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 text-sm">
+        {thumbs.length > 0 && (
+          <div className="grid grid-cols-4 gap-2 mb-10 print:break-inside-avoid">
+            {thumbs.map((src, i) => (
+              <div key={`${src}-${i}`} className="aspect-[4/3] overflow-hidden">
+                <img
+                  src={src}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        <dl className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 text-sm print:break-inside-avoid">
           <div>
             <dt className="text-[10px] uppercase tracking-wider text-gray-400">
               Beds
@@ -115,8 +144,11 @@ const PropertyBrief = () => {
         <p className="text-gray-700 leading-relaxed mb-8">{data.description}</p>
 
         <h2 className="font-serif text-2xl mb-3">Specifications</h2>
-        <ul className="text-sm text-gray-700 space-y-2 mb-8">
-          <li>Interior: {data.features.interior.bedrooms}, {data.features.interior.fullBaths}</li>
+        <ul className="text-sm text-gray-700 space-y-2 mb-8 print:break-inside-avoid">
+          <li>
+            Interior: {data.features.interior.bedrooms},{" "}
+            {data.features.interior.fullBaths}
+          </li>
           <li>Flooring: {data.features.interior.flooring}</li>
           <li>Garage: {data.features.exterior.garageSpaces}</li>
           <li>Neighborhood: {data.features.details.neighborhood}</li>
@@ -124,7 +156,7 @@ const PropertyBrief = () => {
         </ul>
 
         {price > 0 && (
-          <div className="border border-gray-200 p-6 mb-8">
+          <div className="border border-gray-200 p-6 mb-8 print:break-inside-avoid">
             <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
               Payment estimate
             </p>
@@ -139,7 +171,7 @@ const PropertyBrief = () => {
           </div>
         )}
 
-        <div className="flex items-center gap-4 mb-10">
+        <div className="flex items-center gap-4 mb-10 print:break-inside-avoid">
           <img
             src={data.agent.image}
             alt={data.agent.name}
@@ -149,6 +181,9 @@ const PropertyBrief = () => {
             <p className="font-serif font-bold">{data.agent.name}</p>
             <p className="text-xs text-gray-500">{data.agent.role}</p>
             <p className="text-xs text-gray-500">{data.agent.email}</p>
+            {data.agent.phone ? (
+              <p className="text-xs text-gray-500">{data.agent.phone}</p>
+            ) : null}
           </div>
         </div>
 

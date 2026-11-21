@@ -1,9 +1,20 @@
 /** Site-wide copy/config — swap when Aaron confirms real values. */
 
 export const REPLY_HOURS = 2;
-export const AGENT_PHONE_DISPLAY = "(562) 555-0199";
-export const AGENT_PHONE_SMS = "5625550199";
+
+/** Public California DRE for Aaron Gilberto Cervantes (active salesperson). */
+export const DRE_NUMBER = "02064152";
+
+/**
+ * Phone from public agent listings tied to DRE 02064152.
+ * Confirm with Aaron if SMS should use a different line.
+ */
+export const AGENT_PHONE_DISPLAY = "(661) 839-4931";
+export const AGENT_PHONE_SMS = "6618394931";
 export const AGENT_EMAIL = "aaron@cervantesre.com";
+
+/** Leave blank until Aaron confirms — Contact hides the link when empty. */
+export const CALENDLY_URL = ""; // e.g. https://calendly.com/aaron-cervantes/15min
 
 /** Leave blank until Aaron confirms — footer hides the link when empty. */
 export const SNH_INSTAGRAM = ""; // e.g. https://www.instagram.com/socalsnewhomes/
@@ -29,8 +40,7 @@ export function snhQuestionnaire(source?: SnhSource): string {
   return `${SNH_QUESTIONNAIRE_URL}${join}source=${encodeURIComponent(source)}`;
 }
 
-export const LICENSE_LINE =
-  "California Licensed Realtor · Equal Housing Opportunity";
+export const LICENSE_LINE = `DRE #${DRE_NUMBER} · California Licensed Realtor · Equal Housing Opportunity`;
 
 export const MORTGAGE_RATE_UPDATED = "Nov 20, 2026";
 
