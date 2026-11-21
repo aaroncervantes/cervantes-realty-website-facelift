@@ -26,6 +26,8 @@ import Sell from "./pages/Sell";
 import Story from "./pages/Story";
 import Markets from "./pages/Markets";
 import MarketDetail from "./pages/MarketDetail";
+import ServiceAreasPage from "./pages/ServiceAreas";
+import ServiceAreaCity from "./pages/ServiceAreaCity";
 import Compare from "./pages/Compare";
 import RentVsBuy from "./pages/RentVsBuy";
 import Start from "./pages/Start";
@@ -63,6 +65,11 @@ const App = () => (
                 <Route path="/stories/:slug" element={<Story />} />
                 <Route path="/markets" element={<Markets />} />
                 <Route path="/markets/:slug" element={<MarketDetail />} />
+                <Route path="/service-areas" element={<ServiceAreasPage />} />
+                <Route
+                  path="/service-areas/:slug"
+                  element={<ServiceAreaCity />}
+                />
                 <Route path="/team" element={<Team />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />

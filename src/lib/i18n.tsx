@@ -142,6 +142,23 @@ type Strings = {
   marketsFourEyebrow: string;
   marketsLead: string;
   marketNotFound: string;
+
+  // Interactive service-area map (Jesse-style)
+  svcEyebrow: string;
+  svcTitle: string;
+  svcTitleEm: string;
+  svcLead: string;
+  svcSeeEvery: string;
+  svcPageTitle: string;
+  svcPageHeading: string;
+  svcPageLead: string;
+  svcDisclaimer: string;
+  svcCityLead: string;
+  svcCityNext: string;
+  svcCityBody: string;
+  svcCityBuyCta: string;
+  svcCityBrowse: string;
+  svcCityBack: string;
   marketsAll: string;
   marketsBack: string;
   localPerspective: string;
@@ -438,6 +455,27 @@ const STRINGS: Record<Lang, Strings> = {
     marketsLead:
       "Not forty-seven city pages — four clear pockets with vibe, median context, and a sample payment.",
     marketNotFound: "Market not found.",
+
+    svcEyebrow: "Service areas",
+    svcTitle: "Pick Your City",
+    svcTitleEm: "on the Map.",
+    svcLead:
+      "Every city has its own page with real home values and a monthly payment estimate.",
+    svcSeeEvery: "See every service area →",
+    svcPageTitle: "Service areas",
+    svcPageHeading: "135 SoCal Cities. One team.",
+    svcPageLead:
+      "Pick your city on the map or search for it. Every city has its own page with home-value context and a monthly payment estimate.",
+    svcDisclaimer:
+      "Typical values shown on the map are planning estimates from public market indexes — not an appraisal. Verify with local comps before you write.",
+    svcCityLead:
+      "Buying or selling in {city}? We’ll help you read the block, the payment, and the trade-offs — without the fluff.",
+    svcCityNext: "Next step",
+    svcCityBody:
+      "Start with a payment shape for this city’s typical value, then talk strategy — resale tours, new-construction context, or both.",
+    svcCityBuyCta: "Talk with Cervantes",
+    svcCityBrowse: "Browse homes",
+    svcCityBack: "← All service areas",
     marketsAll: "All markets",
     marketsBack: "← Markets",
     localPerspective: "The Local Perspective",
@@ -874,6 +912,27 @@ const STRINGS: Record<Lang, Strings> = {
     marketsLead:
       "No cuarenta y siete páginas de ciudad — cuatro bolsillos claros con vibe, contexto de mediana y un pago de ejemplo.",
     marketNotFound: "Mercado no encontrado.",
+
+    svcEyebrow: "Áreas de servicio",
+    svcTitle: "Elige tu ciudad",
+    svcTitleEm: "en el mapa.",
+    svcLead:
+      "Cada ciudad tiene su página con valores de vivienda y un estimado de pago mensual.",
+    svcSeeEvery: "Ver todas las áreas →",
+    svcPageTitle: "Áreas de servicio",
+    svcPageHeading: "135 ciudades SoCal. Un equipo.",
+    svcPageLead:
+      "Elige tu ciudad en el mapa o búscala. Cada una tiene valores y un estimado de pago mensual.",
+    svcDisclaimer:
+      "Los valores típicos del mapa son estimados de planeación de índices públicos — no una avalúo. Verifica con comps locales antes de escribir.",
+    svcCityLead:
+      "¿Comprar o vender en {city}? Te ayudamos a leer la cuadra, el pago y los trade-offs — sin relleno.",
+    svcCityNext: "Siguiente paso",
+    svcCityBody:
+      "Empieza con la forma del pago para el valor típico de esta ciudad, luego hablemos estrategia — tours de reventa, contexto de obra nueva, o ambos.",
+    svcCityBuyCta: "Hablar con Cervantes",
+    svcCityBrowse: "Ver casas",
+    svcCityBack: "← Todas las áreas",
     marketsAll: "Todos los mercados",
     marketsBack: "← Mercados",
     localPerspective: "La perspectiva local",
