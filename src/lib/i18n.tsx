@@ -282,6 +282,9 @@ type Strings = {
   payoffDate: string;
   getMyRateCta: string;
   noCreditImpact: string;
+  yearsWord: string;
+  promoRateLabel: string;
+  totalInterestPaid: string;
 
   // Buy steps / FAQs / CTAs
   buySteps: Step[];
@@ -692,6 +695,9 @@ const STRINGS: Record<Lang, Strings> = {
     payoffDate: "Payoff date",
     getMyRateCta: "Get pre-approval help",
     noCreditImpact: "Strategy call — no credit pull from us",
+    yearsWord: "years",
+    promoRateLabel: "New homes",
+    totalInterestPaid: "Total interest paid",
 
     buySteps: [
       {
@@ -1164,6 +1170,9 @@ const STRINGS: Record<Lang, Strings> = {
     payoffDate: "Fecha de liquidación",
     getMyRateCta: "Ayuda de preaprobación",
     noCreditImpact: "Llamada de estrategia — sin revisar tu crédito",
+    yearsWord: "años",
+    promoRateLabel: "Obra nueva",
+    totalInterestPaid: "Interés total pagado",
 
     buySteps: [
       {
