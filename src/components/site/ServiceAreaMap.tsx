@@ -12,11 +12,11 @@ import {
 
 const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 
-/** Apple Maps light cartography (measured tokens). */
+/** Apple Maps light cartography — deeper, punchier water + greens. */
 const LAND = "#F6F1E6";
-const WATER = "#B9D9EB";
-const PARK = "#D6E5C9";
-const WOOD = "#CDE3B8";
+const WATER = "#5BA3D0";
+const PARK = "#7EBF5A";
+const WOOD = "#6FB04A";
 const ROAD = "#FFFFFF";
 const ROAD_EDGE = "#D5CFC0";
 const HIGHWAY = "#FFD966";
@@ -24,7 +24,7 @@ const HIGHWAY_EDGE = "#E8C14A";
 const BUILDING = "#EFE9DD";
 const INK = "#1a1a1a";
 const MUTE = "#594F3F";
-const WATER_LABEL = "#5A8EAB";
+const WATER_LABEL = "#2F6F96";
 
 type Mode = "home" | "page";
 
@@ -61,13 +61,13 @@ function restyle(
       paint[colorKey] = WATER;
     } else if (id === "park" && layer.type === "fill") {
       paint["fill-color"] = PARK;
-      paint["fill-opacity"] = 0.95;
+      paint["fill-opacity"] = 1;
     } else if (
       layer.type === "fill" &&
       /^(landcover_wood|landcover_grass|landuse_cemetery|landuse_pitch)/.test(id)
     ) {
       paint["fill-color"] = WOOD;
-      paint["fill-opacity"] = 0.85;
+      paint["fill-opacity"] = 1;
     } else if (
       layer.type === "fill" &&
       /^(building|landuse_residential|landuse_commercial|landuse_industrial)/.test(
@@ -292,12 +292,17 @@ export function ServiceAreaMap({
               type: "fill",
               source: "cities",
               paint: {
-                "fill-color": ["get", "color"],
+                "fill-color": [
+                  "case",
+                  ["boolean", ["feature-state", "on"], false],
+                  ["get", "color"],
+                  "#FFFFFF",
+                ],
                 "fill-opacity": [
                   "case",
                   ["boolean", ["feature-state", "on"], false],
-                  0.72,
-                  0.38,
+                  0.88,
+                  0.55,
                 ],
               },
             },
@@ -309,8 +314,8 @@ export function ServiceAreaMap({
             "line-opacity": [
               "case",
               ["boolean", ["feature-state", "on"], false],
-              0.95,
-              0.28,
+              0.9,
+              0.16,
             ],
             "line-width": [
               "case",
