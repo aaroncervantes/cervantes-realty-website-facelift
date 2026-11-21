@@ -16,12 +16,11 @@ export function ServiceAreas() {
           className="group relative block overflow-hidden min-h-[280px] border border-gray-100"
         >
           <img
-            src="https://vibe.filesafe.space/1781750305487395093/assets/a2d6dc34-9014-475f-b651-82ec87e0074b.jpg"
-            alt="Service Areas Map"
+            src="/images/socal-markets-map.png"
+            alt="Southern California markets map — Long Beach, LA County, Inland Empire, High Desert"
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
-          <div className="absolute inset-0 bg-[#4267b2]/10 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <div className="flex items-center gap-2 mb-3">
               <MapPin className="w-5 h-5 text-[#c9a84c]" />
