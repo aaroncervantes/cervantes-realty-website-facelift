@@ -224,10 +224,12 @@ export function useUpdateShowcaseHome() {
     mutationFn: async (row: ShowcaseHomeRow) => {
       const supabase = getSupabase();
       if (!supabase) throw new Error("Supabase is not configured yet.");
+      // Identity `id` cannot appear in SET; timestamps are DB-managed.
+      const { id, created_at: _c, updated_at: _u, ...payload } = row;
       const { data, error } = await supabase
         .from("showcase_homes")
-        .update(row)
-        .eq("id", row.id)
+        .update(payload)
+        .eq("id", id)
         .select()
         .single();
       if (error) throw error;
