@@ -29,7 +29,7 @@ export const HERO_IMAGE =
 export const ENCLOSED_DOOR_IMAGE =
   "https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp";
 export const SNH_DOOR_IMAGE =
-  "https://vibe.filesafe.space/1781750305487395093/attachments/293f82cb-43f7-4ff0-80f5-d18cdf464dab.png";
+  "https://pdlecpunupzyqreocjnn.supabase.co/storage/v1/object/public/listing-media/showcase/gated-north-fontana-townhomes/01-0459a7a302f44a7c.jpg";
 
 /**
  * Live SoCal’s New Homes questionnaire (Railway).
