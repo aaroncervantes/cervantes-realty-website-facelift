@@ -16,6 +16,31 @@ function sanitizeName(name: string): string {
     .slice(0, 80);
 }
 
+function mimeFromName(name: string): string {
+  const ext = name.split(".").pop()?.toLowerCase() || "";
+  switch (ext) {
+    case "png":
+      return "image/png";
+    case "webp":
+      return "image/webp";
+    case "gif":
+      return "image/gif";
+    case "heic":
+      return "image/heic";
+    case "heif":
+      return "image/heif";
+    case "jpg":
+    case "jpeg":
+    default:
+      return "image/jpeg";
+  }
+}
+
+function resolveImageMime(name: string, mime?: string): string {
+  if (mime && IMAGE_MIME.test(mime) && mime !== "image/svg+xml") return mime;
+  return mimeFromName(name);
+}
+
 function isImageFile(name: string, mime?: string): boolean {
   if (mime && IMAGE_MIME.test(mime) && mime !== "image/svg+xml") return true;
   return IMAGE_EXT.test(name);
@@ -25,19 +50,30 @@ async function uploadBlob(
   folder: MediaFolder,
   entityId: string,
   fileName: string,
-  blob: Blob,
+  data: Blob | ArrayBuffer | Uint8Array,
   contentType: string,
 ): Promise<string> {
   const supabase = getSupabase();
   if (!supabase) throw new Error("Supabase is not configured yet.");
+
+  const mime = resolveImageMime(fileName, contentType);
+  // Zip entries often arrive as application/octet-stream — re-wrap so Storage
+  // sees a real image MIME (bucket rejects octet-stream).
+  const bytes =
+    data instanceof ArrayBuffer
+      ? data
+      : data instanceof Uint8Array
+        ? data
+        : await data.arrayBuffer();
+  const typed = new Blob([bytes], { type: mime });
 
   const safe = sanitizeName(fileName) || `photo-${Date.now()}.jpg`;
   const path = `${folder}/${entityId || "draft"}/${Date.now()}-${Math.random()
     .toString(36)
     .slice(2, 8)}-${safe}`;
 
-  const { error } = await supabase.storage.from(BUCKET).upload(path, blob, {
-    contentType: contentType || "image/jpeg",
+  const { error } = await supabase.storage.from(BUCKET).upload(path, typed, {
+    contentType: mime,
     upsert: false,
   });
   if (error) {
@@ -47,11 +83,16 @@ async function uploadBlob(
         "Storage bucket “listing-media” is missing. In Supabase → SQL Editor, run supabase/listing_media_bucket.sql (or the full showcase_homes.sql), then retry the zip.",
       );
     }
+    if (/mime type/i.test(msg)) {
+      throw new Error(
+        `${msg} — retry after a refresh. If it persists, run supabase/fix_listing_media_mimes.sql in the SQL Editor.`,
+      );
+    }
     throw error;
   }
 
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  return pub.publicUrl;
 }
 
 /** Upload one or many image files. Returns public URLs in selection order. */
@@ -67,7 +108,9 @@ export async function uploadImageFiles(
   const urls: string[] = [];
   for (let i = 0; i < list.length; i++) {
     const f = list[i];
-    urls.push(await uploadBlob(folder, entityId, f.name, f, f.type));
+    urls.push(
+      await uploadBlob(folder, entityId, f.name, f, resolveImageMime(f.name, f.type)),
+    );
     onProgress?.(i + 1, list.length);
   }
   return urls;
@@ -92,17 +135,9 @@ export async function uploadPhotoZip(
   const urls: string[] = [];
   for (let i = 0; i < entries.length; i++) {
     const entry = entries[i];
-    const blob = await entry.async("blob");
-    const ext = entry.name.split(".").pop()?.toLowerCase() || "jpg";
-    const mime =
-      ext === "png"
-        ? "image/png"
-        : ext === "webp"
-          ? "image/webp"
-          : ext === "gif"
-            ? "image/gif"
-            : "image/jpeg";
-    urls.push(await uploadBlob(folder, entityId, entry.name, blob, mime));
+    const bytes = await entry.async("uint8array");
+    const mime = mimeFromName(entry.name);
+    urls.push(await uploadBlob(folder, entityId, entry.name, bytes, mime));
     onProgress?.(i + 1, entries.length);
   }
   return urls;
