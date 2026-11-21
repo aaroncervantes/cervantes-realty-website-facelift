@@ -12,17 +12,19 @@ import {
 
 const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
 
-/** Cervantes paper basemap — cream land, soft water, quiet roads. */
-const LAND = "#f7f5f2";
-const WATER = "#c5d9e8";
-const PARK = "#d8e6cf";
-const WOOD = "#dde8d4";
-const ROAD = "#ffffff";
-const ROAD_EDGE = "#e4ddd3";
-const HIGHWAY = "#f3e6c8";
-const HIGHWAY_EDGE = "#e5d4a8";
+/** Apple Maps light cartography (measured tokens). */
+const LAND = "#F6F1E6";
+const WATER = "#B9D9EB";
+const PARK = "#D6E5C9";
+const WOOD = "#CDE3B8";
+const ROAD = "#FFFFFF";
+const ROAD_EDGE = "#D5CFC0";
+const HIGHWAY = "#FFD966";
+const HIGHWAY_EDGE = "#E8C14A";
+const BUILDING = "#EFE9DD";
 const INK = "#1a1a1a";
-const MUTE = "#8a8780";
+const MUTE = "#594F3F";
+const WATER_LABEL = "#5A8EAB";
 
 type Mode = "home" | "page";
 
@@ -36,7 +38,7 @@ function restyle(
   for (const layer of style.layers || []) {
     const id = layer.id;
     if (
-      /^(building|boundary_|railway|aeroway|highway-shield|road_shield|highway-name-path|highway-name-minor|waterway_line_label|label_other|label_village|tunnel_|landuse_residential)/.test(
+      /^(boundary_|railway|aeroway|highway-shield|road_shield|highway-name-path|highway-name-minor|waterway_line_label|label_other|label_village|tunnel_)/.test(
         id,
       )
     ) {
@@ -59,14 +61,35 @@ function restyle(
       paint[colorKey] = WATER;
     } else if (id === "park" && layer.type === "fill") {
       paint["fill-color"] = PARK;
-      paint["fill-opacity"] = 0.75;
-    } else if (id === "landcover_wood" && layer.type === "fill") {
+      paint["fill-opacity"] = 0.95;
+    } else if (
+      layer.type === "fill" &&
+      /^(landcover_wood|landcover_grass|landuse_cemetery|landuse_pitch)/.test(id)
+    ) {
       paint["fill-color"] = WOOD;
-      paint["fill-opacity"] = 0.7;
+      paint["fill-opacity"] = 0.85;
+    } else if (
+      layer.type === "fill" &&
+      /^(building|landuse_residential|landuse_commercial|landuse_industrial)/.test(
+        id,
+      )
+    ) {
+      paint["fill-color"] = BUILDING;
+      paint["fill-opacity"] = id.startsWith("building") ? 0.9 : 0.55;
+      if (id.startsWith("building") && "fill-outline-color" in (layer.paint || {})) {
+        paint["fill-outline-color"] = ROAD_EDGE;
+      }
     } else if (colorKey && /^highway_motorway.*casing$/.test(id)) {
       paint[colorKey] = HIGHWAY_EDGE;
     } else if (colorKey && /^highway_motorway/.test(id)) {
       paint[colorKey] = HIGHWAY;
+    } else if (
+      colorKey &&
+      /^highway_(trunk|primary).*casing$/.test(id)
+    ) {
+      paint[colorKey] = ROAD_EDGE;
+    } else if (colorKey && /^highway_(trunk|primary)/.test(id)) {
+      paint[colorKey] = "#FBF1C4";
     } else if (colorKey && /^highway_major_casing$/.test(id)) {
       paint[colorKey] = ROAD_EDGE;
     } else if (
@@ -76,9 +99,9 @@ function restyle(
       paint[colorKey] = ROAD;
     } else if (layer.type === "symbol") {
       const waterish = /water/.test(id);
-      paint["text-color"] = waterish ? "#6FA6C4" : MUTE;
+      paint["text-color"] = waterish ? WATER_LABEL : MUTE;
       paint["text-halo-color"] = waterish ? WATER : LAND;
-      paint["text-halo-width"] = 1.2;
+      paint["text-halo-width"] = 1.4;
       if (/^label_(city|town)/.test(id)) {
         const hideOurs: maplibregl.FilterSpecification = [
           "!",
@@ -269,17 +292,12 @@ export function ServiceAreaMap({
               type: "fill",
               source: "cities",
               paint: {
-                "fill-color": [
-                  "case",
-                  ["boolean", ["feature-state", "on"], false],
-                  ["get", "color"],
-                  "#FFFFFF",
-                ],
+                "fill-color": ["get", "color"],
                 "fill-opacity": [
                   "case",
                   ["boolean", ["feature-state", "on"], false],
-                  1,
-                  0.55,
+                  0.72,
+                  0.38,
                 ],
               },
             },
@@ -291,8 +309,8 @@ export function ServiceAreaMap({
             "line-opacity": [
               "case",
               ["boolean", ["feature-state", "on"], false],
-              0.9,
-              0.16,
+              0.95,
+              0.28,
             ],
             "line-width": [
               "case",
