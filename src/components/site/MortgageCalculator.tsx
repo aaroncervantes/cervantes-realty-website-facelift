@@ -6,6 +6,7 @@ import {
   DEFAULT_DOWN_PERCENT,
   DEFAULT_RATE,
   DEFAULT_TERM_YEARS,
+  NEW_HOME_RATE,
   RATE_UPDATED_LABEL,
   calcMortgage,
   formatCurrency,
@@ -41,7 +42,7 @@ const COLORS = {
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="block text-[11px] font-medium uppercase tracking-[0.12em] text-gray-500">
+    <span className="block text-[13px] font-semibold text-[#1a1a1a]">
       {children}
     </span>
   );
@@ -49,13 +50,13 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 
 function PaymentDonut({
   segments,
-  size = 148,
+  size = 160,
 }: {
   segments: { value: number; color: string }[];
   size?: number;
 }) {
   const total = segments.reduce((s, x) => s + x.value, 0) || 1;
-  const r = 42;
+  const r = 40;
   const c = 2 * Math.PI * r;
   let offset = 0;
   return (
@@ -72,7 +73,7 @@ function PaymentDonut({
         r={r}
         fill="none"
         stroke="#efebe4"
-        strokeWidth="14"
+        strokeWidth="16"
       />
       {segments
         .filter((s) => s.value > 0)
@@ -86,10 +87,9 @@ function PaymentDonut({
               r={r}
               fill="none"
               stroke={s.color}
-              strokeWidth="14"
+              strokeWidth="16"
               strokeDasharray={`${len} ${c - len}`}
               strokeDashoffset={-offset}
-              strokeLinecap="butt"
             />
           );
           offset += len;
@@ -121,16 +121,21 @@ export function MortgageCalculator({
   const [price, setPrice] = useState(startPrice);
   const [downPercent, setDownPercent] = useState(initialDownPercent);
   const [rate, setRate] = useState(initialRate);
-  const [useSiteRate, setUseSiteRate] = useState(
-    Math.abs(initialRate - DEFAULT_RATE) < 0.001,
+  const [rateMode, setRateMode] = useState<"site" | "own" | "promo">(
+    Math.abs(initialRate - NEW_HOME_RATE) < 0.001
+      ? "promo"
+      : Math.abs(initialRate - DEFAULT_RATE) < 0.001
+        ? "site"
+        : "own",
   );
   const [termYears, setTermYears] = useState(DEFAULT_TERM_YEARS);
   const [includeTaxIns, setIncludeTaxIns] = useState(
     isPage ? true : initialIncludeTaxIns,
   );
   const [hoaMonthly, setHoaMonthly] = useState(hoaProp);
+  // Collapsed by default so payment + CTA show on first paint (NW pattern)
   const [extrasOpen, setExtrasOpen] = useState(
-    isPage || initialIncludeTaxIns || hoaProp > 0,
+    !isPage && (initialIncludeTaxIns || hoaProp > 0),
   );
 
   const downPayment = (price * downPercent) / 100;
@@ -148,8 +153,7 @@ export function MortgageCalculator({
     [price, downPayment, rate, termYears, includeTaxIns, includeMip, hoaMonthly],
   );
 
-  const showExtras =
-    includeTaxIns || includeMip || hoaMonthly > 0;
+  const showExtras = includeTaxIns || includeMip || hoaMonthly > 0;
   const monthly = showExtras ? result.monthlyTotal : result.monthlyPI;
 
   const segments = useMemo(() => {
@@ -181,72 +185,63 @@ export function MortgageCalculator({
     setDownPercent(Math.round(pct * 10) / 10);
   };
 
-  const pickSiteRate = () => {
-    setUseSiteRate(true);
+  const pickSite = () => {
+    setRateMode("site");
     setRate(DEFAULT_RATE);
   };
+  const pickPromo = () => {
+    setRateMode("promo");
+    setRate(NEW_HOME_RATE);
+  };
 
-  const shell =
-    isSidebar
-      ? "border border-black/5 bg-white p-6 md:p-7"
-      : "overflow-hidden border border-black/[0.04] bg-white shadow-[0_18px_50px_-28px_rgba(26,26,26,0.35)]";
+  const inputShell =
+    "flex items-center rounded-xl bg-white border border-black/10 focus-within:border-[#c9a84c] focus-within:ring-2 focus-within:ring-[#c9a84c]/25 transition-[box-shadow,border-color]";
+
+  const shell = isSidebar
+    ? "border border-black/5 bg-white p-6 md:p-7"
+    : "overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-28px_rgba(26,26,26,0.55)] ring-1 ring-black/5";
 
   const inputs = (
-    <div className={isPage ? "bg-[#f7f5f2]/70 p-5 md:p-7" : ""}>
-      <div className="mb-4 flex items-start justify-between gap-4">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#c9a84c] mb-1">
-            {t.mortgageEstimate}
-          </p>
-          <h3
-            className={`font-serif font-medium tracking-tight text-[#1a1a1a] ${
-              isCompact ? "text-xl" : isPage ? "text-xl md:text-2xl" : "text-2xl md:text-[1.75rem]"
-            }`}
-          >
-            {isPage ? t.loanDetails : title ?? t.estimatePayment}
-          </h3>
-        </div>
-        {!isPage && (
-          <div className="text-right shrink-0 pt-1">
-            <p className="text-base font-semibold tabular-nums">{rate.toFixed(2)}%</p>
-            <p className="mt-0.5 text-[10px] uppercase tracking-wider text-gray-400">
-              {fill(t.thirtyYrUpdated, { date: RATE_UPDATED_LABEL })}
-            </p>
-          </div>
-        )}
-      </div>
+    <div className={isPage ? "bg-[#f3f1ec] p-5 md:p-7 h-full" : ""}>
+      <h3
+        className={`font-serif font-medium tracking-tight text-[#1a1a1a] mb-5 ${
+          isCompact ? "text-xl" : "text-2xl"
+        }`}
+      >
+        {isPage ? t.loanDetails : title ?? t.estimatePayment}
+      </h3>
 
-      <div className={`grid gap-4 ${isCompact ? "grid-cols-1" : ""}`}>
+      <div className="grid gap-4">
         <label className="block">
           <FieldLabel>{t.homePrice}</FieldLabel>
-          <div className="mt-2 flex items-center bg-white ring-1 ring-black/5 focus-within:ring-[#c9a84c]/70">
-            <span className="pl-4 text-sm text-gray-400">$</span>
+          <div className={`mt-1.5 ${inputShell}`}>
+            <span className="pl-3.5 text-sm text-gray-400">$</span>
             <input
               type="number"
               min={0}
               step={1000}
               value={Math.round(price)}
               onChange={(e) => setPrice(Number(e.target.value) || 0)}
-              className="w-full border-0 bg-transparent px-3 py-3.5 text-sm font-semibold outline-none"
+              className="w-full border-0 bg-transparent px-2.5 py-3 text-sm font-semibold outline-none"
             />
           </div>
         </label>
 
         <div className="block">
           <FieldLabel>{t.downPaymentLabel}</FieldLabel>
-          <div className="mt-2 grid grid-cols-[1fr_5.5rem] gap-2">
-            <div className="flex items-center bg-white ring-1 ring-black/5 focus-within:ring-[#c9a84c]/70">
-              <span className="pl-4 text-sm text-gray-400">$</span>
+          <div className="mt-1.5 grid grid-cols-[1fr_5.75rem] gap-2">
+            <div className={inputShell}>
+              <span className="pl-3.5 text-sm text-gray-400">$</span>
               <input
                 type="number"
                 min={0}
                 step={1000}
                 value={Math.round(downPayment)}
                 onChange={(e) => setDownDollars(Number(e.target.value) || 0)}
-                className="w-full border-0 bg-transparent px-3 py-3.5 text-sm font-semibold outline-none"
+                className="w-full border-0 bg-transparent px-2.5 py-3 text-sm font-semibold outline-none"
               />
             </div>
-            <div className="flex items-center bg-white ring-1 ring-black/5 focus-within:ring-[#c9a84c]/70">
+            <div className={inputShell}>
               <input
                 type="number"
                 min={0}
@@ -258,7 +253,7 @@ export function MortgageCalculator({
                     Math.min(50, Math.max(0, Number(e.target.value) || 0)),
                   )
                 }
-                className="w-full border-0 bg-transparent px-3 py-3.5 text-sm font-semibold outline-none"
+                className="w-full border-0 bg-transparent px-2.5 py-3 text-sm font-semibold outline-none"
               />
               <span className="pr-3 text-sm text-gray-400">%</span>
             </div>
@@ -271,7 +266,7 @@ export function MortgageCalculator({
               step={0.5}
               value={downPercent}
               onChange={(e) => setDownPercent(Number(e.target.value))}
-              className="cr-range mt-4"
+              className="cr-range mt-3"
               style={
                 {
                   "--cr-range-pct": `${(downPercent / 50) * 100}%`,
@@ -283,7 +278,7 @@ export function MortgageCalculator({
 
         <div className="block">
           <FieldLabel>{t.loanTerm}</FieldLabel>
-          <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="mt-1.5 grid grid-cols-2 sm:grid-cols-4 gap-2">
             {TERM_OPTIONS.map((y) => {
               const active = termYears === y;
               return (
@@ -291,13 +286,13 @@ export function MortgageCalculator({
                   key={y}
                   type="button"
                   onClick={() => setTermYears(y)}
-                  className={`py-3 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors ${
+                  className={`rounded-full py-2.5 text-[12px] font-semibold transition-colors ${
                     active
-                      ? "bg-[#1a1a1a] text-white"
-                      : "bg-white text-[#1a1a1a] ring-1 ring-black/10 hover:ring-[#c9a84c]/60"
+                      ? "bg-white text-[#1a1a1a] ring-2 ring-[#c9a84c]"
+                      : "bg-white/80 text-[#1a1a1a] ring-1 ring-black/10 hover:ring-[#c9a84c]/50"
                   }`}
                 >
-                  {y} {t.yrSuffix}
+                  {y} {t.yearsWord}
                 </button>
               );
             })}
@@ -306,54 +301,70 @@ export function MortgageCalculator({
 
         <div className="block">
           <FieldLabel>{t.interestRate}</FieldLabel>
-          <div className="mt-2 grid grid-cols-2 gap-2">
+          <div className="mt-1.5 grid grid-cols-3 gap-2">
             <button
               type="button"
-              onClick={pickSiteRate}
-              className={`px-3 py-3 text-left transition-colors ${
-                useSiteRate
-                  ? "bg-white ring-2 ring-[#c9a84c]"
+              onClick={pickSite}
+              className={`rounded-xl px-2.5 py-3 text-left transition-colors ${
+                rateMode === "site"
+                  ? "bg-[#c9a84c]/15 ring-2 ring-[#c9a84c]"
                   : "bg-white ring-1 ring-black/10 hover:ring-[#c9a84c]/50"
               }`}
             >
-              <p className="text-[10px] uppercase tracking-wider text-gray-400">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">
                 {t.siteRateLabel}
               </p>
-              <p className="mt-1 text-lg font-semibold tabular-nums">
+              <p className="mt-1 text-base font-bold tabular-nums">
                 {DEFAULT_RATE.toFixed(2)}%
               </p>
             </button>
             <button
               type="button"
-              onClick={() => setUseSiteRate(false)}
-              className={`px-3 py-3 text-left transition-colors ${
-                !useSiteRate
-                  ? "bg-white ring-2 ring-[#c9a84c]"
+              onClick={() => setRateMode("own")}
+              className={`rounded-xl px-2.5 py-3 text-left transition-colors ${
+                rateMode === "own"
+                  ? "bg-[#c9a84c]/15 ring-2 ring-[#c9a84c]"
                   : "bg-white ring-1 ring-black/10 hover:ring-[#c9a84c]/50"
               }`}
             >
-              <p className="text-[10px] uppercase tracking-wider text-gray-400">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">
                 {t.enterOwnRate}
               </p>
-              <div className="mt-1 flex items-center gap-1">
+              <div className="mt-1 flex items-center gap-0.5">
                 <input
                   type="number"
                   min={0}
                   max={20}
                   step={0.05}
                   value={rate}
-                  onFocus={() => setUseSiteRate(false)}
+                  onFocus={() => setRateMode("own")}
                   onChange={(e) => {
-                    setUseSiteRate(false);
+                    setRateMode("own");
                     setRate(Number(e.target.value) || 0);
                   }}
-                  className="w-full border-0 bg-transparent p-0 text-lg font-semibold tabular-nums outline-none"
+                  className="w-full border-0 bg-transparent p-0 text-base font-bold tabular-nums outline-none"
                 />
-                <span className="text-sm text-gray-400">%</span>
+                <span className="text-xs text-gray-400">%</span>
               </div>
             </button>
+            <button
+              type="button"
+              onClick={pickPromo}
+              className={`rounded-xl px-2.5 py-3 text-left transition-colors ${
+                rateMode === "promo"
+                  ? "bg-[#c9a84c]/15 ring-2 ring-[#c9a84c]"
+                  : "bg-white ring-1 ring-black/10 hover:ring-[#c9a84c]/50"
+              }`}
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-[#8a6f28]">
+                {t.promoRateLabel}
+              </p>
+              <p className="mt-1 text-base font-bold tabular-nums">
+                {NEW_HOME_RATE.toFixed(2)}%
+              </p>
+            </button>
           </div>
-          <p className="mt-2 text-[11px] text-gray-400">
+          <p className="mt-2 text-[11px] text-gray-500">
             {fill(t.thirtyYrUpdated, { date: RATE_UPDATED_LABEL })}
           </p>
         </div>
@@ -362,7 +373,7 @@ export function MortgageCalculator({
       <button
         type="button"
         onClick={() => setExtrasOpen((o) => !o)}
-        className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#8a6f28] hover:text-[#1a1a1a] transition-colors"
+        className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#8a6f28] hover:text-[#1a1a1a] transition-colors"
       >
         {t.editTaxInsHoa}
         <ChevronDown
@@ -371,7 +382,7 @@ export function MortgageCalculator({
       </button>
 
       {extrasOpen && (
-        <div className="mt-4 space-y-4 border border-black/5 bg-white p-4">
+        <div className="mt-3 space-y-3 rounded-xl border border-black/5 bg-white p-4">
           <label className="flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
@@ -385,15 +396,15 @@ export function MortgageCalculator({
           </label>
           <label className="block">
             <FieldLabel>{t.hoaMonthlyLabel}</FieldLabel>
-            <div className="mt-2 flex items-center bg-[#f7f5f2] ring-1 ring-transparent focus-within:ring-[#c9a84c]/70">
-              <span className="pl-4 text-sm text-gray-400">$</span>
+            <div className={`mt-1.5 ${inputShell}`}>
+              <span className="pl-3.5 text-sm text-gray-400">$</span>
               <input
                 type="number"
                 min={0}
                 step={25}
                 value={Math.round(hoaMonthly)}
                 onChange={(e) => setHoaMonthly(Number(e.target.value) || 0)}
-                className="w-full border-0 bg-transparent px-3 py-3 text-sm font-semibold outline-none"
+                className="w-full border-0 bg-transparent px-2.5 py-3 text-sm font-semibold outline-none"
               />
             </div>
           </label>
@@ -403,15 +414,21 @@ export function MortgageCalculator({
   );
 
   const results = (
-    <div className={isPage ? "p-5 md:p-7 flex flex-col h-full" : "mt-6 border-t border-black/[0.06] pt-6"}>
-      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-gray-400 mb-1.5">
+    <div
+      className={
+        isPage
+          ? "p-5 md:p-7 flex flex-col h-full bg-white"
+          : "mt-6 border-t border-black/[0.06] pt-6"
+      }
+    >
+      <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
         {t.monthlyPaymentLabel}
       </p>
       <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-        <p className="font-serif text-3xl md:text-4xl leading-none tracking-tight tabular-nums text-[#1a1a1a]">
+        <p className="font-serif text-4xl md:text-5xl leading-none tracking-tight tabular-nums text-[#1a1a1a]">
           {formatCurrency(monthly)}
         </p>
-        <p className="pb-0.5 text-sm text-gray-500">
+        <p className="pb-1 text-sm text-gray-500">
           {fill(t.atRateTerm, {
             rate: rate.toFixed(2),
             term: termYears,
@@ -419,38 +436,29 @@ export function MortgageCalculator({
         </p>
       </div>
 
-      <div className="mt-5 flex items-center gap-4">
-        <PaymentDonut segments={segments} size={isSidebar ? 120 : 148} />
-        <ul className="space-y-2.5 text-sm min-w-0">
+      <div className="mt-6 flex items-center gap-5">
+        <PaymentDonut segments={segments} size={isSidebar ? 124 : 168} />
+        <ul className="space-y-3 text-sm min-w-0 flex-1">
           <li className="flex items-center gap-2.5">
-            <i
-              className="h-2.5 w-2.5 shrink-0"
-              style={{ background: COLORS.pi }}
-            />
+            <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.pi }} />
             <span className="text-gray-600 truncate">{t.principalInterest}</span>
-            <span className="ml-auto font-semibold tabular-nums">
+            <span className="ml-auto font-bold tabular-nums">
               {formatCurrency(result.monthlyPI)}
             </span>
           </li>
           {includeTaxIns && (
             <>
               <li className="flex items-center gap-2.5">
-                <i
-                  className="h-2.5 w-2.5 shrink-0"
-                  style={{ background: COLORS.tax }}
-                />
+                <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.tax }} />
                 <span className="text-gray-600 truncate">{t.propertyTaxes}</span>
-                <span className="ml-auto font-semibold tabular-nums">
+                <span className="ml-auto font-bold tabular-nums">
                   {formatCurrency(result.monthlyTax)}
                 </span>
               </li>
               <li className="flex items-center gap-2.5">
-                <i
-                  className="h-2.5 w-2.5 shrink-0"
-                  style={{ background: COLORS.ins }}
-                />
+                <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.ins }} />
                 <span className="text-gray-600 truncate">{t.homeInsurance}</span>
-                <span className="ml-auto font-semibold tabular-nums">
+                <span className="ml-auto font-bold tabular-nums">
                   {formatCurrency(result.monthlyIns)}
                 </span>
               </li>
@@ -458,24 +466,18 @@ export function MortgageCalculator({
           )}
           {includeMip && result.monthlyMip > 0 && (
             <li className="flex items-center gap-2.5">
-              <i
-                className="h-2.5 w-2.5 shrink-0"
-                style={{ background: COLORS.mip }}
-              />
+              <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.mip }} />
               <span className="text-gray-600 truncate">MIP</span>
-              <span className="ml-auto font-semibold tabular-nums">
+              <span className="ml-auto font-bold tabular-nums">
                 {formatCurrency(result.monthlyMip)}
               </span>
             </li>
           )}
           {hoaMonthly > 0 && (
             <li className="flex items-center gap-2.5">
-              <i
-                className="h-2.5 w-2.5 shrink-0"
-                style={{ background: COLORS.hoa }}
-              />
+              <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.hoa }} />
               <span className="text-gray-600 truncate">HOA</span>
-              <span className="ml-auto font-semibold tabular-nums">
+              <span className="ml-auto font-bold tabular-nums">
                 {formatCurrency(result.monthlyHoa)}
               </span>
             </li>
@@ -483,44 +485,38 @@ export function MortgageCalculator({
         </ul>
       </div>
 
-      <dl className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 border border-black/5 p-3.5 text-sm">
+      <dl className="mt-6 grid grid-cols-3 gap-3 rounded-xl border border-black/10 p-4 text-sm">
         <div>
-          <dt className="text-[11px] uppercase tracking-[0.12em] text-gray-400">
-            {t.loanAmount}
-          </dt>
-          <dd className="mt-1 font-semibold tabular-nums">
+          <dt className="text-[11px] text-gray-500">{t.loanAmount}</dt>
+          <dd className="mt-1 font-bold tabular-nums">
             {formatCurrency(result.loanAmount)}
           </dd>
         </div>
         <div>
-          <dt className="text-[11px] uppercase tracking-[0.12em] text-gray-400">
-            {t.totalInterest}
-          </dt>
-          <dd className="mt-1 font-semibold tabular-nums">
+          <dt className="text-[11px] text-gray-500">{t.totalInterestPaid}</dt>
+          <dd className="mt-1 font-bold tabular-nums">
             {formatCurrency(result.totalInterest)}
           </dd>
         </div>
         <div>
-          <dt className="text-[11px] uppercase tracking-[0.12em] text-gray-400">
-            {t.payoffDate}
-          </dt>
-          <dd className="mt-1 font-semibold tabular-nums">{payoff}</dd>
+          <dt className="text-[11px] text-gray-500">{t.payoffDate}</dt>
+          <dd className="mt-1 font-bold tabular-nums">{payoff}</dd>
         </div>
       </dl>
 
-      <div className={`mt-auto ${isPage ? "pt-5" : "pt-5"} space-y-2.5`}>
+      <div className="mt-auto pt-6 space-y-2.5">
         {showPreapproval && (
           <a
             href={buyTypeform("calculator")}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center bg-[#1a1a1a] px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c9a84c]"
+            className="flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-6 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#c9a84c]"
           >
             {t.getMyRateCta}
           </a>
         )}
         {showPreapproval && (
-          <p className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500">
+          <p className="flex items-center justify-center gap-1.5 text-[12px] text-gray-500">
             <ShieldCheck className="h-3.5 w-3.5 text-[#c9a84c]" />
             {t.noCreditImpact}
           </p>
@@ -533,7 +529,7 @@ export function MortgageCalculator({
             {t.openFullCalc}
           </Link>
         )}
-        <p className="text-[11px] text-gray-400 leading-relaxed text-center">
+        <p className="text-[11px] text-gray-400 leading-relaxed text-center pt-1">
           {t.mortgageDisclaimer}
         </p>
       </div>
@@ -543,7 +539,7 @@ export function MortgageCalculator({
   if (isPage) {
     return (
       <div className={`${shell} ${className}`}>
-        <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid lg:grid-cols-2 min-h-[560px]">
           {inputs}
           {results}
         </div>
