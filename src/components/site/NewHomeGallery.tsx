@@ -18,7 +18,7 @@ export function NewHomeGallery({ home }: { home: NewHome }) {
             SoCal’s New Homes · Browse only
           </p>
           <p className="font-serif text-2xl md:text-3xl text-[#1a1a1a]/70">
-            Photos coming soon — ask Devante for a private look.
+            Photos coming soon — ask SoCal’s New Homes for a private look.
           </p>
         </div>
       </div>

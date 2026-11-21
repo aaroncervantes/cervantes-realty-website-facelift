@@ -52,7 +52,7 @@ const NewHomeDetail = () => {
     (home.priceHigh
       ? `${formatCurrency(home.fromPrice)} – ${formatCurrency(home.priceHigh)}`
       : `${t.fromPrice} ${formatCurrency(home.fromPrice)}`);
-  const askDevante = snhQuestionnaire("new-homes");
+  const askSnh = snhQuestionnaire("new-homes");
 
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
@@ -147,12 +147,12 @@ const NewHomeDetail = () => {
                   </p>
                   <div className="mt-6 flex flex-wrap gap-4">
                     <a
-                      href={askDevante}
+                      href={askSnh}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-100"
                     >
-                      {t.contactDevante}
+                      {t.contactSnh}
                       <ExternalLink className="w-3.5 h-3.5" aria-hidden />
                     </a>
                     <Link
