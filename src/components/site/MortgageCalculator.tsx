@@ -16,6 +16,16 @@ type Variant = "page" | "sidebar" | "compact";
 
 interface MortgageCalculatorProps {
   initialPrice?: number | string;
+  /** Override default 20% when embedding (e.g. new-homes FHA minimum). */
+  initialDownPercent?: number;
+  /** Override default site rate when embedding. */
+  initialRate?: number;
+  /** Start with tax & insurance included. */
+  initialIncludeTaxIns?: boolean;
+  /** Layer FHA-style MIP into the total (new-homes FHA estimates). */
+  includeMip?: boolean;
+  /** Fixed monthly HOA estimate layered into the total. */
+  hoaMonthly?: number;
   variant?: Variant;
   title?: string;
   className?: string;
@@ -25,6 +35,11 @@ interface MortgageCalculatorProps {
 
 export function MortgageCalculator({
   initialPrice = 650000,
+  initialDownPercent = DEFAULT_DOWN_PERCENT,
+  initialRate = DEFAULT_RATE,
+  initialIncludeTaxIns = false,
+  includeMip = false,
+  hoaMonthly = 0,
   variant = "page",
   title,
   className = "",
@@ -35,10 +50,10 @@ export function MortgageCalculator({
   const heading = title ?? t.estimatePayment;
   const startPrice = parsePrice(initialPrice) || 650000;
   const [price, setPrice] = useState(startPrice);
-  const [downPercent, setDownPercent] = useState(DEFAULT_DOWN_PERCENT);
-  const [rate, setRate] = useState(DEFAULT_RATE);
+  const [downPercent, setDownPercent] = useState(initialDownPercent);
+  const [rate, setRate] = useState(initialRate);
   const [termYears, setTermYears] = useState(DEFAULT_TERM_YEARS);
-  const [includeTaxIns, setIncludeTaxIns] = useState(false);
+  const [includeTaxIns, setIncludeTaxIns] = useState(initialIncludeTaxIns);
 
   const downPayment = (price * downPercent) / 100;
   const result = useMemo(
@@ -49,9 +64,13 @@ export function MortgageCalculator({
         ratePercent: rate,
         termYears,
         includeTaxIns,
+        includeMip,
+        hoaMonthly,
       }),
-    [price, downPayment, rate, termYears, includeTaxIns],
+    [price, downPayment, rate, termYears, includeTaxIns, includeMip, hoaMonthly],
   );
+  const showExtras =
+    includeTaxIns || includeMip || hoaMonthly > 0;
 
   const isCompact = variant === "compact";
   const isSidebar = variant === "sidebar" || isCompact;
@@ -77,7 +96,7 @@ export function MortgageCalculator({
         </div>
         <div className="text-right shrink-0">
           <p className="text-sm font-semibold text-[#1a1a1a]">
-            {DEFAULT_RATE.toFixed(2)}%
+            {rate.toFixed(2)}%
           </p>
           <p className="text-[10px] text-gray-400">
             {fill(t.thirtyYrUpdated, { date: RATE_UPDATED_LABEL })}
@@ -168,21 +187,27 @@ export function MortgageCalculator({
 
       <div className="mt-8 border-t border-gray-100 pt-6">
         <p className="text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-1">
-          {includeTaxIns ? t.estMonthlyTotal : t.estMonthlyPI}
+          {showExtras ? t.estMonthlyTotal : t.estMonthlyPI}
         </p>
         <p className="font-serif text-4xl md:text-5xl text-[#1a1a1a] font-medium">
-          {formatCurrency(includeTaxIns ? result.monthlyTotal : result.monthlyPI)}
+          {formatCurrency(showExtras ? result.monthlyTotal : result.monthlyPI)}
           <span className="text-base text-gray-400 font-sans font-normal ml-1">
             {t.perMonth}
           </span>
         </p>
-        {includeTaxIns && (
+        {showExtras && (
           <p className="text-xs text-gray-500 mt-2">
             {fill(t.piTaxIns, {
               pi: formatCurrency(result.monthlyPI),
               tax: formatCurrency(result.monthlyTax),
               ins: formatCurrency(result.monthlyIns),
             })}
+            {includeMip
+              ? ` · MIP ${formatCurrency(result.monthlyMip)}`
+              : ""}
+            {hoaMonthly > 0
+              ? ` · HOA ${formatCurrency(result.monthlyHoa)}`
+              : ""}
           </p>
         )}
         <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">

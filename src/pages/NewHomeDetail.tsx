@@ -6,10 +6,21 @@ import { MortgageCalculator } from "@/components/site/MortgageCalculator";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { NewHomeGallery } from "@/components/site/NewHomeGallery";
 import { useShowcaseDetail } from "@/lib/showcaseHomes";
-import { formatCurrency } from "@/lib/mortgage";
+import {
+  formatCurrency,
+  NEW_HOME_DOWN_PERCENT,
+  NEW_HOME_HOA_ESTIMATE,
+  NEW_HOME_RATE,
+} from "@/lib/mortgage";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useLang } from "@/lib/i18n";
 import { snhQuestionnaire } from "@/lib/site";
+
+const TOWNHOME_SLUGS = new Set([
+  "gated-north-fontana-townhomes",
+  "ontario-area-townhomes",
+  "jurupa-valley-townhomes",
+]);
 
 function Snap({ label, value }: { label: string; value: string }) {
   return (
@@ -53,6 +64,7 @@ const NewHomeDetail = () => {
       ? `${formatCurrency(home.fromPrice)} – ${formatCurrency(home.priceHigh)}`
       : `${t.fromPrice} ${formatCurrency(home.fromPrice)}`);
   const askSnh = snhQuestionnaire("new-homes");
+  const isTownhome = TOWNHOME_SLUGS.has(home.slug);
 
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
@@ -168,6 +180,11 @@ const NewHomeDetail = () => {
             <div className="lg:sticky lg:top-36">
               <MortgageCalculator
                 initialPrice={home.fromPrice}
+                initialDownPercent={NEW_HOME_DOWN_PERCENT}
+                initialRate={NEW_HOME_RATE}
+                initialIncludeTaxIns
+                includeMip={isTownhome}
+                hoaMonthly={isTownhome ? NEW_HOME_HOA_ESTIMATE : 0}
                 variant="sidebar"
                 title={t.estPaymentFrom}
                 showLinkToFull

@@ -7,6 +7,13 @@ export const DEFAULT_RATE =
   Number.isFinite(envRate) && envRate > 0 ? envRate : 6.3;
 export const DEFAULT_TERM_YEARS = 30;
 export const DEFAULT_DOWN_PERCENT = 20;
+/** New-homes showcase cards: FHA-minimum down + promo rate + tax/ins. */
+export const NEW_HOME_DOWN_PERCENT = 3.5;
+export const NEW_HOME_RATE = 4.99;
+/** Typical annual FHA MIP when using 3.5% down (estimate only). */
+export const FHA_MIP_ANNUAL = 0.0055;
+/** Inland townhome HOA ballpark so showcase totals land near ~$4k/mo. */
+export const NEW_HOME_HOA_ESTIMATE = 400;
 export const TAX_RATE_ANNUAL = 0.011;
 export const INSURANCE_RATE_ANNUAL = 0.0035;
 export const RATE_UPDATED_LABEL = MORTGAGE_RATE_UPDATED;
@@ -39,6 +46,10 @@ export interface MortgageInput {
   ratePercent: number;
   termYears: number;
   includeTaxIns?: boolean;
+  /** Annual FHA-style MIP as a % of loan (e.g. 0.0055). */
+  includeMip?: boolean;
+  /** Fixed monthly HOA estimate layered into the total. */
+  hoaMonthly?: number;
 }
 
 export interface MortgageResult {
@@ -46,6 +57,8 @@ export interface MortgageResult {
   monthlyPI: number;
   monthlyTax: number;
   monthlyIns: number;
+  monthlyMip: number;
+  monthlyHoa: number;
   monthlyTotal: number;
   totalInterest: number;
   totalPaid: number;
@@ -58,6 +71,8 @@ export function calcMortgage({
   ratePercent,
   termYears,
   includeTaxIns = false,
+  includeMip = false,
+  hoaMonthly = 0,
 }: MortgageInput): MortgageResult {
   const loanAmount = Math.max(0, price - Math.max(0, downPayment));
   const paymentCount = Math.max(1, Math.round(termYears * 12));
@@ -75,7 +90,10 @@ export function calcMortgage({
 
   const monthlyTax = includeTaxIns ? (price * TAX_RATE_ANNUAL) / 12 : 0;
   const monthlyIns = includeTaxIns ? (price * INSURANCE_RATE_ANNUAL) / 12 : 0;
-  const monthlyTotal = monthlyPI + monthlyTax + monthlyIns;
+  const monthlyMip = includeMip ? (loanAmount * FHA_MIP_ANNUAL) / 12 : 0;
+  const monthlyHoa = Math.max(0, hoaMonthly);
+  const monthlyTotal =
+    monthlyPI + monthlyTax + monthlyIns + monthlyMip + monthlyHoa;
   const totalPaid = monthlyPI * paymentCount;
   const totalInterest = Math.max(0, totalPaid - loanAmount);
 
@@ -84,6 +102,8 @@ export function calcMortgage({
     monthlyPI,
     monthlyTax,
     monthlyIns,
+    monthlyMip,
+    monthlyHoa,
     monthlyTotal,
     totalInterest,
     totalPaid,
