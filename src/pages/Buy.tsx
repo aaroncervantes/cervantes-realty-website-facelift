@@ -72,14 +72,13 @@ const Buy = () => {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6 max-w-3xl">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-            Buy with Cervantes
+            {t.buyEyebrow}
           </p>
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
             {t.buyTitle}
           </h1>
           <p className="text-gray-600 text-lg mb-4 leading-relaxed">
-            Luxury guidance with useful clarity — resale you can tour, new-build
-            context when it helps.
+            {t.buyLead}
           </p>
           <p className="text-sm text-gray-500 mb-12">
             {t.reply} {REPLY_HOURS} {t.hours}.

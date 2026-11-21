@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
+import { useLang } from "@/lib/i18n";
 
 export function ServiceAreas() {
+  const { t } = useLang();
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-6 max-w-5xl">
         <p className="text-[#c9a84c] font-semibold text-[10px] uppercase tracking-widest mb-2 text-center">
-          Where We Work
+          {t.marketsEyebrow}
         </p>
         <h2 className="text-3xl md:text-4xl font-serif text-center text-[#1a1a1a] mb-10">
-          Markets we know
+          {t.marketsTitle}
         </h2>
         <Link
           to="/markets"
@@ -29,11 +31,10 @@ export function ServiceAreas() {
               </span>
             </div>
             <p className="text-sm text-white/80 font-serif italic max-w-xl mb-4">
-              Long Beach · LA County · Inland Empire · High Desert — four clear
-              market pages with vibe and sample payments.
+              {t.marketsBody}
             </p>
             <span className="text-xs font-bold uppercase tracking-wider text-[#c9a84c]">
-              Explore markets →
+              {t.marketsCta}
             </span>
           </div>
         </Link>

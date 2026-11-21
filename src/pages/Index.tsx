@@ -13,9 +13,11 @@ import { ServiceAreas } from "@/components/site/ServiceAreas";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { usePublicShowcaseHomes } from "@/lib/showcaseHomes";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 
 const Index = () => {
-  usePageTitle("Find Your Home in the World");
+  const { t } = useLang();
+  usePageTitle(t.heroTitle);
   const { data, isLoading } = usePublicListings();
   const { data: showcaseHomes = [] } = usePublicShowcaseHomes();
   const listings = data || [];
@@ -37,23 +39,23 @@ const Index = () => {
         </div>
         <div className="relative z-10 text-center px-4 max-w-4xl animate-[cr-fadeup_1.1s_ease-out_both]">
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-medium drop-shadow-lg">
-            Find Your Home in the World
+            {t.heroTitle}
           </h1>
           <p className="mt-6 text-white/90 font-serif italic text-lg md:text-xl">
-            Cervantes Realty × SoCal’s New Homes
+            {t.heroSub}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/homes"
               className="bg-white text-black px-8 py-4 text-sm font-semibold hover:bg-gray-100 transition-colors uppercase tracking-wider"
             >
-              Browse homes
+              {t.heroBrowse}
             </Link>
             <Link
               to="/sell"
               className="border border-white text-white px-8 py-4 text-sm font-semibold hover:bg-white/10 transition-colors uppercase tracking-wider"
             >
-              Sell with Concierge
+              {t.heroSell}
             </Link>
           </div>
         </div>
@@ -62,10 +64,10 @@ const Index = () => {
       <section className="py-20 md:py-28 bg-[#f7f5f2]">
         <div className="container mx-auto px-6 max-w-6xl">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3 text-center">
-            Two ways to look
+            {t.doorsEyebrow}
           </p>
           <h2 className="font-serif text-3xl md:text-5xl text-center text-[#1a1a1a] mb-12">
-            Resale you can tour. New builds to study.
+            {t.doorsTitle}
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <Link
@@ -82,10 +84,10 @@ const Index = () => {
                   Cervantes Realty
                 </p>
                 <h3 className="font-serif text-3xl md:text-4xl mb-3">
-                  Enclosed inventory
+                  {t.enclosedTitle}
                 </h3>
                 <p className="text-white/80 text-sm max-w-sm">
-                  Active & recently closed — full address, tour, real next steps.
+                  {t.enclosedBody}
                 </p>
               </div>
             </Link>
@@ -103,10 +105,10 @@ const Index = () => {
                   SoCal’s New Homes
                 </p>
                 <h3 className="font-serif text-3xl md:text-4xl mb-3">
-                  New construction showcase
+                  {t.showcaseTitle}
                 </h3>
                 <p className="text-white/80 text-sm max-w-sm">
-                  Browse-only inspiration — vague on purpose, no inquire.
+                  {t.showcaseBody}
                 </p>
               </div>
             </Link>

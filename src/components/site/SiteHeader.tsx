@@ -6,7 +6,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SELL_TYPEFORM, BUY_TYPEFORM } from "@/lib/typeform";
-import { LangToggle } from "@/lib/i18n";
+import { LangToggle, useLang } from "@/lib/i18n";
 
 /** Kept for listing pages that still deep-link Typeforms as CTAs */
 export const SELL_URL = SELL_TYPEFORM;
@@ -15,15 +15,16 @@ export const BUY_URL = BUY_TYPEFORM;
 const LOGO =
   "https://assets.cdn.filesafe.space/yvIB8uaPt79VRC8MA1HI/media/69e6c389571cca8e954ff6a8.png";
 
-const NAV = [
-  { label: "Homes", to: "/homes" },
-  { label: "New Homes", to: "/new-homes" },
-  { label: "Buy", to: "/buy" },
-  { label: "Sell", to: "/sell" },
-  { label: "Contact", to: "/contact" },
-] as const;
-
 export function SiteHeader({ darkTrigger = false }: { darkTrigger?: boolean }) {
+  const { t } = useLang();
+  const NAV = [
+    { label: t.navHomes, to: "/homes" },
+    { label: t.navNewHomes, to: "/new-homes" },
+    { label: t.navBuy, to: "/buy" },
+    { label: t.navSell, to: "/sell" },
+    { label: t.navContact, to: "/contact" },
+  ] as const;
+
   return (
     <header className="sticky top-0 z-50 bg-[#f7f5f2]/90 backdrop-blur-md">
       <div className="container mx-auto px-6 h-28 flex items-center justify-between max-w-7xl gap-4">

@@ -19,9 +19,7 @@ const Join = () => {
               {t.joinTitle}
             </h1>
             <p className="text-lg text-gray-600 font-serif italic max-w-2xl mx-auto leading-relaxed">
-              {lang === "es"
-                ? "Dos caminos claros. Sin híbridos. Excelencia, infraestructura compartida, y una colaboración exclusiva con SoCal’s New Homes."
-                : "Two clear paths. No hybrids. Excellence, shared infrastructure, and an exclusive collaboration with SoCal’s New Homes."}
+              {t.joinLead}
             </p>
           </div>
 

@@ -29,8 +29,7 @@ const Contact = () => {
               {t.contactTitle}
             </h1>
             <p className="text-lg md:text-xl text-white/70 font-serif italic max-w-2xl mx-auto">
-              Start with the path that fits — guides first, forms when you’re
-              ready. {t.reply} {REPLY_HOURS} {t.hours}.
+              {t.contactLead} {t.reply} {REPLY_HOURS} {t.hours}.
             </p>
           </div>
         </section>
@@ -45,15 +44,12 @@ const Contact = () => {
                 <div className="flex flex-col h-full justify-between items-start">
                   <div>
                     <h3 className="text-3xl font-serif mb-4 group-hover:text-[#c9a84c] transition-colors">
-                      I Want to Buy
+                      {t.wantBuy}
                     </h3>
-                    <p className="text-gray-500 mb-8">
-                      Read the buy guide, then start a conversation when you’re
-                      ready.
-                    </p>
+                    <p className="text-gray-500 mb-8">{t.buyLead}</p>
                   </div>
                   <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
-                    <span>Buy guide</span>
+                    <span>{t.buyGuide}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
@@ -65,14 +61,12 @@ const Contact = () => {
                 <div className="flex flex-col h-full justify-between items-start">
                   <div>
                     <h3 className="text-3xl font-serif mb-4 group-hover:text-[#c9a84c] transition-colors">
-                      I Want to Sell
+                      {t.wantSell}
                     </h3>
-                    <p className="text-gray-500 mb-8">
-                      See Concierge + a rough net peek, then request a valuation.
-                    </p>
+                    <p className="text-gray-500 mb-8">{t.sellLead}</p>
                   </div>
                   <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
-                    <span>Sell guide</span>
+                    <span>{t.sellGuide}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
