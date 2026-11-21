@@ -10,11 +10,13 @@ import {
   listingStatusKind,
 } from "@/lib/listings";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 
 type Filter = "all" | "active" | "closed";
 
 const Homes = () => {
   usePageTitle("Homes — Active & recently closed");
+  const { t } = useLang();
   const { data, isLoading } = usePublicListings();
   const [filter, setFilter] = useState<Filter>("all");
   const listings = data || [];
@@ -39,30 +41,27 @@ const Homes = () => {
 
   const emptyActives = !isLoading && actives.length === 0 && filter !== "closed";
 
+  const filters = [
+    ["all", t.filterAll] as const,
+    ["active", t.filterActive] as const,
+    ["closed", t.filterClosed] as const,
+  ];
+
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6 max-w-[1400px]">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-            Enclosed inventory
+            {t.homesEyebrow}
           </p>
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
-            Active & recently closed
+            {t.homesTitle}
           </h1>
-          <p className="text-gray-600 max-w-2xl mb-8">
-            Your Cervantes resale book — tour what’s live, study what we just
-            closed. Status is on every card.
-          </p>
+          <p className="text-gray-600 max-w-2xl mb-8">{t.homesLead}</p>
 
           <div className="flex flex-wrap gap-2 mb-10">
-            {(
-              [
-                ["all", "All"],
-                ["active", "Active"],
-                ["closed", "Closed"],
-              ] as const
-            ).map(([key, label]) => (
+            {filters.map(([key, label]) => (
               <button
                 key={key}
                 type="button"
@@ -86,29 +85,28 @@ const Homes = () => {
           </div>
 
           {isLoading && (
-            <p className="text-gray-400 text-sm py-8">Loading listings…</p>
+            <p className="text-gray-400 text-sm py-8">{t.homesLoading}</p>
           )}
 
           {emptyActives && filter === "active" && (
             <div className="mb-12 border border-gray-200 bg-white p-8 md:p-10">
               <h2 className="font-serif text-2xl mb-3">
-                No active homes right now
+                {t.homesEmptyActiveTitle}
               </h2>
               <p className="text-gray-600 mb-6 max-w-xl">
-                We’ll find the next one. Meanwhile, here’s recent proof — or
-                start a buy conversation.
+                {t.homesEmptyActiveBody}
               </p>
               <Link
                 to="/buy"
                 className="inline-block bg-[#1a1a1a] text-white px-6 py-3 text-xs font-bold uppercase tracking-wider"
               >
-                Start a buy conversation
+                {t.homesStartBuy}
               </Link>
             </div>
           )}
 
           {!isLoading && shown.length === 0 && filter === "closed" && (
-            <p className="text-gray-500 text-sm py-8">No closed listings yet.</p>
+            <p className="text-gray-500 text-sm py-8">{t.homesEmptyClosed}</p>
           )}
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
@@ -123,15 +121,15 @@ const Homes = () => {
             <div className="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-1">
-                  Service map
+                  {t.homesServiceMap}
                 </p>
-                <h2 className="font-serif text-2xl">Southern California</h2>
+                <h2 className="font-serif text-2xl">{t.homesSoCal}</h2>
               </div>
               <Link
                 to="/markets"
                 className="text-xs font-bold uppercase tracking-wider hover:text-[#c9a84c]"
               >
-                Market pages →
+                {t.homesMarketPages}
               </Link>
             </div>
             <iframe
@@ -142,12 +140,11 @@ const Homes = () => {
               referrerPolicy="no-referrer-when-downgrade"
             />
             <p className="px-6 py-4 text-xs text-gray-500">
-              Orientation only — not a pin-for-every-listing map. Use filters
-              above and{" "}
+              {t.homesMapNote.split("{markets}")[0]}
               <Link to="/markets" className="underline">
-                markets
-              </Link>{" "}
-              for local perspective.
+                {t.homesMapMarketsLink}
+              </Link>
+              {t.homesMapNote.split("{markets}")[1]}
             </p>
           </div>
         </div>

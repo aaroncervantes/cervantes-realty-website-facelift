@@ -8,60 +8,10 @@ import {
   formatCurrency,
 } from "@/lib/mortgage";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
-
-const ROWS: {
-  label: string;
-  resale: string;
-  neu: string;
-}[] = [
-  {
-    label: "Purchase price",
-    resale: "Often negotiable against comps and condition",
-    neu: "Usually set by builder phases; incentives may shift effective price",
-  },
-  {
-    label: "HOA",
-    resale: "Varies — many detached homes have none",
-    neu: "Common on tracts/townhomes — bake into monthly early",
-  },
-  {
-    label: "Mello-Roos / CFD",
-    resale: "Less common on older stock; still verify",
-    neu: "Frequent on new communities — can material change payment",
-  },
-  {
-    label: "Property taxes",
-    resale: "Based on assessed value; supplemental after purchase",
-    neu: "New assessment + possible special taxes — model both",
-  },
-  {
-    label: "Maintenance",
-    resale: "Age of roof, HVAC, plumbing drives near-term spend",
-    neu: "Newer systems; landscaping/HOA rules still matter",
-  },
-  {
-    label: "Warranties",
-    resale: "As-is after inspection credits",
-    neu: "Builder warranties often cover structure/systems early years",
-  },
-  {
-    label: "Incentives",
-    resale: "Seller credits / rate buydowns in negotiation",
-    neu: "Builder rate buydowns, closing costs, upgrades — when verified",
-  },
-  {
-    label: "Neighborhood feel",
-    resale: "Established trees, street character, known neighbors",
-    neu: "New streetscape; amenity package depends on community",
-  },
-  {
-    label: "Negotiation",
-    resale: "Price, repairs, timing, contingencies",
-    neu: "Upgrades, lot premiums, closing credits more than list cuts",
-  },
-];
+import { useLang, fill } from "@/lib/i18n";
 
 export function NewVsResaleCompare() {
+  const { t } = useLang();
   const [resalePrice, setResalePrice] = useState(730000);
   const [newPrice, setNewPrice] = useState(589000);
 
@@ -90,19 +40,20 @@ export function NewVsResaleCompare() {
     <section className="py-4">
       <CollaborationMark className="mb-6" />
       <h2 className="font-serif text-3xl md:text-4xl mb-3 text-[#1a1a1a]">
-        New construction vs. resale
+        {t.compareTitle}
       </h2>
       <p className="text-gray-600 max-w-2xl mb-10 leading-relaxed">
-        An editorial comparison — not a quiz. Adjust sample prices to see
-        payment shape using the same mortgage math we use sitewide (
-        {DEFAULT_DOWN_PERCENT}% down · {DEFAULT_RATE}% · {DEFAULT_TERM_YEARS}
-        -yr). HOA and Mello-Roos are separate.
+        {fill(t.compareLead, {
+          down: DEFAULT_DOWN_PERCENT,
+          rate: DEFAULT_RATE,
+          term: DEFAULT_TERM_YEARS,
+        })}
       </p>
 
       <div className="grid md:grid-cols-2 gap-6 mb-10">
         <label className="block border border-gray-200 bg-white p-6">
           <span className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold">
-            Sample resale price
+            {t.sampleResalePrice}
           </span>
           <input
             type="range"
@@ -115,12 +66,13 @@ export function NewVsResaleCompare() {
           />
           <p className="mt-2 font-serif text-2xl">{formatCurrency(resalePrice)}</p>
           <p className="text-sm text-gray-500">
-            Est. P&amp;I {formatCurrency(resalePay)}/mo
+            {t.estPI} {formatCurrency(resalePay)}
+            {t.perMonth}
           </p>
         </label>
         <label className="block border border-gray-200 bg-white p-6">
           <span className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold">
-            Sample new-construction from-price
+            {t.sampleNewPrice}
           </span>
           <input
             type="range"
@@ -133,7 +85,8 @@ export function NewVsResaleCompare() {
           />
           <p className="mt-2 font-serif text-2xl">{formatCurrency(newPrice)}</p>
           <p className="text-sm text-gray-500">
-            Est. P&amp;I {formatCurrency(newPay)}/mo
+            {t.estPI} {formatCurrency(newPay)}
+            {t.perMonth}
           </p>
         </label>
       </div>
@@ -143,18 +96,18 @@ export function NewVsResaleCompare() {
           <thead>
             <tr className="border-b border-gray-200">
               <th className="py-4 pr-4 font-serif text-lg font-medium w-[22%]">
-                Topic
+                {t.compareTopic}
               </th>
               <th className="py-4 px-4 font-serif text-lg font-medium">
-                Resale · Cervantes
+                {t.compareResaleCol}
               </th>
               <th className="py-4 pl-4 font-serif text-lg font-medium">
-                New · SoCal’s New Homes lens
+                {t.compareNewCol}
               </th>
             </tr>
           </thead>
           <tbody>
-            {ROWS.map((row) => (
+            {t.compareRows.map((row) => (
               <tr key={row.label} className="border-b border-gray-100 align-top">
                 <td className="py-5 pr-4 text-[11px] uppercase tracking-wider text-[#c9a84c] font-bold">
                   {row.label}
@@ -172,14 +125,13 @@ export function NewVsResaleCompare() {
       </div>
 
       <p className="mt-8 text-sm text-gray-500 max-w-2xl">
-        Showcase new homes stay browse-only — this tool educates; it doesn’t take
-        inquiries on builder communities.{" "}
+        {t.compareFoot}{" "}
         <Link to="/buy" className="underline hover:text-[#c9a84c]">
-          Continue with the buy guide
+          {t.compareBuyGuide}
         </Link>{" "}
         or{" "}
         <Link to="/new-homes" className="underline hover:text-[#c9a84c]">
-          browse the showcase
+          {t.compareBrowseShowcase}
         </Link>
         .
       </p>

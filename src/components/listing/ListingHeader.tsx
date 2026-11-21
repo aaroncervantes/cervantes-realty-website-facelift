@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import type { Listing } from "@/data/listings";
 import { StatusPill } from "@/components/listing/StatusPill";
+import { useLang } from "@/lib/i18n";
 
 function ShareButton({ listing }: { listing: Listing }) {
+  const { t } = useLang();
   const [copied, setCopied] = useState(false);
 
   const share = async () => {
@@ -45,7 +47,7 @@ function ShareButton({ listing }: { listing: Listing }) {
       ) : (
         <Share2 className="w-4 h-4" />
       )}
-      {copied ? "Copied" : "Share"}
+      {copied ? t.copied : t.share}
     </button>
   );
 }
@@ -56,16 +58,17 @@ export function ListingHeader({
   listing: Listing;
   isClosed?: boolean;
 }) {
+  const { t } = useLang();
   return (
     <section className="bg-[#f7f5f2] border-b border-gray-200">
       <div className="container mx-auto px-6 max-w-7xl py-6">
         <div className="text-xs text-gray-500 flex items-center gap-2">
           <Link to="/" className="hover:text-black">
-            Home
+            {t.breadcrumbHome}
           </Link>
           <ChevronRight className="w-3 h-3" />
           <Link to="/homes" className="hover:text-black">
-            Homes
+            {t.navHomes}
           </Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-black font-medium truncate max-w-[220px]">
@@ -95,11 +98,11 @@ export function ListingHeader({
               <div className="flex items-center gap-5 text-sm font-semibold text-gray-700">
                 <span className="flex items-center gap-1.5">
                   <BedDouble className="w-4 h-4 text-[#c9a84c]" />
-                  {listing.beds} Beds
+                  {listing.beds} {t.beds}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Bath className="w-4 h-4 text-[#c9a84c]" />
-                  {listing.baths} Baths
+                  {listing.baths} {t.baths}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Ruler className="w-4 h-4 text-[#c9a84c]" />

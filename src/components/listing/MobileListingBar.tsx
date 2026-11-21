@@ -10,6 +10,7 @@ import {
   formatCurrency,
   parsePrice,
 } from "@/lib/mortgage";
+import { fill, useLang } from "@/lib/i18n";
 
 export function MobileListingBar({
   listing,
@@ -18,6 +19,7 @@ export function MobileListingBar({
   listing: Listing;
   isClosed: boolean;
 }) {
+  const { t } = useLang();
   const [show, setShow] = useState(false);
   const price = parsePrice(listing.price);
   const est = calcMortgage({
@@ -49,7 +51,7 @@ export function MobileListingBar({
             href="#schedule-tour"
             className="text-[11px] text-[#c9a84c] font-semibold"
           >
-            Est. {formatCurrency(est.monthlyPI)}/mo · Adjust
+            {fill(t.estMoAdjust, { amount: formatCurrency(est.monthlyPI) })}
           </a>
         ) : (
           <p className="text-[11px] text-gray-500 truncate">{listing.address}</p>
@@ -62,7 +64,7 @@ export function MobileListingBar({
           )}
           className="border border-gray-300 px-3 py-3 text-[10px] font-bold uppercase tracking-wider"
         >
-          Text
+          {t.textBtn}
         </a>
         {isClosed ? (
           <a
@@ -71,14 +73,14 @@ export function MobileListingBar({
             rel="noopener noreferrer"
             className="bg-[#c9a84c] text-white px-4 py-3 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
           >
-            Like this
+            {t.likeThis}
           </a>
         ) : (
           <a
             href="#schedule-tour"
             className="bg-[#c9a84c] text-white px-4 py-3 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap"
           >
-            Tour
+            {t.tourBtn}
           </a>
         )}
       </div>

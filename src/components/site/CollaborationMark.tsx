@@ -1,3 +1,5 @@
+import { useLang } from "@/lib/i18n";
+
 export function CollaborationMark({
   className = "",
   compact = false,
@@ -5,6 +7,7 @@ export function CollaborationMark({
   className?: string;
   compact?: boolean;
 }) {
+  const { t } = useLang();
   if (compact) {
     return (
       <p
@@ -18,7 +21,7 @@ export function CollaborationMark({
   return (
     <div className={className}>
       <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9a84c] font-bold mb-1">
-        An exclusive collaboration
+        {t.exclusiveCollab}
       </p>
       <p className="font-serif text-sm md:text-base text-[#1a1a1a]/80 tracking-wide">
         CERVANTES REALTY × SOCAL’S NEW HOMES

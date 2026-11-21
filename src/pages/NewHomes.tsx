@@ -6,9 +6,11 @@ import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { NewHomesQuestionnaireIntegration } from "@/components/site/NewHomesQuestionnaireIntegration";
 import { usePublicShowcaseHomes } from "@/lib/showcaseHomes";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 
 const NewHomes = () => {
   usePageTitle("New construction showcase");
+  const { t } = useLang();
   const [params] = useSearchParams();
   const fromIg = params.get("from") === "ig";
   const { data: homes = [], isLoading } = usePublicShowcaseHomes();
@@ -21,42 +23,34 @@ const NewHomes = () => {
           {fromIg && (
             <div className="mb-10 border border-[#c9a84c]/40 bg-white px-6 py-5 animate-[cr-fadeup_0.6s_ease-out_both]">
               <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-1">
-                From Instagram
+                {t.newHomesFromIg}
               </p>
               <p className="font-serif text-xl text-[#1a1a1a]">
-                Welcome — browse SoCal’s New Homes showcase. Discovery only; no
-                inquire on these communities.
+                {t.newHomesFromIgBody}
               </p>
             </div>
           )}
 
           <CollaborationMark className="mb-6" />
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
-            New construction showcase
+            {t.newHomesTitle}
           </h1>
-          <p className="text-gray-600 max-w-2xl mb-4">
-            Common new-build patterns we post about — kept intentionally vague.
-            These are not Cervantes listings.
-          </p>
+          <p className="text-gray-600 max-w-2xl mb-4">{t.newHomesLead}</p>
           <p className="text-sm text-gray-500 max-w-2xl mb-4 border-l-2 border-[#c9a84c] pl-4">
-            Browse only. No inquire on these products. For community or builder
-            details, go direct. Want help deciding resale vs new?{" "}
+            {t.newHomesBrowseOnly}{" "}
             <Link to="/compare" className="underline hover:text-[#c9a84c]">
-              Compare new vs resale
+              {t.newHomesCompareLink}
             </Link>{" "}
-            or{" "}
+            {t.newHomesOr}{" "}
             <Link to="/buy" className="underline hover:text-[#c9a84c]">
-              start a buy conversation
+              {t.newHomesBuyLink}
             </Link>
             .
           </p>
-          <p className="text-xs text-gray-400 mb-12">
-            ~25% of the dual-brand story lives here — discovery, not inventory
-            ownership.
-          </p>
+          <p className="text-xs text-gray-400 mb-12">{t.newHomesFootnote}</p>
 
           {isLoading ? (
-            <p className="text-sm text-gray-400 mb-16">Loading showcase…</p>
+            <p className="text-sm text-gray-400 mb-16">{t.newHomesLoading}</p>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
               {homes.map((home) => (

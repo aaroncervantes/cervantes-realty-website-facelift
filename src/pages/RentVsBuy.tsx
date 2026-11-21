@@ -10,9 +10,11 @@ import {
   formatCurrency,
 } from "@/lib/mortgage";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang, fill } from "@/lib/i18n";
 
 const RentVsBuy = () => {
   usePageTitle("Rent vs buy");
+  const { t } = useLang();
   const [rent, setRent] = useState(2800);
   const [price, setPrice] = useState(650000);
   const pay = useMemo(
@@ -32,20 +34,16 @@ const RentVsBuy = () => {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6 max-w-3xl">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-            Education
+            {t.rentEyebrow}
           </p>
           <h1 className="font-serif text-4xl md:text-6xl mb-4">
-            Rent vs. buy — calmly
+            {t.rentTitle}
           </h1>
-          <p className="text-gray-600 mb-10 leading-relaxed">
-            A simple monthly comparison using our shared mortgage math. This is
-            not financial advice — taxes, HOA, maintenance, and opportunity cost
-            still matter.
-          </p>
+          <p className="text-gray-600 mb-10 leading-relaxed">{t.rentLead}</p>
           <div className="grid md:grid-cols-2 gap-6 mb-10">
             <label className="bg-white border border-gray-200 p-6">
               <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
-                Monthly rent
+                {t.monthlyRent}
               </span>
               <input
                 type="range"
@@ -60,7 +58,7 @@ const RentVsBuy = () => {
             </label>
             <label className="bg-white border border-gray-200 p-6">
               <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
-                Home price
+                {t.homePrice}
               </span>
               <input
                 type="range"
@@ -73,27 +71,30 @@ const RentVsBuy = () => {
               />
               <p className="mt-2 font-serif text-3xl">{formatCurrency(price)}</p>
               <p className="text-sm text-gray-500 mt-1">
-                Est. P&amp;I {formatCurrency(pay)}/mo · {DEFAULT_DOWN_PERCENT}%
-                down · {DEFAULT_RATE}%
+                {t.estPI} {formatCurrency(pay)}
+                {t.perMonth} · {DEFAULT_DOWN_PERCENT}% down · {DEFAULT_RATE}%
               </p>
             </label>
           </div>
           <div className="border-t border-gray-200 pt-8 mb-10">
             <p className="font-serif text-2xl mb-2">
               {pay > rent
-                ? `Buying P&I runs about ${formatCurrency(pay - rent)}/mo above this rent.`
-                : `This rent runs about ${formatCurrency(rent - pay)}/mo above estimated P&I.`}
+                ? fill(t.rentVsBuyAboveRent, {
+                    amount: formatCurrency(pay - rent),
+                  })
+                : fill(t.rentVsBuyAboveBuy, {
+                    amount: formatCurrency(rent - pay),
+                  })}
             </p>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Add tax, insurance, HOA, and maintenance before you decide. We’ll
-              help you model the full number.
+              {t.rentVsBuyNote}
             </p>
           </div>
           <Link
             to="/buy"
             className="inline-block bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-[#c9a84c]"
           >
-            Continue to buy guide
+            {t.continueBuyGuide}
           </Link>
         </div>
       </section>

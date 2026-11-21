@@ -10,6 +10,7 @@ import {
   formatCurrency,
   parsePrice,
 } from "@/lib/mortgage";
+import { useLang, fill } from "@/lib/i18n";
 
 type Variant = "page" | "sidebar" | "compact";
 
@@ -25,11 +26,13 @@ interface MortgageCalculatorProps {
 export function MortgageCalculator({
   initialPrice = 650000,
   variant = "page",
-  title = "Estimate your payment",
+  title,
   className = "",
   showLinkToFull = false,
   showPreapproval = false,
 }: MortgageCalculatorProps) {
+  const { t } = useLang();
+  const heading = title ?? t.estimatePayment;
   const startPrice = parsePrice(initialPrice) || 650000;
   const [price, setPrice] = useState(startPrice);
   const [downPercent, setDownPercent] = useState(DEFAULT_DOWN_PERCENT);
@@ -62,14 +65,14 @@ export function MortgageCalculator({
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-1">
-            Mortgage estimate
+            {t.mortgageEstimate}
           </p>
           <h3
             className={`font-serif font-medium text-[#1a1a1a] ${
               isCompact ? "text-xl" : "text-2xl md:text-3xl"
             }`}
           >
-            {title}
+            {heading}
           </h3>
         </div>
         <div className="text-right shrink-0">
@@ -77,7 +80,7 @@ export function MortgageCalculator({
             {DEFAULT_RATE.toFixed(2)}%
           </p>
           <p className="text-[10px] text-gray-400">
-            30-yr · Updated {RATE_UPDATED_LABEL}
+            {fill(t.thirtyYrUpdated, { date: RATE_UPDATED_LABEL })}
           </p>
         </div>
       </div>
@@ -85,7 +88,7 @@ export function MortgageCalculator({
       <div className={`grid gap-5 ${isCompact ? "grid-cols-1" : "md:grid-cols-2"}`}>
         <label className="block">
           <span className="text-[11px] uppercase tracking-wider text-gray-400 font-medium">
-            Home price
+            {t.homePrice}
           </span>
           <input
             type="number"
@@ -99,7 +102,7 @@ export function MortgageCalculator({
 
         <label className="block">
           <span className="text-[11px] uppercase tracking-wider text-gray-400 font-medium">
-            Down payment ({downPercent}%)
+            {fill(t.downPayment, { pct: downPercent })}
           </span>
           <input
             type="range"
@@ -117,7 +120,7 @@ export function MortgageCalculator({
 
         <label className="block">
           <span className="text-[11px] uppercase tracking-wider text-gray-400 font-medium">
-            Interest rate (%)
+            {t.interestRate}
           </span>
           <input
             type="number"
@@ -132,7 +135,7 @@ export function MortgageCalculator({
 
         <label className="block">
           <span className="text-[11px] uppercase tracking-wider text-gray-400 font-medium">
-            Loan term
+            {t.loanTerm}
           </span>
           <div className="mt-1.5 flex gap-2">
             {[15, 30].map((y) => (
@@ -146,7 +149,7 @@ export function MortgageCalculator({
                     : "bg-[#f7f5f2] text-[#1a1a1a] border-gray-200 hover:border-[#c9a84c]"
                 }`}
               >
-                {y} yr
+                {y} {t.yrSuffix}
               </button>
             ))}
           </div>
@@ -160,32 +163,32 @@ export function MortgageCalculator({
           onChange={(e) => setIncludeTaxIns(e.target.checked)}
           className="accent-[#c9a84c] w-4 h-4"
         />
-        <span className="text-sm text-gray-600">
-          Add estimated taxes (~1.1%) &amp; insurance (~0.35%)
-        </span>
+        <span className="text-sm text-gray-600">{t.addTaxIns}</span>
       </label>
 
       <div className="mt-8 border-t border-gray-100 pt-6">
         <p className="text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-1">
-          {includeTaxIns ? "Estimated monthly total" : "Estimated monthly P&I"}
+          {includeTaxIns ? t.estMonthlyTotal : t.estMonthlyPI}
         </p>
         <p className="font-serif text-4xl md:text-5xl text-[#1a1a1a] font-medium">
           {formatCurrency(includeTaxIns ? result.monthlyTotal : result.monthlyPI)}
           <span className="text-base text-gray-400 font-sans font-normal ml-1">
-            /mo
+            {t.perMonth}
           </span>
         </p>
         {includeTaxIns && (
           <p className="text-xs text-gray-500 mt-2">
-            P&amp;I {formatCurrency(result.monthlyPI)} · Tax{" "}
-            {formatCurrency(result.monthlyTax)} · Ins{" "}
-            {formatCurrency(result.monthlyIns)}
+            {fill(t.piTaxIns, {
+              pi: formatCurrency(result.monthlyPI),
+              tax: formatCurrency(result.monthlyTax),
+              ins: formatCurrency(result.monthlyIns),
+            })}
           </p>
         )}
         <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">
           <div>
             <dt className="text-[11px] uppercase tracking-wider text-gray-400">
-              Loan amount
+              {t.loanAmount}
             </dt>
             <dd className="font-semibold mt-0.5">
               {formatCurrency(result.loanAmount)}
@@ -193,7 +196,7 @@ export function MortgageCalculator({
           </div>
           <div>
             <dt className="text-[11px] uppercase tracking-wider text-gray-400">
-              Total interest
+              {t.totalInterest}
             </dt>
             <dd className="font-semibold mt-0.5">
               {formatCurrency(result.totalInterest)}
@@ -201,7 +204,7 @@ export function MortgageCalculator({
           </div>
         </dl>
         <p className="mt-4 text-[11px] text-gray-400 leading-relaxed">
-          Estimate only — not a lender quote. HOA and Mello-Roos not included.
+          {t.mortgageDisclaimer}
         </p>
         <div className="mt-4 flex flex-wrap gap-4">
           {showLinkToFull && (
@@ -209,7 +212,7 @@ export function MortgageCalculator({
               to="/calculator"
               className="text-xs font-bold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
             >
-              Open full calculator →
+              {t.openFullCalc}
             </Link>
           )}
           {showPreapproval && (
@@ -219,7 +222,7 @@ export function MortgageCalculator({
               rel="noopener noreferrer"
               className="text-xs font-bold uppercase tracking-wider text-[#c9a84c] hover:opacity-80"
             >
-              Ready? Get pre-approval help →
+              {t.getPreapproval}
             </a>
           )}
         </div>

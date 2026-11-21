@@ -7,6 +7,7 @@ import { NewHomeGallery } from "@/components/site/NewHomeGallery";
 import { useShowcaseDetail } from "@/lib/showcaseHomes";
 import { formatCurrency } from "@/lib/mortgage";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 
 function Snap({ label, value }: { label: string; value: string }) {
   return (
@@ -21,13 +22,14 @@ function Snap({ label, value }: { label: string; value: string }) {
 
 const NewHomeDetail = () => {
   const { slug } = useParams();
+  const { t } = useLang();
   const { data: home, isLoading } = useShowcaseDetail(slug);
   usePageTitle(home ? home.title : "Showcase");
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-500 text-sm">
-        Loading showcase…
+        {t.showcaseLoading}
       </div>
     );
   }
@@ -35,9 +37,9 @@ const NewHomeDetail = () => {
   if (!home) {
     return (
       <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-500 text-sm">
-        Showcase item not found.{" "}
+        {t.showcaseNotFound}{" "}
         <Link to="/new-homes" className="underline ml-2">
-          Back to showcase
+          {t.showcaseBack}
         </Link>
       </div>
     );
@@ -45,7 +47,7 @@ const NewHomeDetail = () => {
 
   const priceRange = home.priceHigh
     ? `${formatCurrency(home.fromPrice)} – ${formatCurrency(home.priceHigh)}`
-    : `From ${formatCurrency(home.fromPrice)}`;
+    : `${t.fromPrice} ${formatCurrency(home.fromPrice)}`;
 
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
@@ -57,7 +59,7 @@ const NewHomeDetail = () => {
             to="/new-homes"
             className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#c9a84c]"
           >
-            ← Showcase
+            {t.showcaseBackShort}
           </Link>
           <div className="grid lg:grid-cols-3 gap-10 mt-8 items-start">
             <div className="lg:col-span-2 space-y-10">
@@ -82,43 +84,41 @@ const NewHomeDetail = () => {
                 </h1>
                 <p className="text-2xl font-bold mb-2">{priceRange}</p>
                 <p className="text-sm text-gray-600 mb-8">
-                  {home.beds} beds · {home.baths} baths · {home.sqft} sqft
+                  {home.beds} {t.bedsLabel} · {home.baths} {t.bathsLabel} ·{" "}
+                  {home.sqft} sqft
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mb-10">
                   {home.blurb}
                 </p>
 
-                <h2 className="font-serif text-2xl mb-5">Community snapshot</h2>
+                <h2 className="font-serif text-2xl mb-5">
+                  {t.communitySnapshot}
+                </h2>
                 <dl className="grid grid-cols-2 gap-x-8 gap-y-6 mb-4 max-w-2xl">
-                  <Snap label="General area" value={home.area} />
-                  <Snap label="Price range" value={priceRange} />
-                  <Snap label="Beds" value={home.beds} />
-                  <Snap label="Baths" value={home.baths} />
-                  <Snap label="Square footage" value={home.sqft} />
-                  <Snap label="Style" value={home.style} />
-                  <Snap label="HOA" value={home.hoa} />
+                  <Snap label={t.labelGeneralArea} value={home.area} />
+                  <Snap label={t.labelPriceRange} value={priceRange} />
+                  <Snap label={t.labelBeds} value={home.beds} />
+                  <Snap label={t.labelBaths} value={home.baths} />
+                  <Snap label={t.labelSqft} value={home.sqft} />
+                  <Snap label={t.labelStyle} value={home.style} />
+                  <Snap label={t.labelHoa} value={home.hoa} />
                   <Snap
-                    label="Special assessments"
+                    label={t.labelAssessments}
                     value={home.specialAssessments}
                   />
-                  <Snap label="Builder incentives" value={home.incentives} />
-                  <Snap label="Info verified" value={home.verifiedDate} />
+                  <Snap label={t.labelIncentives} value={home.incentives} />
+                  <Snap label={t.labelVerified} value={home.verifiedDate} />
                 </dl>
                 <p className="text-xs text-gray-400 mb-12">
-                  Exact community addresses are not shown. Browse-only — not a
-                  Cervantes listing.
+                  {t.showcaseAddressNote}
                 </p>
 
-                <h2 className="font-serif text-2xl mb-3">
-                  Why buyers consider this community
-                </h2>
+                <h2 className="font-serif text-2xl mb-3">{t.whyBuyersTitle}</h2>
                 <p className="text-gray-700 leading-relaxed max-w-2xl mb-10">
                   {home.whyBuyers}
                 </p>
 
-                <h2 className="font-serif text-2xl mb-4">
-                  Why buyers compare this to resale
-                </h2>
+                <h2 className="font-serif text-2xl mb-4">{t.whyCompareTitle}</h2>
                 <ul className="space-y-4 mb-10">
                   {home.compareToResale.map((line) => (
                     <li
@@ -132,26 +132,23 @@ const NewHomeDetail = () => {
 
                 <div className="p-6 bg-[#1a1a1a] text-white">
                   <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-                    Not a Cervantes listing
+                    {t.notCervantesListing}
                   </p>
                   <p className="text-sm text-white/80 leading-relaxed">
-                    Featured for market awareness via SoCal’s New Homes. No
-                    inquire on this product. Contact the builder or visit the
-                    community for availability. Want strategy help comparing new
-                    vs resale? Talk to us generally.
+                    {t.notCervantesBody}
                   </p>
                   <div className="mt-6 flex flex-wrap gap-4">
                     <Link
                       to="/compare"
                       className="bg-white text-black px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-gray-100"
                     >
-                      New vs resale
+                      {t.newVsResale}
                     </Link>
                     <Link
                       to="/buy"
                       className="border border-white/40 px-6 py-3 text-xs font-bold uppercase tracking-wider hover:bg-white/10"
                     >
-                      Buy guide
+                      {t.buyGuide}
                     </Link>
                   </div>
                 </div>
@@ -161,7 +158,7 @@ const NewHomeDetail = () => {
               <MortgageCalculator
                 initialPrice={home.fromPrice}
                 variant="sidebar"
-                title="Est. payment from"
+                title={t.estPaymentFrom}
                 showLinkToFull
               />
             </div>

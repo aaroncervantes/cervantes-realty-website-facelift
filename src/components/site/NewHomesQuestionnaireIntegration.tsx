@@ -4,6 +4,7 @@ import {
   type SnhSource,
 } from "@/lib/site";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
+import { useLang } from "@/lib/i18n";
 
 /**
  * Opens Aaron’s live SoCal’s New Homes questionnaire (Railway).
@@ -16,6 +17,7 @@ export function NewHomesQuestionnaireIntegration({
   className?: string;
   source?: SnhSource;
 }) {
+  const { t } = useLang();
   const href = snhQuestionnaire(source);
 
   return (
@@ -28,11 +30,10 @@ export function NewHomesQuestionnaireIntegration({
         SoCal’s New Homes
       </p>
       <h2 className="font-serif text-2xl md:text-3xl text-[#1a1a1a] mb-3">
-        Tell us what you’re looking for
+        {t.questionnaireTitle}
       </h2>
       <p className="text-sm text-gray-600 leading-relaxed max-w-xl mb-6">
-        Open the live questionnaire — communities, timing, and incentives —
-        then come back here for resale context when you want both paths clear.
+        {t.questionnaireBody}
       </p>
       <a
         href={href}
@@ -40,12 +41,10 @@ export function NewHomesQuestionnaireIntegration({
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider hover:bg-[#c9a84c] transition-colors"
       >
-        Start the questionnaire
+        {t.questionnaireCta}
         <ExternalLink className="w-3.5 h-3.5" aria-hidden />
       </a>
-      <p className="mt-4 text-[11px] text-gray-400">
-        Opens in a new tab · Hard-refresh if the funnel looks outdated
-      </p>
+      <p className="mt-4 text-[11px] text-gray-400">{t.questionnaireFoot}</p>
     </aside>
   );
 }

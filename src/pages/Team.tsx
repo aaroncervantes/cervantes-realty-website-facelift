@@ -2,8 +2,10 @@ import { team } from "@/data/team";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { Values } from "@/components/site/Values";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { useLang } from "@/lib/i18n";
 
 const Team = () => {
+  const { t } = useLang();
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white">
       <SiteHeader />
@@ -12,11 +14,10 @@ const Team = () => {
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
             <h1 className="font-serif text-5xl md:text-6xl mb-6 font-medium">
-              Our Team
+              {t.teamTitle}
             </h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto font-serif italic">
-              Dedicated professionals committed to finding your perfect home in
-              the world.
+              {t.teamLead}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-12 mb-24">
@@ -44,14 +45,13 @@ const Team = () => {
 
           <div className="max-w-2xl mx-auto text-center border-t border-gray-200 pt-16">
             <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3">
-              Trusted partners
+              {t.trustedPartners}
             </p>
             <p className="font-serif text-xl md:text-2xl text-[#1a1a1a] mb-4">
-              Lender · Inspector · Escrow · Title · Transaction coordination
+              {t.partnersList}
             </p>
             <p className="text-sm text-gray-500 leading-relaxed">
-              We introduce vetted professionals as needed — no logo wall, no
-              paid placements. Ask us who fits your deal.
+              {t.partnersNote}
             </p>
           </div>
         </div>

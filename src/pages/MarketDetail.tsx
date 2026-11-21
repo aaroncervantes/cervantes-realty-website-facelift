@@ -5,8 +5,10 @@ import { MortgageCalculator } from "@/components/site/MortgageCalculator";
 import { getMarket } from "@/data/markets";
 import { buyTypeform } from "@/lib/typeform";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang, fill } from "@/lib/i18n";
 
 const MarketDetail = () => {
+  const { t } = useLang();
   const { slug } = useParams();
   const market = slug ? getMarket(slug) : undefined;
   usePageTitle(market ? market.name : "Market");
@@ -14,9 +16,9 @@ const MarketDetail = () => {
   if (!market) {
     return (
       <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-sm text-gray-500">
-        Market not found.{" "}
+        {t.marketNotFound}{" "}
         <Link to="/markets" className="underline ml-2">
-          All markets
+          {t.marketsAll}
         </Link>
       </div>
     );
@@ -31,7 +33,7 @@ const MarketDetail = () => {
             to="/markets"
             className="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#c9a84c]"
           >
-            ← Markets
+            {t.marketsBack}
           </Link>
           <div className="grid lg:grid-cols-3 gap-10 mt-8 items-start">
             <div className="lg:col-span-2 space-y-10">
@@ -64,9 +66,11 @@ const MarketDetail = () => {
                   ))}
                 </ul>
 
-                <h2 className="font-serif text-3xl mb-3">The Local Perspective</h2>
+                <h2 className="font-serif text-3xl mb-3">
+                  {t.localPerspective}
+                </h2>
                 <p className="text-xs text-gray-400 mb-6">
-                  Content reviewed {market.reviewedDate}
+                  {t.contentReviewed} {market.reviewedDate}
                 </p>
                 <div className="space-y-6 mb-10">
                   {market.localPerspective.map((p) => (
@@ -86,13 +90,13 @@ const MarketDetail = () => {
                     rel="noopener noreferrer"
                     className="bg-[#1a1a1a] text-white px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-[#c9a84c]"
                   >
-                    Talk {market.name} with us
+                    {fill(t.talkMarketWithUs, { name: market.name })}
                   </a>
                   <Link
                     to="/compare"
                     className="border border-[#1a1a1a] px-8 py-4 text-xs font-bold uppercase tracking-wider hover:border-[#c9a84c]"
                   >
-                    New vs resale
+                    {t.newVsResale}
                   </Link>
                 </div>
               </div>
@@ -101,7 +105,7 @@ const MarketDetail = () => {
               <MortgageCalculator
                 initialPrice={market.samplePrice}
                 variant="sidebar"
-                title={`Sample ${market.name} payment`}
+                title={fill(t.samplePayment, { name: market.name })}
                 showLinkToFull
                 showPreapproval
               />

@@ -14,25 +14,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const FAQS = [
-  {
-    q: "What if I price too high?",
-    a: "Overpricing is the #1 reason homes go stale. We price to the block and the current buyer pool — not hope.",
-  },
-  {
-    q: "How long will it take?",
-    a: "Depends on pocket and condition. We give a real day-range from live comps, not a generic promise.",
-  },
-  {
-    q: "Is staging worth it?",
-    a: "Often yes on vacant or dated homes. We tell you when a $2k stage beats a $20k price cut.",
-  },
-  {
-    q: "Do I have to be at every showing?",
-    a: "No — that’s Concierge. Kick your feet up; we run the process and keep you updated.",
-  },
-];
-
 const Sell = () => {
   usePageTitle("Sell with Concierge");
   const { t } = useLang();
@@ -62,9 +43,9 @@ const Sell = () => {
             <SellerNet />
           </div>
 
-          <h2 className="font-serif text-3xl mb-6">Seller FAQ</h2>
+          <h2 className="font-serif text-3xl mb-6">{t.sellerFaq}</h2>
           <Accordion type="single" collapsible className="mb-16 border-t border-gray-200">
-            {FAQS.map((f, i) => (
+            {t.sellFaqs.map((f, i) => (
               <AccordionItem key={f.q} value={`q-${i}`}>
                 <AccordionTrigger className="text-left font-serif text-lg">
                   {f.q}
@@ -83,13 +64,13 @@ const Sell = () => {
               rel="noopener noreferrer"
               className="bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:bg-[#c9a84c] transition-colors"
             >
-              Get a Concierge valuation
+              {t.getConciergeValuation}
             </a>
             <Link
               to="/contact"
               className="border border-[#1a1a1a] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:border-[#c9a84c] transition-colors"
             >
-              Contact the team
+              {t.contactTeam}
             </Link>
           </div>
         </div>

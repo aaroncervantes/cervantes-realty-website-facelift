@@ -5,8 +5,10 @@ import {
   REPLY_HOURS,
   SNH_INSTAGRAM,
 } from "@/lib/site";
+import { useLang } from "@/lib/i18n";
 
 export function SiteFooter() {
+  const { t } = useLang();
   return (
     <footer
       id="contact"
@@ -15,19 +17,17 @@ export function SiteFooter() {
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="max-w-3xl mx-auto md:mx-0 mb-16 text-center md:text-left">
           <p className="font-serif italic text-lg text-[#1a1a1a] leading-relaxed">
-            Cervantes Realty collaborates with SoCal’s New Homes to help buyers
-            understand both enclosed resale opportunities and the
-            new-construction landscape — with clear next steps either way.
+            {t.footerCollab}
           </p>
           <p className="mt-4 text-sm text-gray-500">
-            We reply within {REPLY_HOURS} hours · {LICENSE_LINE}
+            {t.reply} {REPLY_HOURS} {t.hours} · {LICENSE_LINE}
           </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-24 text-center md:text-left">
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Follow Us
+              {t.footerFollow}
             </h4>
             <div className="flex gap-6">
               <a
@@ -62,18 +62,18 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="mt-4 text-[10px] uppercase tracking-wider text-gray-500 hover:text-[#c9a84c]"
               >
-                SoCal’s New Homes on Instagram →
+                {t.footerSnhIg}
               </a>
             ) : (
               <p className="mt-4 text-[10px] uppercase tracking-wider text-gray-400">
-                + SoCal’s New Homes on social
+                {t.footerSnhSocial}
               </p>
             )}
           </div>
 
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Explore
+              {t.footerExplore}
             </h4>
             <ul className="space-y-4 text-xs font-medium">
               <li>
@@ -81,7 +81,7 @@ export function SiteFooter() {
                   to="/homes"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Homes
+                  {t.navHomes}
                 </Link>
               </li>
               <li>
@@ -89,7 +89,7 @@ export function SiteFooter() {
                   to="/new-homes"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  New Homes Showcase
+                  {t.footerNewHomes}
                 </Link>
               </li>
               <li>
@@ -97,7 +97,7 @@ export function SiteFooter() {
                   to="/markets"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Markets
+                  {t.footerMarkets}
                 </Link>
               </li>
               <li>
@@ -105,7 +105,7 @@ export function SiteFooter() {
                   to="/compare"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  New vs Resale
+                  {t.footerCompare}
                 </Link>
               </li>
               <li>
@@ -113,7 +113,7 @@ export function SiteFooter() {
                   to="/rent-vs-buy"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Rent vs Buy
+                  {t.footerRentVsBuy}
                 </Link>
               </li>
               <li>
@@ -121,7 +121,7 @@ export function SiteFooter() {
                   to="/calculator"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Mortgage Calculator
+                  {t.footerCalculator}
                 </Link>
               </li>
               <li>
@@ -129,7 +129,7 @@ export function SiteFooter() {
                   to="/join"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Join Our Team
+                  {t.footerJoin}
                 </Link>
               </li>
               <li>
@@ -137,7 +137,7 @@ export function SiteFooter() {
                   to="/stories/rhea-st"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Case Study
+                  {t.footerCaseStudy}
                 </Link>
               </li>
               <li>
@@ -145,7 +145,7 @@ export function SiteFooter() {
                   to="/buy"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Buy Guide
+                  {t.buyGuide}
                 </Link>
               </li>
               <li>
@@ -153,7 +153,7 @@ export function SiteFooter() {
                   to="/sell"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Sell / Concierge
+                  {t.footerSellConcierge}
                 </Link>
               </li>
             </ul>
@@ -161,7 +161,7 @@ export function SiteFooter() {
 
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Company
+              {t.footerCompany}
             </h4>
             <ul className="space-y-4 text-xs font-medium">
               <li>
@@ -169,7 +169,7 @@ export function SiteFooter() {
                   to="/about"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  About Us
+                  {t.footerAbout}
                 </Link>
               </li>
               <li>
@@ -177,7 +177,7 @@ export function SiteFooter() {
                   to="/team"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Our Team
+                  {t.footerTeam}
                 </Link>
               </li>
               <li>
@@ -185,7 +185,7 @@ export function SiteFooter() {
                   to="/join"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Join Our Team
+                  {t.footerJoin}
                 </Link>
               </li>
               <li>
@@ -193,7 +193,7 @@ export function SiteFooter() {
                   to="/contact"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Contact
+                  {t.navContact}
                 </Link>
               </li>
               <li>
@@ -209,7 +209,7 @@ export function SiteFooter() {
 
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Legal
+              {t.footerLegal}
             </h4>
             <ul className="space-y-4 text-xs font-medium">
               <li>
@@ -217,7 +217,7 @@ export function SiteFooter() {
                   to="/privacy"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Privacy Policy
+                  {t.footerPrivacy}
                 </Link>
               </li>
               <li>
@@ -225,7 +225,7 @@ export function SiteFooter() {
                   to="/terms"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Terms of Use
+                  {t.footerTerms}
                 </Link>
               </li>
               <li>
@@ -233,7 +233,7 @@ export function SiteFooter() {
                   to="/support"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Support
+                  {t.footerSupport}
                 </Link>
               </li>
             </ul>
@@ -241,12 +241,9 @@ export function SiteFooter() {
         </div>
 
         <div className="text-center text-xs text-gray-500 space-y-2">
-          <p>
-            Markets we know: Long Beach · Los Angeles County · Inland Empire ·
-            High Desert
-          </p>
+          <p>{t.footerMarketsKnown}</p>
           <p className="pt-4 text-black font-serif italic">
-            Copyright 2026 All Rights Reserved.
+            {t.footerCopyright}
           </p>
         </div>
       </div>
