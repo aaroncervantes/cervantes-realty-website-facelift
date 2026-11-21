@@ -268,6 +268,20 @@ type Strings = {
   openFullCalc: string;
   getPreapproval: string;
   piTaxIns: string;
+  loanDetails: string;
+  downPaymentLabel: string;
+  siteRateLabel: string;
+  enterOwnRate: string;
+  editTaxInsHoa: string;
+  hoaMonthlyLabel: string;
+  monthlyPaymentLabel: string;
+  atRateTerm: string;
+  principalInterest: string;
+  propertyTaxes: string;
+  homeInsurance: string;
+  payoffDate: string;
+  getMyRateCta: string;
+  noCreditImpact: string;
 
   // Buy steps / FAQs / CTAs
   buySteps: Step[];
@@ -660,10 +674,24 @@ const STRINGS: Record<Lang, Strings> = {
     loanAmount: "Loan amount",
     totalInterest: "Total interest",
     mortgageDisclaimer:
-      "Estimate only — not a lender quote. HOA and Mello-Roos not included.",
+      "Estimate only — not a lender quote. Special assessments and Mello-Roos may apply.",
     openFullCalc: "Open full calculator →",
     getPreapproval: "Ready? Get pre-approval help →",
     piTaxIns: "P&I {pi} · Tax {tax} · Ins {ins}",
+    loanDetails: "Loan details",
+    downPaymentLabel: "Down payment",
+    siteRateLabel: "Site estimate",
+    enterOwnRate: "Enter own",
+    editTaxInsHoa: "Edit taxes, insurance & HOA",
+    hoaMonthlyLabel: "HOA (monthly)",
+    monthlyPaymentLabel: "Monthly payment",
+    atRateTerm: "at {rate}% · {term}-year fixed",
+    principalInterest: "Principal & interest",
+    propertyTaxes: "Property taxes",
+    homeInsurance: "Homeowners insurance",
+    payoffDate: "Payoff date",
+    getMyRateCta: "Get pre-approval help",
+    noCreditImpact: "Strategy call — no credit pull from us",
 
     buySteps: [
       {
@@ -1118,10 +1146,24 @@ const STRINGS: Record<Lang, Strings> = {
     loanAmount: "Monto del préstamo",
     totalInterest: "Interés total",
     mortgageDisclaimer:
-      "Solo estimado — no es cotización de prestamista. HOA y Mello-Roos no incluidos.",
+      "Solo estimado — no es cotización de prestamista. Pueden aplicar evaluaciones especiales y Mello-Roos.",
     openFullCalc: "Abrir calculadora completa →",
     getPreapproval: "¿Listo? Ayuda de preaprobación →",
     piTaxIns: "P&I {pi} · Imp. {tax} · Seg. {ins}",
+    loanDetails: "Detalles del préstamo",
+    downPaymentLabel: "Enganche",
+    siteRateLabel: "Estimado del sitio",
+    enterOwnRate: "Ingresar propia",
+    editTaxInsHoa: "Editar impuestos, seguro y HOA",
+    hoaMonthlyLabel: "HOA (mensual)",
+    monthlyPaymentLabel: "Pago mensual",
+    atRateTerm: "a {rate}% · fija a {term} años",
+    principalInterest: "Capital e interés",
+    propertyTaxes: "Impuestos prediales",
+    homeInsurance: "Seguro de vivienda",
+    payoffDate: "Fecha de liquidación",
+    getMyRateCta: "Ayuda de preaprobación",
+    noCreditImpact: "Llamada de estrategia — sin revisar tu crédito",
 
     buySteps: [
       {
