@@ -65,7 +65,9 @@ const NewHomes = () => {
             </div>
           )}
 
-          <NewHomesQuestionnaireIntegration />
+          <NewHomesQuestionnaireIntegration
+            source={fromIg ? "ig" : "new-homes"}
+          />
         </div>
       </section>
       <SiteFooter />

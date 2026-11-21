@@ -13,7 +13,7 @@ const Compare = () => {
         <div className="container mx-auto px-6 max-w-5xl">
           <NewVsResaleCompare />
           <div className="mt-16">
-            <NewHomesQuestionnaireIntegration />
+            <NewHomesQuestionnaireIntegration source="compare" />
           </div>
         </div>
       </section>

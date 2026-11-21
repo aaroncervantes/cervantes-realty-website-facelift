@@ -1,27 +1,50 @@
+import { ExternalLink } from "lucide-react";
+import {
+  snhQuestionnaire,
+  type SnhSource,
+} from "@/lib/site";
+import { CollaborationMark } from "@/components/site/CollaborationMark";
+
 /**
- * Noninteractive placeholder for Aaron’s existing SoCal’s New Homes questionnaire.
- * Wire the real Typeform/custom form URL later — do not build a replacement form here.
+ * Opens Aaron’s live SoCal’s New Homes questionnaire (Railway).
+ * Showcase communities stay browse-only — this is the intentional next step.
  */
 export function NewHomesQuestionnaireIntegration({
   className = "",
+  source = "new-homes",
 }: {
   className?: string;
+  source?: SnhSource;
 }) {
+  const href = snhQuestionnaire(source);
+
   return (
     <aside
-      className={`border border-dashed border-gray-300 bg-[#f7f5f2] px-6 py-8 ${className}`}
+      className={`border border-[#c9a84c]/40 bg-white px-6 py-8 md:px-8 md:py-10 ${className}`}
       data-integration="new-homes-questionnaire"
-      aria-hidden="true"
     >
-      <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
-        Integration slot
+      <CollaborationMark compact className="mb-4" />
+      <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
+        SoCal’s New Homes
       </p>
-      <p className="font-serif text-lg text-gray-500 mb-2">
-        SoCal’s New Homes questionnaire
+      <h2 className="font-serif text-2xl md:text-3xl text-[#1a1a1a] mb-3">
+        Tell us what you’re looking for
+      </h2>
+      <p className="text-sm text-gray-600 leading-relaxed max-w-xl mb-6">
+        Open the live questionnaire — communities, timing, and incentives —
+        then come back here for resale context when you want both paths clear.
       </p>
-      <p className="text-sm text-gray-400 leading-relaxed max-w-xl">
-        Reserved for Aaron’s existing custom questionnaire. Not interactive.
-        Showcase pages stay browse-only until this is connected.
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider hover:bg-[#c9a84c] transition-colors"
+      >
+        Start the questionnaire
+        <ExternalLink className="w-3.5 h-3.5" aria-hidden />
+      </a>
+      <p className="mt-4 text-[11px] text-gray-400">
+        Opens in a new tab · Hard-refresh if the funnel looks outdated
       </p>
     </aside>
   );
