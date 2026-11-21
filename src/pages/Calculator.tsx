@@ -16,7 +16,7 @@ const Calculator = () => {
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,168,76,0.08),_transparent_55%)]"
         />
-        <div className="container relative mx-auto px-6 max-w-3xl">
+        <div className="container relative mx-auto px-6 max-w-5xl">
           <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9a84c] font-bold mb-3 animate-[cr-fadeup_0.6s_ease-out_both]">
             {t.calcEyebrow}
           </p>
@@ -27,11 +27,7 @@ const Calculator = () => {
             {t.calcLead}
           </p>
           <div className="animate-[cr-fadeup_1.1s_ease-out_both]">
-            <MortgageCalculator
-              variant="page"
-              title={t.calcYourEstimate}
-              showPreapproval
-            />
+            <MortgageCalculator variant="page" showPreapproval />
           </div>
           <div className="mt-12 flex flex-col sm:flex-row gap-3">
             <Link
