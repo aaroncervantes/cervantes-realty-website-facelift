@@ -7,15 +7,28 @@ import { ListingHeader } from "@/components/listing/ListingHeader";
 import { ListingNav } from "@/components/listing/ListingNav";
 import { ListingBody } from "@/components/listing/ListingDetails";
 import { MobileListingBar } from "@/components/listing/MobileListingBar";
+import { usePageTitle } from "@/hooks/use-page-title";
+import { useLang } from "@/lib/i18n";
 
 const ListingDetail = () => {
   const { id } = useParams();
+  const { t } = useLang();
   const { data, isLoading } = useListingDetail(id);
+
+  usePageTitle(
+    data
+      ? {
+          title: data.address,
+          description: `${data.price} · ${data.beds} bed · ${data.baths} bath · ${data.cityStateZip}`,
+          image: data.image || data.gallery?.[0],
+        }
+      : { title: undefined },
+  );
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-400 text-sm">
-        Loading property…
+        {t.listingLoading}
       </div>
     );
   }
@@ -23,7 +36,7 @@ const ListingDetail = () => {
   if (!data) {
     return (
       <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-500 text-sm">
-        Property not found or no longer available.
+        {t.listingNotFound}
       </div>
     );
   }
@@ -37,7 +50,7 @@ const ListingDetail = () => {
       {data.videoUrl && (
         <div className="container mx-auto px-6 max-w-7xl py-8">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3">
-            Walkthrough
+            {t.listingWalkthrough}
           </p>
           <div className="aspect-video overflow-hidden border border-gray-200 bg-black">
             <iframe

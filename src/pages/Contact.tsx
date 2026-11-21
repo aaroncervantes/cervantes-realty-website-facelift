@@ -8,6 +8,7 @@ import {
   AGENT_EMAIL,
   AGENT_PHONE_DISPLAY,
   CALENDLY_URL,
+  HERO_IMAGE,
   smsLink,
 } from "@/lib/site";
 import { usePageTitle } from "@/hooks/use-page-title";
@@ -24,8 +25,8 @@ const Contact = () => {
         <section className="relative py-32 md:py-48 overflow-hidden bg-[#1e1e1e] text-white">
           <div className="absolute inset-0 z-0">
             <img
-              src="https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png"
-              alt="Contact Background"
+              src={HERO_IMAGE}
+              alt=""
               className="w-full h-full object-cover opacity-20"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-[#1e1e1e]" />

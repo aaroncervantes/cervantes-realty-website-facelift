@@ -14,16 +14,41 @@ import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { usePublicShowcaseHomes } from "@/lib/showcaseHomes";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useLang } from "@/lib/i18n";
+import {
+  ENCLOSED_DOOR_IMAGE,
+  HERO_IMAGE,
+  SITE_OG_IMAGE,
+  SNH_DOOR_IMAGE,
+} from "@/lib/site";
 
 const Index = () => {
   const { t } = useLang();
-  usePageTitle(t.heroTitle);
+  usePageTitle({ title: t.heroTitle, image: SITE_OG_IMAGE });
   const { data, isLoading } = usePublicListings();
   const { data: showcaseHomes = [] } = usePublicShowcaseHomes();
   const listings = data || [];
   const enclosed = enclosedInventory(listings).slice(0, 8);
   const actives = enclosed.filter((l) => listingStatusKind(l) !== "closed");
   const showcase = showcaseHomes.slice(0, 3);
+
+  const tools = [
+    {
+      to: "/calculator",
+      title: t.homeToolCalcTitle,
+      copy: t.homeToolCalcCopy,
+    },
+    {
+      to: "/compare",
+      title: t.homeToolCompareTitle,
+      copy: t.homeToolCompareCopy,
+    },
+    {
+      to: "/sell",
+      title: t.homeToolSellTitle,
+      copy: t.homeToolSellCopy,
+    },
+  ] as const;
+
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white">
       <SiteHeader />
@@ -31,9 +56,10 @@ const Index = () => {
       <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src="https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png"
-            alt="Luxurious modern living room"
+            src={HERO_IMAGE}
+            alt=""
             className="w-full h-full object-cover scale-105 animate-[cr-kenburns_28s_ease-in-out_infinite_alternate]"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-black/30 mix-blend-multiply" />
         </div>
@@ -75,8 +101,9 @@ const Index = () => {
               className="group relative min-h-[280px] overflow-hidden bg-[#1e1e1e] text-white"
             >
               <img
-                src="https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp"
-                alt="Active enclosed homes"
+                src={ENCLOSED_DOOR_IMAGE}
+                alt=""
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
               />
               <div className="relative z-10 p-10 md:p-14 flex flex-col justify-end h-full min-h-[280px]">
@@ -96,8 +123,9 @@ const Index = () => {
               className="group relative min-h-[280px] overflow-hidden bg-[#1e1e1e] text-white"
             >
               <img
-                src="https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png"
-                alt="New construction showcase"
+                src={SNH_DOOR_IMAGE}
+                alt=""
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
               />
               <div className="relative z-10 p-10 md:p-14 flex flex-col justify-end h-full min-h-[280px]">
@@ -121,38 +149,41 @@ const Index = () => {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
             <div>
               <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
-                Enclosed inventory
+                {t.homesEyebrow}
               </p>
               <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a]">
-                Active & recently closed
+                {t.homesTitle}
               </h2>
             </div>
             <Link
               to="/homes"
               className="text-xs font-bold uppercase tracking-wider hover:text-[#c9a84c] transition-colors"
             >
-              View all homes →
+              {t.homeViewAll}
             </Link>
           </div>
           {isLoading && (
             <p className="text-gray-400 text-sm py-8 text-center">
-              Loading listings…
+              {t.homesLoading}
             </p>
           )}
           {!isLoading && actives.length === 0 && (
             <div className="mb-8 border border-gray-200 p-8 bg-[#f7f5f2]">
-              <p className="font-serif text-xl mb-2">No active homes right now</p>
+              <p className="font-serif text-xl mb-2">{t.homesEmptyActiveTitle}</p>
               <p className="text-sm text-gray-600 mb-4">
-                We’ll find the next one — or study recent closings below.
+                {t.homesEmptyActiveBody}
               </p>
-              <Link to="/buy" className="text-xs font-bold uppercase tracking-wider underline">
-                Start a buy conversation
+              <Link
+                to="/buy"
+                className="text-xs font-bold uppercase tracking-wider underline"
+              >
+                {t.homesStartBuy}
               </Link>
             </div>
           )}
           {!isLoading && enclosed.length === 0 && (
             <p className="text-gray-400 text-sm py-8 text-center">
-              No listings right now.
+              {t.homesEmptyClosed}
             </p>
           )}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -169,19 +200,18 @@ const Index = () => {
             <div>
               <CollaborationMark className="mb-4" />
               <h2 className="text-3xl md:text-4xl font-serif text-[#1a1a1a]">
-                Popular new builds we’re seeing
+                {t.homeShowcasePopular}
               </h2>
             </div>
             <Link
               to="/new-homes"
               className="text-xs font-bold uppercase tracking-wider hover:text-[#c9a84c] transition-colors"
             >
-              Browse showcase →
+              {t.homeBrowseShowcase}
             </Link>
           </div>
           <p className="text-sm text-gray-500 mb-10 max-w-2xl">
-            Featured for market awareness only. Not Cervantes listings — no
-            inquire on these products.
+            {t.homeShowcaseNote}
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {showcase.map((home) => (
@@ -206,20 +236,19 @@ const Index = () => {
             </div>
             <div className="bg-[#1e1e1e] text-white p-12 md:p-16 lg:p-20 flex flex-col justify-center items-start border-t border-[#c9a84c]/40">
               <h2 className="font-serif text-4xl md:text-5xl mb-6 font-medium">
-                Cervantes Concierge
+                {t.sellEyebrow}
               </h2>
               <p className="text-lg md:text-xl font-serif italic mb-6 text-white/90 leading-relaxed">
-                Concierge helps you sell your home faster and for more money —
-                with no hassle for you.
+                {t.homeConciergeBody}
               </p>
               <p className="text-sm text-[#c9a84c] font-serif italic mb-10">
-                “Sold our home in 6 days above asking.” — Michael S.
+                {t.homeConciergeQuote}
               </p>
               <Link
                 to="/sell"
                 className="bg-white text-black px-8 py-4 text-sm font-semibold hover:bg-gray-100 transition-colors uppercase tracking-wider"
               >
-                Start selling
+                {t.homeStartSelling}
               </Link>
             </div>
           </div>
@@ -231,29 +260,13 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-white">
         <div className="container mx-auto px-6 max-w-5xl">
           <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3 text-center">
-            Useful, not noisy
+            {t.homeToolsEyebrow}
           </p>
           <h2 className="font-serif text-3xl md:text-4xl text-center text-[#1a1a1a] mb-12">
-            Tools for buyers and sellers
+            {t.homeToolsTitle}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                to: "/calculator",
-                title: "Mortgage calculator",
-                copy: "Price, down, rate, tax/ins toggle — see the number.",
-              },
-              {
-                to: "/compare",
-                title: "New vs resale",
-                copy: "Editorial comparison with shared payment math.",
-              },
-              {
-                to: "/sell",
-                title: "Sell guide",
-                copy: "Six-stage Concierge timeline + seller net.",
-              },
-            ].map((item) => (
+            {tools.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}

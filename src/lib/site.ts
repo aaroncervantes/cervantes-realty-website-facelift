@@ -14,10 +14,22 @@ export const AGENT_PHONE_SMS = "6618394931";
 export const AGENT_EMAIL = "aaron@cervantesre.com";
 
 /** Leave blank until Aaron confirms — Contact hides the link when empty. */
-export const CALENDLY_URL = ""; // e.g. https://calendly.com/aaron-cervantes/15min
+export const CALENDLY_URL = ""; // paste real Calendly URL when ready
 
-/** Leave blank until Aaron confirms — footer hides the link when empty. */
-export const SNH_INSTAGRAM = ""; // e.g. https://www.instagram.com/socalsnewhomes/
+/** SoCal’s New Homes Instagram (footer link). */
+export const SNH_INSTAGRAM = "https://www.instagram.com/socalsnewhomes/";
+
+/** Default social / OG image — brand mark on owned CDN (not vibe seed host). */
+export const SITE_OG_IMAGE =
+  "https://assets.cdn.filesafe.space/yvIB8uaPt79VRC8MA1HI/media/69e6c389571cca8e954ff6a8.png";
+
+/** Homepage dual-door images — distinct assets so brands don’t look identical. */
+export const HERO_IMAGE =
+  "https://vibe.filesafe.space/1781750305487395093/assets/974bb84d-ee43-4e07-9a17-3177229773d8.png";
+export const ENCLOSED_DOOR_IMAGE =
+  "https://vibe.filesafe.space/1781750305487395093/attachments/30397204-2352-42bc-a0ce-1d14274c5ef3.webp";
+export const SNH_DOOR_IMAGE =
+  "https://vibe.filesafe.space/1781750305487395093/attachments/293f82cb-43f7-4ff0-80f5-d18cdf464dab.png";
 
 /**
  * Live SoCal’s New Homes questionnaire (Railway).

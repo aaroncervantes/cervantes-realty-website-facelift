@@ -116,7 +116,7 @@ export const FALLBACK_LISTINGS: Listing[] = [
       name: "Aaron Cervantes",
       role: "Founder - Realtor",
       phone: "(661) 839-4931",
-      email: "aaron@cervantesestates.com",
+      email: "aaron@cervantesre.com",
       image:
         "https://vibe.filesafe.space/1781750305487395093/attachments/bdcd5cd0-3bb2-4348-b853-264cfdc31428.jpg",
     },
@@ -177,7 +177,7 @@ export const FALLBACK_LISTINGS: Listing[] = [
       name: "Aaron Cervantes",
       role: "Founder - Realtor",
       phone: "(661) 839-4931",
-      email: "aaron@cervantesestates.com",
+      email: "aaron@cervantesre.com",
       image:
         "https://vibe.filesafe.space/1781750305487395093/attachments/bdcd5cd0-3bb2-4348-b853-264cfdc31428.jpg",
     },
@@ -239,7 +239,7 @@ export const FALLBACK_LISTINGS: Listing[] = [
       name: "Aaron Cervantes",
       role: "Founder - Realtor",
       phone: "(661) 839-4931",
-      email: "aaron@cervantesestates.com",
+      email: "aaron@cervantesre.com",
       image:
         "https://vibe.filesafe.space/1781750305487395093/attachments/bdcd5cd0-3bb2-4348-b853-264cfdc31428.jpg",
     },

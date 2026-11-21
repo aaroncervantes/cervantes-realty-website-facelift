@@ -262,6 +262,26 @@ type Strings = {
   questionnaireCta: string;
   questionnaireFoot: string;
 
+  // Homepage mid-page (below dual doors)
+  homeViewAll: string;
+  homeShowcasePopular: string;
+  homeBrowseShowcase: string;
+  homeShowcaseNote: string;
+  homeConciergeBody: string;
+  homeConciergeQuote: string;
+  homeStartSelling: string;
+  homeToolsEyebrow: string;
+  homeToolsTitle: string;
+  homeToolCalcTitle: string;
+  homeToolCalcCopy: string;
+  homeToolCompareTitle: string;
+  homeToolCompareCopy: string;
+  homeToolSellTitle: string;
+  homeToolSellCopy: string;
+  listingLoading: string;
+  listingNotFound: string;
+  listingWalkthrough: string;
+
   // Collaboration mark
   exclusiveCollab: string;
 };
@@ -668,6 +688,27 @@ const STRINGS: Record<Lang, Strings> = {
     questionnaireCta: "Start the questionnaire",
     questionnaireFoot: "Opens in a new tab · Hard-refresh if the funnel looks outdated",
 
+    homeViewAll: "View all homes →",
+    homeShowcasePopular: "Popular new builds we’re seeing",
+    homeBrowseShowcase: "Browse showcase →",
+    homeShowcaseNote:
+      "Featured for market awareness only. Not Cervantes listings — no inquire on these products.",
+    homeConciergeBody:
+      "Concierge helps you sell your home faster and for more money — with no hassle for you.",
+    homeConciergeQuote: "“Sold our home in 6 days above asking.” — Michael S.",
+    homeStartSelling: "Start selling",
+    homeToolsEyebrow: "Useful, not noisy",
+    homeToolsTitle: "Tools for buyers and sellers",
+    homeToolCalcTitle: "Mortgage calculator",
+    homeToolCalcCopy: "Price, down, rate, tax/ins toggle — see the number.",
+    homeToolCompareTitle: "New vs resale",
+    homeToolCompareCopy: "Editorial comparison with shared payment math.",
+    homeToolSellTitle: "Sell guide",
+    homeToolSellCopy: "Six-stage Concierge timeline + seller net.",
+    listingLoading: "Loading property…",
+    listingNotFound: "Property not found or no longer available.",
+    listingWalkthrough: "Walkthrough",
+
     exclusiveCollab: "An exclusive collaboration",
   },
   es: {
@@ -1073,6 +1114,28 @@ const STRINGS: Record<Lang, Strings> = {
     questionnaireCta: "Empezar el cuestionario",
     questionnaireFoot:
       "Se abre en una pestaña nueva · Hard-refresh si el funnel se ve desactualizado",
+
+    homeViewAll: "Ver todas las casas →",
+    homeShowcasePopular: "Obra nueva popular que estamos viendo",
+    homeBrowseShowcase: "Ver escaparate →",
+    homeShowcaseNote:
+      "Solo para contexto de mercado. No son listados de Cervantes — sin consultas en estos productos.",
+    homeConciergeBody:
+      "Concierge te ayuda a vender más rápido y por más dinero — sin complicaciones para ti.",
+    homeConciergeQuote:
+      "“Vendimos en 6 días por encima del asking.” — Michael S.",
+    homeStartSelling: "Empezar a vender",
+    homeToolsEyebrow: "Útil, no ruidoso",
+    homeToolsTitle: "Herramientas para compradores y vendedores",
+    homeToolCalcTitle: "Calculadora hipotecaria",
+    homeToolCalcCopy: "Precio, enganche, tasa, impuestos/seguro — ve el número.",
+    homeToolCompareTitle: "Nueva vs reventa",
+    homeToolCompareCopy: "Comparación editorial con la misma matemática de pago.",
+    homeToolSellTitle: "Guía de venta",
+    homeToolSellCopy: "Timeline Concierge de seis etapas + neto del vendedor.",
+    listingLoading: "Cargando propiedad…",
+    listingNotFound: "Propiedad no encontrada o ya no disponible.",
+    listingWalkthrough: "Recorrido",
 
     exclusiveCollab: "Una colaboración exclusiva",
   },
