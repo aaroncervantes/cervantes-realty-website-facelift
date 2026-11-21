@@ -20,17 +20,29 @@ export function NewHomeCard({ home }: { home: NewHome }) {
   const priceLine = home.priceLabel
     ? home.priceLabel
     : `${t.fromPrice} ${formatCurrency(home.fromPrice)}`;
+  const hasPhoto = Boolean(home.image);
 
   return (
     <Link to={`/new-homes/${home.slug}`} className="block group">
       <article className="overflow-hidden border border-gray-200 bg-white hover:border-[#c9a84c]/60 transition-colors">
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <img
-            src={home.image}
-            alt={home.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
-          />
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#ebe6df]">
+          {hasPhoto ? (
+            <img
+              src={home.image}
+              alt={home.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+              <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
+                SoCal’s New Homes
+              </p>
+              <p className="font-serif text-lg text-[#1a1a1a]/70">
+                {t.photosComingSoon}
+              </p>
+            </div>
+          )}
           <div className="absolute top-3 left-3">
             <span className="px-3 py-1 text-[10px] uppercase tracking-wider font-bold text-white bg-black/60 backdrop-blur-sm">
               {t.showcaseBadge}
