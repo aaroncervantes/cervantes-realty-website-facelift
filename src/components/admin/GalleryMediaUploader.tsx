@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { ImagePlus, Loader2, Trash2, Upload } from "lucide-react";
+import { useRef, useState, type DragEvent } from "react";
+import { GripVertical, ImagePlus, Loader2, Trash2, Upload } from "lucide-react";
 import {
   uploadImageFiles,
   uploadPhotoZip,
@@ -15,23 +15,43 @@ type Props = {
   hint?: string;
 };
 
+function reorder<T>(list: T[], from: number, to: number): T[] {
+  if (from === to || from < 0 || to < 0 || from >= list.length || to >= list.length) {
+    return list;
+  }
+  const next = [...list];
+  const [item] = next.splice(from, 1);
+  next.splice(to, 0, item);
+  return next;
+}
+
 export function GalleryMediaUploader({
   gallery,
   primaryImage = "",
   folder,
   entityId,
   onChange,
-  hint = "Drop a photo zip or multi-select images — they become the Serhant-style gallery on the property page.",
+  hint = "Drop a photo zip or multi-select images — they become the Serhant-style gallery on the property page. Drag to set order (first = hero).",
 }: Props) {
   const zipRef = useRef<HTMLInputElement>(null);
   const multiRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
+
+  const commitOrder = (next: string[]) => {
+    onChange({
+      gallery: next,
+      // First photo is the hero / primary
+      image: next[0] || "",
+    });
+  };
 
   const mergeUrls = (urls: string[]) => {
     const nextGallery = [...gallery, ...urls];
-    const image = primaryImage.trim() || urls[0] || "";
+    const image = primaryImage.trim() || urls[0] || nextGallery[0] || "";
     onChange({ gallery: nextGallery, image });
   };
 
@@ -70,21 +90,41 @@ export function GalleryMediaUploader({
   };
 
   const setUrl = (i: number, v: string) => {
+    const next = gallery.map((g, idx) => (idx === i ? v : g));
     onChange({
-      gallery: gallery.map((g, idx) => (idx === i ? v : g)),
-      image: primaryImage,
+      gallery: next,
+      image: i === 0 ? v || primaryImage : primaryImage,
     });
   };
 
   const remove = (i: number) => {
     const next = gallery.filter((_, idx) => idx !== i);
-    onChange({
-      gallery: next,
-      image:
-        primaryImage && next.includes(primaryImage)
-          ? primaryImage
-          : next[0] || "",
-    });
+    commitOrder(next);
+  };
+
+  const onDragStart = (i: number) => (e: DragEvent) => {
+    setDragIndex(i);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", String(i));
+  };
+
+  const onDragOver = (i: number) => (e: DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (overIndex !== i) setOverIndex(i);
+  };
+
+  const onDrop = (i: number) => (e: DragEvent) => {
+    e.preventDefault();
+    const from = dragIndex ?? Number(e.dataTransfer.getData("text/plain"));
+    if (Number.isFinite(from)) commitOrder(reorder(gallery, from, i));
+    setDragIndex(null);
+    setOverIndex(null);
+  };
+
+  const onDragEnd = () => {
+    setDragIndex(null);
+    setOverIndex(null);
   };
 
   return (
@@ -147,18 +187,44 @@ export function GalleryMediaUploader({
 
       <div className="space-y-2">
         {gallery.map((url, i) => (
-          <div key={`${url}-${i}`} className="flex gap-2 items-center">
+          <div
+            key={`${url}-${i}`}
+            draggable
+            onDragStart={onDragStart(i)}
+            onDragOver={onDragOver(i)}
+            onDrop={onDrop(i)}
+            onDragEnd={onDragEnd}
+            className={`flex gap-2 items-center rounded-md border bg-white px-2 py-1.5 cursor-grab active:cursor-grabbing ${
+              dragIndex === i
+                ? "opacity-50 border-[#c9a84c]"
+                : overIndex === i
+                  ? "border-[#c9a84c] ring-1 ring-[#c9a84c]/40"
+                  : "border-gray-200"
+            }`}
+          >
+            <span
+              className="text-gray-400 shrink-0"
+              title="Drag to reorder"
+              aria-hidden
+            >
+              <GripVertical className="w-4 h-4" />
+            </span>
+            <span className="text-[10px] font-bold text-gray-400 w-5 shrink-0">
+              {i + 1}
+            </span>
             <input
               value={url}
               onChange={(e) => setUrl(i, e.target.value)}
               placeholder="Image URL"
               className="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:border-[#c9a84c]"
+              onMouseDown={(e) => e.stopPropagation()}
             />
             {url ? (
               <img
                 src={url}
                 alt=""
-                className="w-10 h-10 object-cover rounded shrink-0"
+                className="w-10 h-10 object-cover rounded shrink-0 pointer-events-none"
+                draggable={false}
               />
             ) : (
               <div className="w-10 h-10 rounded bg-gray-100 shrink-0" />
@@ -176,17 +242,43 @@ export function GalleryMediaUploader({
       </div>
 
       {gallery.length > 0 && (
-        <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 pt-2">
-          {gallery.map((url, i) => (
-            <div
-              key={`thumb-${i}`}
-              className="aspect-[4/3] overflow-hidden bg-gray-100 border border-gray-200"
-            >
-              {url ? (
-                <img src={url} alt="" className="w-full h-full object-cover" />
-              ) : null}
-            </div>
-          ))}
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
+            Drag thumbnails to reorder · #1 is hero
+          </p>
+          <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+            {gallery.map((url, i) => (
+              <div
+                key={`thumb-${url}-${i}`}
+                draggable
+                onDragStart={onDragStart(i)}
+                onDragOver={onDragOver(i)}
+                onDrop={onDrop(i)}
+                onDragEnd={onDragEnd}
+                className={`relative aspect-[4/3] overflow-hidden bg-gray-100 border cursor-grab active:cursor-grabbing ${
+                  dragIndex === i
+                    ? "opacity-50 border-[#c9a84c]"
+                    : overIndex === i
+                      ? "border-[#c9a84c] ring-2 ring-[#c9a84c]/50"
+                      : i === 0
+                        ? "border-[#c9a84c]"
+                        : "border-gray-200"
+                }`}
+              >
+                {url ? (
+                  <img
+                    src={url}
+                    alt=""
+                    className="w-full h-full object-cover pointer-events-none"
+                    draggable={false}
+                  />
+                ) : null}
+                <span className="absolute top-1 left-1 bg-black/70 text-white text-[10px] font-bold px-1.5 py-0.5">
+                  {i === 0 ? "Hero" : i + 1}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
