@@ -192,15 +192,15 @@ export function MortgageCalculator({
       : "overflow-hidden border border-black/[0.04] bg-white shadow-[0_18px_50px_-28px_rgba(26,26,26,0.35)]";
 
   const inputs = (
-    <div className={isPage ? "bg-[#f7f5f2]/70 p-7 md:p-9" : ""}>
-      <div className="mb-6 flex items-start justify-between gap-4">
+    <div className={isPage ? "bg-[#f7f5f2]/70 p-5 md:p-7" : ""}>
+      <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#c9a84c] mb-1.5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#c9a84c] mb-1">
             {t.mortgageEstimate}
           </p>
           <h3
             className={`font-serif font-medium tracking-tight text-[#1a1a1a] ${
-              isCompact ? "text-xl" : isPage ? "text-2xl" : "text-2xl md:text-[1.75rem]"
+              isCompact ? "text-xl" : isPage ? "text-xl md:text-2xl" : "text-2xl md:text-[1.75rem]"
             }`}
           >
             {isPage ? t.loanDetails : title ?? t.estimatePayment}
@@ -216,7 +216,7 @@ export function MortgageCalculator({
         )}
       </div>
 
-      <div className={`grid gap-5 ${isCompact ? "grid-cols-1" : ""}`}>
+      <div className={`grid gap-4 ${isCompact ? "grid-cols-1" : ""}`}>
         <label className="block">
           <FieldLabel>{t.homePrice}</FieldLabel>
           <div className="mt-2 flex items-center bg-white ring-1 ring-black/5 focus-within:ring-[#c9a84c]/70">
@@ -403,15 +403,15 @@ export function MortgageCalculator({
   );
 
   const results = (
-    <div className={isPage ? "p-7 md:p-9 flex flex-col h-full" : "mt-8 border-t border-black/[0.06] pt-8"}>
-      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-gray-400 mb-2">
+    <div className={isPage ? "p-5 md:p-7 flex flex-col h-full" : "mt-6 border-t border-black/[0.06] pt-6"}>
+      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-gray-400 mb-1.5">
         {t.monthlyPaymentLabel}
       </p>
       <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-        <p className="font-serif text-4xl md:text-[2.75rem] leading-none tracking-tight tabular-nums text-[#1a1a1a]">
+        <p className="font-serif text-3xl md:text-4xl leading-none tracking-tight tabular-nums text-[#1a1a1a]">
           {formatCurrency(monthly)}
         </p>
-        <p className="pb-1 text-sm text-gray-500">
+        <p className="pb-0.5 text-sm text-gray-500">
           {fill(t.atRateTerm, {
             rate: rate.toFixed(2),
             term: termYears,
@@ -419,7 +419,7 @@ export function MortgageCalculator({
         </p>
       </div>
 
-      <div className="mt-7 flex items-center gap-5">
+      <div className="mt-5 flex items-center gap-4">
         <PaymentDonut segments={segments} size={isSidebar ? 120 : 148} />
         <ul className="space-y-2.5 text-sm min-w-0">
           <li className="flex items-center gap-2.5">
@@ -483,7 +483,7 @@ export function MortgageCalculator({
         </ul>
       </div>
 
-      <dl className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-4 border border-black/5 p-4 text-sm">
+      <dl className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3 border border-black/5 p-3.5 text-sm">
         <div>
           <dt className="text-[11px] uppercase tracking-[0.12em] text-gray-400">
             {t.loanAmount}
@@ -508,13 +508,13 @@ export function MortgageCalculator({
         </div>
       </dl>
 
-      <div className={`mt-auto ${isPage ? "pt-8" : "pt-6"} space-y-3`}>
+      <div className={`mt-auto ${isPage ? "pt-5" : "pt-5"} space-y-2.5`}>
         {showPreapproval && (
           <a
             href={buyTypeform("calculator")}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center bg-[#1a1a1a] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c9a84c]"
+            className="flex w-full items-center justify-center bg-[#1a1a1a] px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c9a84c]"
           >
             {t.getMyRateCta}
           </a>
