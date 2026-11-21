@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Listing } from "@/data/listings";
-import { BUY_URL } from "@/components/site/SiteHeader";
+import { buyTypeform } from "@/lib/typeform";
 
 export function ListingNav({
   listing,
@@ -51,7 +51,7 @@ export function ListingNav({
                 Ask Aaron
               </a>
               <a
-                href={BUY_URL}
+                href={buyTypeform("listing")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#c9a84c] text-white px-5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"

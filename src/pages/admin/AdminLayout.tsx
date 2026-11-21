@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { Building2, LogOut } from "lucide-react";
+import { Building2, Home, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 const AdminLayout = () => {
@@ -41,6 +41,12 @@ const AdminLayout = () => {
               className="text-xs font-semibold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] flex items-center gap-1.5"
             >
               <Building2 className="w-3.5 h-3.5" /> Listings
+            </Link>
+            <Link
+              to="/admin/showcase"
+              className="text-xs font-semibold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] flex items-center gap-1.5"
+            >
+              <Home className="w-3.5 h-3.5" /> New Homes
             </Link>
             <a
               href="/"

@@ -2,6 +2,57 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSupabase } from "./supabaseClient";
 import { FALLBACK_LISTINGS, type Listing } from "@/data/listings";
 
+export type ListingStatusKind = "active" | "pending" | "closed";
+
+export function listingStatusKind(
+  listing: Pick<Listing, "status">,
+): ListingStatusKind {
+  if (/closed|sold/i.test(listing.status)) return "closed";
+  if (/pending|under\s*contract|contingent/i.test(listing.status))
+    return "pending";
+  return "active";
+}
+
+export function isClosedListing(listing: Pick<Listing, "status">): boolean {
+  return listingStatusKind(listing) === "closed";
+}
+
+export function isPendingListing(listing: Pick<Listing, "status">): boolean {
+  return listingStatusKind(listing) === "pending";
+}
+
+export function isActiveListing(listing: Pick<Listing, "status">): boolean {
+  return listingStatusKind(listing) !== "closed";
+}
+
+export function filterActive(listings: Listing[]): Listing[] {
+  return listings.filter((l) => listingStatusKind(l) === "active");
+}
+
+export function filterPending(listings: Listing[]): Listing[] {
+  return listings.filter(isPendingListing);
+}
+
+export function filterClosed(listings: Listing[]): Listing[] {
+  return listings.filter(isClosedListing);
+}
+
+/** Active → Pending → Closed, stable within group */
+export function sortEnclosed(listings: Listing[]): Listing[] {
+  const rank: Record<ListingStatusKind, number> = {
+    active: 0,
+    pending: 1,
+    closed: 2,
+  };
+  return [...listings].sort(
+    (a, b) => rank[listingStatusKind(a)] - rank[listingStatusKind(b)],
+  );
+}
+
+export function enclosedInventory(listings: Listing[]): Listing[] {
+  return sortEnclosed(listings);
+}
+
 /** Flat row shape matching public.listings */
 export interface ListingRow {
   id: number;
@@ -105,6 +156,7 @@ export function fromRow(e: ListingRow): Listing {
       email: e.agent_email,
       image: e.agent_image,
     },
+    videoUrl: (e as ListingRow & { video_url?: string }).video_url || undefined,
   };
 }
 

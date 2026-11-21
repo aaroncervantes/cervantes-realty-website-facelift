@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Mail, Phone } from "lucide-react";
 import type { Listing } from "@/data/listings";
 import { Reveal } from "@/components/site/Reveal";
 import { ScheduleTour } from "@/components/site/ScheduleTour";
-import { BUY_URL } from "@/components/site/SiteHeader";
+import { MortgageCalculator } from "@/components/site/MortgageCalculator";
+import { DecisionNotes } from "@/components/listing/DecisionNotes";
+import { buyTypeform } from "@/lib/typeform";
+import { parsePrice } from "@/lib/mortgage";
 
 function Meta({
   label,
@@ -131,7 +135,7 @@ function SidebarCTA({
           something similar? I'll help you find it.
         </p>
         <a
-          href={BUY_URL}
+          href={buyTypeform("listing")}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full bg-[#c9a84c] text-white py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider text-center hover:opacity-90 transition-opacity mb-3"
@@ -209,10 +213,18 @@ export function ListingBody({
                   <h2 className="font-serif text-2xl md:text-3xl font-bold mb-4 text-[#1a1a1a]">
                     About this home
                   </h2>
-                  <p className="text-gray-700 leading-relaxed text-base md:text-lg max-w-2xl">
+                  <p className="text-gray-700 leading-relaxed text-base md:text-lg max-w-2xl mb-6">
                     {listing.description}
                   </p>
+                  <Link
+                    to={`/listing/${listing.id}/brief`}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
+                  >
+                    View Property Brief
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
+                <DecisionNotes listing={listing} />
                 <div>
                   <h3 className="text-xs uppercase tracking-widest font-bold text-[#c9a84c] mb-5 pb-2 border-b border-gray-200">
                     Overview
@@ -318,6 +330,14 @@ export function ListingBody({
             className="space-y-6 scroll-mt-40 lg:sticky lg:top-40 lg:self-start lg:max-h-[calc(100vh-184px)] lg:overflow-y-auto no-scrollbar"
           >
             <SidebarCTA listing={listing} isClosed={isClosed} />
+            {!isClosed && (
+              <MortgageCalculator
+                initialPrice={parsePrice(listing.price)}
+                variant="sidebar"
+                title="Payment for this home"
+                showLinkToFull
+              />
+            )}
             <AgentCard listing={listing} />
           </div>
         </div>

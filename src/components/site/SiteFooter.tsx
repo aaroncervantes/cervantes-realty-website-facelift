@@ -1,17 +1,33 @@
 import { Link } from "react-router-dom";
 import { Instagram } from "lucide-react";
+import {
+  LICENSE_LINE,
+  REPLY_HOURS,
+  SNH_INSTAGRAM,
+} from "@/lib/site";
+import { useLang } from "@/lib/i18n";
 
 export function SiteFooter() {
+  const { t } = useLang();
   return (
     <footer
       id="contact"
       className="bg-white pt-24 pb-12 border-t border-gray-200"
     >
       <div className="container mx-auto px-6 max-w-6xl">
+        <div className="max-w-3xl mx-auto md:mx-0 mb-16 text-center md:text-left">
+          <p className="font-serif italic text-lg text-[#1a1a1a] leading-relaxed">
+            {t.footerCollab}
+          </p>
+          <p className="mt-4 text-sm text-gray-500">
+            {t.reply} {REPLY_HOURS} {t.hours} · {LICENSE_LINE}
+          </p>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-24 text-center md:text-left">
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Follow Us
+              {t.footerFollow}
             </h4>
             <div className="flex gap-6">
               <a
@@ -19,6 +35,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-60 transition-opacity"
+                aria-label="Cervantes Realty Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
@@ -27,6 +44,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-60 transition-opacity"
+                aria-label="Cervantes Realty TikTok"
               >
                 <svg
                   className="w-5 h-5"
@@ -37,27 +55,73 @@ export function SiteFooter() {
                 </svg>
               </a>
             </div>
+            {SNH_INSTAGRAM ? (
+              <a
+                href={SNH_INSTAGRAM}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 text-[10px] uppercase tracking-wider text-gray-500 hover:text-[#c9a84c]"
+              >
+                {t.footerSnhIg}
+              </a>
+            ) : (
+              <p className="mt-4 text-[10px] uppercase tracking-wider text-gray-400">
+                {t.footerSnhSocial}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Company
+              {t.footerExplore}
             </h4>
             <ul className="space-y-4 text-xs font-medium">
               <li>
                 <Link
-                  to="/about"
+                  to="/homes"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  About Us
+                  {t.navHomes}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/team"
+                  to="/new-homes"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Our Team
+                  {t.footerNewHomes}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/markets"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerMarkets}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/compare"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerCompare}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/rent-vs-buy"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerRentVsBuy}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/calculator"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerCalculator}
                 </Link>
               </li>
               <li>
@@ -65,7 +129,71 @@ export function SiteFooter() {
                   to="/join"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Join Our Team
+                  {t.footerJoin}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/stories/rhea-st"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerCaseStudy}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/buy"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.buyGuide}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/sell"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerSellConcierge}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col items-center md:items-start">
+            <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
+              {t.footerCompany}
+            </h4>
+            <ul className="space-y-4 text-xs font-medium">
+              <li>
+                <Link
+                  to="/about"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerAbout}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/team"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerTeam}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/join"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerJoin}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.navContact}
                 </Link>
               </li>
               <li>
@@ -81,31 +209,7 @@ export function SiteFooter() {
 
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Client Care
-            </h4>
-            <ul className="space-y-4 text-xs font-medium">
-              <li>
-                <Link
-                  to="/contact"
-                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
-                >
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/support"
-                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
-                >
-                  Support
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col items-center md:items-start">
-            <h4 className="font-serif font-bold text-base mb-6 uppercase tracking-widest">
-              Legal
+              {t.footerLegal}
             </h4>
             <ul className="space-y-4 text-xs font-medium">
               <li>
@@ -113,7 +217,7 @@ export function SiteFooter() {
                   to="/privacy"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Privacy Policy
+                  {t.footerPrivacy}
                 </Link>
               </li>
               <li>
@@ -121,7 +225,15 @@ export function SiteFooter() {
                   to="/terms"
                   className="hover:opacity-60 transition-opacity uppercase tracking-wider"
                 >
-                  Terms of Use
+                  {t.footerTerms}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/support"
+                  className="hover:opacity-60 transition-opacity uppercase tracking-wider"
+                >
+                  {t.footerSupport}
                 </Link>
               </li>
             </ul>
@@ -129,8 +241,9 @@ export function SiteFooter() {
         </div>
 
         <div className="text-center text-xs text-gray-500 space-y-2">
+          <p>{t.footerMarketsKnown}</p>
           <p className="pt-4 text-black font-serif italic">
-            Copyright 2026 All Rights Reserved.
+            {t.footerCopyright}
           </p>
         </div>
       </div>

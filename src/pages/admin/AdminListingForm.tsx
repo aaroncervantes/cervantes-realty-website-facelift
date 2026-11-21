@@ -1,7 +1,8 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Plus, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import type { ListingRow } from "@/lib/listings";
+import { GalleryMediaUploader } from "@/components/admin/GalleryMediaUploader";
 
 const STATUS_OPTIONS = [
   "For Sale",
@@ -124,18 +125,6 @@ export default function AdminListingForm({
 
   const set = <K extends keyof ListingRow>(key: K, value: ListingRow[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
-
-  const addGallery = () => set("gallery", [...form.gallery, ""]);
-  const setGallery = (i: number, v: string) =>
-    set(
-      "gallery",
-      form.gallery.map((g, idx) => (idx === i ? v : g)),
-    );
-  const removeGallery = (i: number) =>
-    set(
-      "gallery",
-      form.gallery.filter((_, idx) => idx !== i),
-    );
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -317,7 +306,7 @@ export default function AdminListingForm({
         </label>
       </Section>
 
-      <Section title="Media" full>
+      <Section title="Media — Serhant-style photo gallery" full>
         <label className="block mb-4">
           <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1.5">
             Primary Image URL
@@ -325,50 +314,31 @@ export default function AdminListingForm({
           <input
             value={form.image}
             onChange={(e) => set("image", e.target.value)}
-            placeholder="https://vibe.filesafe.space/... or assets.cdn.filesafe.space/..."
+            placeholder="Auto-filled from first upload, or paste a URL"
             className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:border-[#c9a84c]"
           />
         </label>
-        <div>
-          <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1.5">
-            Gallery Images
-          </span>
-          <div className="space-y-2">
-            {form.gallery.map((url, i) => (
-              <div key={i} className="flex gap-2 items-center">
-                <input
-                  value={url}
-                  onChange={(e) => setGallery(i, e.target.value)}
-                  placeholder="Image URL"
-                  className="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:border-[#c9a84c]"
-                />
-                {url ? (
-                  <img
-                    src={url}
-                    alt=""
-                    className="w-10 h-10 object-cover rounded shrink-0"
-                  />
-                ) : (
-                  <div className="w-10 h-10 rounded bg-gray-100 shrink-0" />
-                )}
-                <button
-                  type="button"
-                  onClick={() => removeGallery(i)}
-                  className="p-2 text-gray-400 hover:text-red-500"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addGallery}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#c9a84c] hover:underline"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add image
-            </button>
-          </div>
-        </div>
+        <GalleryMediaUploader
+          gallery={form.gallery}
+          primaryImage={form.image}
+          folder="listings"
+          entityId={form.id ? String(form.id) : "draft"}
+          onChange={({ gallery, image }) =>
+            setForm((prev) => ({
+              ...prev,
+              gallery,
+              image: image ?? prev.image,
+            }))
+          }
+          hint="Upload a zip of property photos or multi-select images. They feed the full-bleed gallery on the listing page."
+        />
+        {(!form.image.trim() ||
+          form.gallery.map((g) => g.trim()).filter(Boolean).length < 5) && (
+          <p className="mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-2">
+            Photo quality tip: add a primary image and at least 5 gallery photos
+            before publishing — Serhant-style pages need depth.
+          </p>
+        )}
       </Section>
 
       <Section title="Description" full>
@@ -545,7 +515,7 @@ export default function AdminListingForm({
           label="Agent Phone"
           value={form.agent_phone}
           onChange={(v) => set("agent_phone", v)}
-          placeholder="(562) 555-0199"
+          placeholder="(661) 839-4931"
         />
         <Field
           label="Agent Email"

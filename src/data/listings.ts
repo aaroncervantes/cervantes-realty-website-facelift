@@ -53,6 +53,8 @@ export interface Listing {
     };
   };
   agent: ListingAgent;
+  /** Optional walkthrough embed URL — only render when present */
+  videoUrl?: string;
 }
 
 /** Fallback listings when Supabase is not configured */
@@ -113,7 +115,7 @@ export const FALLBACK_LISTINGS: Listing[] = [
     agent: {
       name: "Aaron Cervantes",
       role: "Founder - Realtor",
-      phone: "(562) 555-0199",
+      phone: "(661) 839-4931",
       email: "aaron@cervantesestates.com",
       image:
         "https://vibe.filesafe.space/1781750305487395093/attachments/bdcd5cd0-3bb2-4348-b853-264cfdc31428.jpg",
@@ -174,7 +176,7 @@ export const FALLBACK_LISTINGS: Listing[] = [
     agent: {
       name: "Aaron Cervantes",
       role: "Founder - Realtor",
-      phone: "(562) 555-0199",
+      phone: "(661) 839-4931",
       email: "aaron@cervantesestates.com",
       image:
         "https://vibe.filesafe.space/1781750305487395093/attachments/bdcd5cd0-3bb2-4348-b853-264cfdc31428.jpg",
@@ -236,7 +238,7 @@ export const FALLBACK_LISTINGS: Listing[] = [
     agent: {
       name: "Aaron Cervantes",
       role: "Founder - Realtor",
-      phone: "(562) 555-0199",
+      phone: "(661) 839-4931",
       email: "aaron@cervantesestates.com",
       image:
         "https://vibe.filesafe.space/1781750305487395093/attachments/bdcd5cd0-3bb2-4348-b853-264cfdc31428.jpg",

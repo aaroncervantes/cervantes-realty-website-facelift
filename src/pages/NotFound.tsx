@@ -1,26 +1,29 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname,
-    );
-  }, [location.pathname]);
-
+  usePageTitle("Page not found");
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">
-          Oops! Page not found
+    <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] flex items-center justify-center px-6">
+      <div className="text-center max-w-md">
+        <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-3">
+          404
         </p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
+        <h1 className="font-serif text-4xl mb-4">Lost?</h1>
+        <p className="text-gray-600 mb-8">
+          That page isn’t here. Pick a clear next step.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center text-xs font-bold uppercase tracking-wider">
+          <Link to="/homes" className="bg-[#1a1a1a] text-white px-6 py-3">
+            Homes
+          </Link>
+          <Link to="/new-homes" className="border border-[#1a1a1a] px-6 py-3">
+            New homes
+          </Link>
+          <Link to="/contact" className="border border-[#1a1a1a] px-6 py-3">
+            Contact
+          </Link>
+        </div>
       </div>
     </div>
   );
