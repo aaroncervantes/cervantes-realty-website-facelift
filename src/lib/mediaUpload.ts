@@ -40,7 +40,15 @@ async function uploadBlob(
     contentType: contentType || "image/jpeg",
     upsert: false,
   });
-  if (error) throw error;
+  if (error) {
+    const msg = error.message || "Upload failed";
+    if (/bucket not found/i.test(msg)) {
+      throw new Error(
+        "Storage bucket “listing-media” is missing. In Supabase → SQL Editor, run supabase/listing_media_bucket.sql (or the full showcase_homes.sql), then retry the zip.",
+      );
+    }
+    throw error;
+  }
 
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
   return data.publicUrl;
