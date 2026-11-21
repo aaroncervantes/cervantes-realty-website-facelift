@@ -23,9 +23,17 @@ export const SNH_INSTAGRAM = ""; // e.g. https://www.instagram.com/socalsnewhome
  * Live SoCal’s New Homes questionnaire (Railway).
  * Cannot be iframed (X-Frame-Options: SAMEORIGIN) — open in a new tab.
  * Hard-refresh the Railway URL if an old funnel still caches.
+ *
+ * Public short links (use these in bios / ads — never the raw Railway host):
+ * - https://cervantesre.com/start  → questionnaire with source=ig
+ * - Optional dedicated SNH domain can CNAME onto the questionnaire Railway
+ *   service, or URL-forward to https://cervantesre.com/start
  */
 export const SNH_QUESTIONNAIRE_URL =
   "https://web-production-a651e071.up.railway.app/";
+
+/** Clean bio / ad entry on this site. */
+export const SNH_START_PATH = "/start";
 
 export type SnhSource =
   | "new-homes"
