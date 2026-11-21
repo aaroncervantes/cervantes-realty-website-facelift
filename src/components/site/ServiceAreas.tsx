@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
+import { WhenVisible } from "@/components/site/WhenVisible";
 import { useLang } from "@/lib/i18n";
 
 const ServiceAreaMap = lazy(() =>
@@ -7,6 +8,17 @@ const ServiceAreaMap = lazy(() =>
     default: m.ServiceAreaMap,
   })),
 );
+
+function MapSkeleton() {
+  return (
+    <div className="svc-wrap" aria-hidden>
+      <div className="svc-map svc-map-main svc-map-skeleton">
+        <p className="svc-skeleton-label">Map loads as you scroll</p>
+      </div>
+      <aside className="svc-side svc-side-skeleton" />
+    </div>
+  );
+}
 
 export function ServiceAreas() {
   const { t } = useLang();
@@ -26,15 +38,14 @@ export function ServiceAreas() {
         </p>
       </div>
 
-      <Suspense
-        fallback={
-          <div className="svc-wrap">
-            <div className="svc-map svc-map-main" />
-          </div>
-        }
+      <WhenVisible
+        rootMargin="500px 0px"
+        fallback={<MapSkeleton />}
       >
-        <ServiceAreaMap mode="home" />
-      </Suspense>
+        <Suspense fallback={<MapSkeleton />}>
+          <ServiceAreaMap mode="home" />
+        </Suspense>
+      </WhenVisible>
 
       <div className="mt-8 text-center">
         <Link
