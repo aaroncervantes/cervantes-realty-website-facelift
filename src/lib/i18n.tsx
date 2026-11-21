@@ -210,6 +210,12 @@ type Strings = {
   calcLink: string;
   caseStudyLink: string;
   googleReview: string;
+  rateLiveLabel: string;
+  rateLiveTitle: string;
+  rateEstimateBadge: string;
+  rateMetaLine: string;
+  rateWeeklyCta: string;
+  rateWeeklySub: string;
 
   // Status
   statusActive: string;
@@ -581,6 +587,12 @@ const STRINGS: Record<Lang, Strings> = {
     calcLink: "Calculator →",
     caseStudyLink: "Case study →",
     googleReview: "Google review",
+    rateLiveLabel: "Live",
+    rateLiveTitle: "Today’s mortgage rate",
+    rateEstimateBadge: "Site estimate",
+    rateMetaLine: "30-yr fixed · As of {date} · Planning estimate",
+    rateWeeklyCta: "Get Weekly Text",
+    rateWeeklySub: "SMS · ~{hours}h reply",
 
     statusActive: "Active",
     statusPending: "Pending",
@@ -1012,6 +1024,12 @@ const STRINGS: Record<Lang, Strings> = {
     calcLink: "Calculadora →",
     caseStudyLink: "Caso de estudio →",
     googleReview: "Reseña de Google",
+    rateLiveLabel: "En vivo",
+    rateLiveTitle: "Tasa hipotecaria de hoy",
+    rateEstimateBadge: "Estimado del sitio",
+    rateMetaLine: "Fija a 30 años · Al {date} · Estimado de planeación",
+    rateWeeklyCta: "Recibe texto semanal",
+    rateWeeklySub: "SMS · ~{hours}h respuesta",
 
     statusActive: "Activa",
     statusPending: "Pendiente",
