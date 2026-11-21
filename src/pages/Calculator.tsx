@@ -11,30 +11,38 @@ const Calculator = () => {
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <p className="text-[10px] uppercase tracking-widest text-[#c9a84c] font-bold mb-2">
+      <section className="relative overflow-hidden py-16 md:py-24">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,168,76,0.08),_transparent_55%)]"
+        />
+        <div className="container relative mx-auto px-6 max-w-3xl">
+          <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9a84c] font-bold mb-3 animate-[cr-fadeup_0.6s_ease-out_both]">
             {t.calcEyebrow}
           </p>
-          <h1 className="font-serif text-4xl md:text-6xl mb-4">
+          <h1 className="font-serif text-4xl md:text-6xl tracking-tight mb-5 animate-[cr-fadeup_0.7s_ease-out_both]">
             {t.calcTitle}
           </h1>
-          <p className="text-gray-600 mb-10 max-w-xl">{t.calcLead}</p>
-          <MortgageCalculator
-            variant="page"
-            title={t.calcYourEstimate}
-            showPreapproval
-          />
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          <p className="text-gray-600 mb-12 max-w-xl text-[15px] leading-relaxed animate-[cr-fadeup_0.7s_ease-out_both]">
+            {t.calcLead}
+          </p>
+          <div className="animate-[cr-fadeup_1.1s_ease-out_both]">
+            <MortgageCalculator
+              variant="page"
+              title={t.calcYourEstimate}
+              showPreapproval
+            />
+          </div>
+          <div className="mt-12 flex flex-col sm:flex-row gap-3">
             <Link
               to="/buy"
-              className="bg-[#1a1a1a] text-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:bg-[#c9a84c] transition-colors"
+              className="bg-[#1a1a1a] text-white px-8 py-4 text-[11px] font-bold uppercase tracking-[0.14em] text-center hover:bg-[#c9a84c] transition-colors"
             >
               {t.buyGuide}
             </Link>
             <Link
               to="/homes"
-              className="border border-[#1a1a1a] px-8 py-4 text-sm font-semibold uppercase tracking-wider text-center hover:border-[#c9a84c] transition-colors"
+              className="border border-[#1a1a1a] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.14em] text-center hover:border-[#c9a84c] hover:text-[#c9a84c] transition-colors"
             >
               {t.calcBrowseHomes}
             </Link>
