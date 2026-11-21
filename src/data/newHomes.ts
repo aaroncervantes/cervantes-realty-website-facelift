@@ -25,6 +25,7 @@ export interface NewHome {
 
 const NV = "Not yet verified";
 
+/** Static seed — CMS `showcase_homes` takes over when published rows exist. */
 export const NEW_HOMES: NewHome[] = [
   {
     id: "nh-1",
@@ -147,6 +148,8 @@ export const NEW_HOMES: NewHome[] = [
     ],
   },
 ];
+
+export const FALLBACK_NEW_HOMES = NEW_HOMES;
 
 export function getNewHome(slug: string): NewHome | undefined {
   return NEW_HOMES.find((h) => h.slug === slug || h.id === slug);

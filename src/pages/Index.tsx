@@ -4,7 +4,6 @@ import {
   enclosedInventory,
   listingStatusKind,
 } from "@/lib/listings";
-import { NEW_HOMES } from "@/data/newHomes";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { ProofStrip } from "@/components/site/ProofStrip";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -12,16 +11,17 @@ import { ListingCard } from "@/components/listing/ListingCard";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
 import { ServiceAreas } from "@/components/site/ServiceAreas";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
+import { usePublicShowcaseHomes } from "@/lib/showcaseHomes";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 const Index = () => {
   usePageTitle("Find Your Home in the World");
   const { data, isLoading } = usePublicListings();
+  const { data: showcaseHomes = [] } = usePublicShowcaseHomes();
   const listings = data || [];
   const enclosed = enclosedInventory(listings).slice(0, 8);
   const actives = enclosed.filter((l) => listingStatusKind(l) !== "closed");
-  const showcase = NEW_HOMES.slice(0, 3);
-
+  const showcase = showcaseHomes.slice(0, 3);
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a] font-sans selection:bg-black selection:text-white">
       <SiteHeader />

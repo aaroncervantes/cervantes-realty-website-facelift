@@ -33,6 +33,9 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminListings from "./pages/admin/AdminListings";
 import AdminListingNew from "./pages/admin/AdminListingNew";
 import AdminListingEdit from "./pages/admin/AdminListingEdit";
+import AdminShowcase from "./pages/admin/AdminShowcase";
+import AdminShowcaseNew from "./pages/admin/AdminShowcaseNew";
+import AdminShowcaseEdit from "./pages/admin/AdminShowcaseEdit";
 
 const queryClient = new QueryClient();
 
@@ -78,6 +81,12 @@ const App = () => (
                   <Route
                     path="listings/:id/edit"
                     element={<AdminListingEdit />}
+                  />
+                  <Route path="showcase" element={<AdminShowcase />} />
+                  <Route path="showcase/new" element={<AdminShowcaseNew />} />
+                  <Route
+                    path="showcase/:id/edit"
+                    element={<AdminShowcaseEdit />}
                   />
                 </Route>
                 <Route path="*" element={<NotFound />} />

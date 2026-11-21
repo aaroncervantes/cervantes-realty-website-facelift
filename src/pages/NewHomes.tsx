@@ -4,13 +4,14 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { NewHomeCard } from "@/components/site/NewHomeCard";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
 import { NewHomesQuestionnaireIntegration } from "@/components/site/NewHomesQuestionnaireIntegration";
-import { NEW_HOMES } from "@/data/newHomes";
+import { usePublicShowcaseHomes } from "@/lib/showcaseHomes";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 const NewHomes = () => {
   usePageTitle("New construction showcase");
   const [params] = useSearchParams();
   const fromIg = params.get("from") === "ig";
+  const { data: homes = [], isLoading } = usePublicShowcaseHomes();
 
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
@@ -54,11 +55,15 @@ const NewHomes = () => {
             ownership.
           </p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {NEW_HOMES.map((home) => (
-              <NewHomeCard key={home.id} home={home} />
-            ))}
-          </div>
+          {isLoading ? (
+            <p className="text-sm text-gray-400 mb-16">Loading showcase…</p>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+              {homes.map((home) => (
+                <NewHomeCard key={home.id} home={home} />
+              ))}
+            </div>
+          )}
 
           <NewHomesQuestionnaireIntegration />
         </div>

@@ -3,7 +3,8 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { MortgageCalculator } from "@/components/site/MortgageCalculator";
 import { CollaborationMark } from "@/components/site/CollaborationMark";
-import { getNewHome } from "@/data/newHomes";
+import { NewHomeGallery } from "@/components/site/NewHomeGallery";
+import { useShowcaseDetail } from "@/lib/showcaseHomes";
 import { formatCurrency } from "@/lib/mortgage";
 import { usePageTitle } from "@/hooks/use-page-title";
 
@@ -20,8 +21,16 @@ function Snap({ label, value }: { label: string; value: string }) {
 
 const NewHomeDetail = () => {
   const { slug } = useParams();
-  const home = slug ? getNewHome(slug) : undefined;
+  const { data: home, isLoading } = useShowcaseDetail(slug);
   usePageTitle(home ? home.title : "Showcase");
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#f7f5f2] flex items-center justify-center text-gray-500 text-sm">
+        Loading showcase…
+      </div>
+    );
+  }
 
   if (!home) {
     return (
@@ -41,6 +50,7 @@ const NewHomeDetail = () => {
   return (
     <div className="min-h-screen bg-[#f7f5f2] text-[#1a1a1a]">
       <SiteHeader />
+      <NewHomeGallery home={home} />
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-6 max-w-7xl">
           <Link
@@ -51,13 +61,6 @@ const NewHomeDetail = () => {
           </Link>
           <div className="grid lg:grid-cols-3 gap-10 mt-8 items-start">
             <div className="lg:col-span-2 space-y-10">
-              <div className="aspect-[16/10] overflow-hidden">
-                <img
-                  src={home.image}
-                  alt={home.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
               {home.videoUrl && (
                 <div className="aspect-video overflow-hidden border border-gray-200">
                   <iframe
@@ -94,7 +97,10 @@ const NewHomeDetail = () => {
                   <Snap label="Square footage" value={home.sqft} />
                   <Snap label="Style" value={home.style} />
                   <Snap label="HOA" value={home.hoa} />
-                  <Snap label="Special assessments" value={home.specialAssessments} />
+                  <Snap
+                    label="Special assessments"
+                    value={home.specialAssessments}
+                  />
                   <Snap label="Builder incentives" value={home.incentives} />
                   <Snap label="Info verified" value={home.verifiedDate} />
                 </dl>
