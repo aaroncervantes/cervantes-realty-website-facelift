@@ -28,6 +28,7 @@ import Markets from "./pages/Markets";
 import MarketDetail from "./pages/MarketDetail";
 import Compare from "./pages/Compare";
 import RentVsBuy from "./pages/RentVsBuy";
+import Start from "./pages/Start";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminListings from "./pages/admin/AdminListings";
@@ -50,6 +51,7 @@ const App = () => (
             <PageTransition>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/start" element={<Start />} />
                 <Route path="/homes" element={<Homes />} />
                 <Route path="/new-homes" element={<NewHomes />} />
                 <Route path="/new-homes/:slug" element={<NewHomeDetail />} />
