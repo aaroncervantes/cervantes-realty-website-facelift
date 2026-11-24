@@ -107,25 +107,25 @@ create policy "Admin delete listing media"
   to authenticated
   using (bucket_id = 'listing-media');
 
--- Optional: upsert the Eastvale / east-side showcase card (vague public copy; blank photos).
+-- Optional: upsert Jurupa Valley showcase card (vague public copy; blank photos).
 -- Safe to re-run — conflicts on slug.
 insert into public.showcase_homes (
   slug, title, area, from_price, price_high, beds, baths, sqft, style, blurb,
   compare_to_resale, why_buyers, hoa, special_assessments, incentives,
   verified_date, image, gallery, video_url, sort_order, is_published
 ) values (
-  'eastvale-area-new-homes',
-  'New Homes in the Eastvale Area',
-  'Eastvale / East Riverside Area',
+  'jurupa-valley-new-homes',
+  'New Homes in Jurupa Valley',
+  'Jurupa Valley',
   400000,
   890000,
   '1–4',
   '1–3',
   '≈850–2,900',
   'Attached & single-family · garage options',
-  'A master-planned collection of newly built homes on the Eastvale / east-county side — from efficient attached plans to roomier single-family layouts. Expect modern finishes, flexible bedroom counts, community amenities, and quick freeway access for workdays and weekend trips across the Inland Empire.',
+  'A master-planned collection of newly built homes in Jurupa Valley — from efficient attached plans to roomier single-family layouts. Expect modern finishes, flexible bedroom counts, community amenities, and quick freeway access for workdays and weekend trips across the Inland Empire.',
   array[
-    'Brand-new systems and warranties vs. established east-side resale that often needs inspection credits.',
+    'Brand-new systems and warranties vs. established Jurupa Valley resale that often needs inspection credits.',
     'Attached and detached options in one community — match privacy and yard needs against older freestanding stock nearby.',
     'Model the full monthly with SoCal’s New Homes (taxes, insurance, HOA, any special assessments) before you pick new vs. renovated resale.'
   ],
@@ -159,5 +159,6 @@ on conflict (slug) do update set
   sort_order = excluded.sort_order,
   is_published = excluded.is_published;
 
--- Retire prior Jurupa/West Riverside slug if it still exists.
-delete from public.showcase_homes where slug = 'jurupa-riverside-new-homes';
+-- Retire prior geo-guess slugs if they still exist.
+delete from public.showcase_homes
+where slug in ('jurupa-riverside-new-homes', 'eastvale-area-new-homes');
