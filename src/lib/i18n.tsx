@@ -426,7 +426,7 @@ const STRINGS: Record<Lang, Strings> = {
     newHomesLead:
       "Common new-build patterns we post about — kept intentionally vague. These are not Cervantes listings.",
     newHomesBrowseOnly:
-      "Browse only — contact SoCal’s New Homes for community or builder details. Want help deciding resale vs new?",
+      "Browse only — not Cervantes listings. Contact SoCal’s New Homes for details.",
     newHomesCompareLink: "Compare new vs resale",
     newHomesOr: "or",
     newHomesBuyLink: "start a buy conversation",
@@ -898,7 +898,7 @@ const STRINGS: Record<Lang, Strings> = {
     newHomesLead:
       "Patrones comunes de obra nueva de los que hablamos — a propósito generales. No son listados de Cervantes.",
     newHomesBrowseOnly:
-      "Solo exploración — contacta a SoCal’s New Homes para detalles de comunidad o constructor. ¿Ayuda para decidir reventa vs nueva?",
+      "Solo exploración — no son listados de Cervantes. Contacta a SoCal’s New Homes para detalles.",
     newHomesCompareLink: "Compara nueva vs reventa",
     newHomesOr: "o",
     newHomesBuyLink: "inicia una conversación de compra",
