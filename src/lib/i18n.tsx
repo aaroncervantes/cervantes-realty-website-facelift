@@ -347,7 +347,7 @@ const STRINGS: Record<Lang, Strings> = {
     enclosedBody:
       "Active & recently closed — full address, tour, real next steps.",
     showcaseTitle: "New construction showcase",
-    showcaseBody: "Browse-only inspiration — vague on purpose, no inquire.",
+    showcaseBody: "Browse-only inspiration — kept vague on purpose.",
     buyTitle: "Buying, step by step",
     buyEyebrow: "Buy with Cervantes",
     buyLead:
@@ -421,17 +421,17 @@ const STRINGS: Record<Lang, Strings> = {
 
     newHomesFromIg: "From Instagram",
     newHomesFromIgBody:
-      "Welcome — browse SoCal’s New Homes showcase. Discovery only; no inquire on these communities.",
+      "Welcome — browse the SoCal’s New Homes showcase. Discovery only; contact SoCal’s New Homes for community details.",
     newHomesTitle: "New construction showcase",
     newHomesLead:
       "Common new-build patterns we post about — kept intentionally vague. These are not Cervantes listings.",
     newHomesBrowseOnly:
-      "Browse only. No inquire on these products. For community or builder details, go direct. Want help deciding resale vs new?",
+      "Browse only — contact SoCal’s New Homes for community or builder details. Want help deciding resale vs new?",
     newHomesCompareLink: "Compare new vs resale",
     newHomesOr: "or",
     newHomesBuyLink: "start a buy conversation",
     newHomesFootnote:
-      "~25% of the dual-brand story lives here — discovery, not inventory ownership.",
+      "Cervantes × SoCal’s New Homes — a discovery showcase, not inventory we list.",
     newHomesLoading: "Loading showcase…",
 
     showcaseLoading: "Loading showcase…",
@@ -782,7 +782,7 @@ const STRINGS: Record<Lang, Strings> = {
     homeShowcasePopular: "Popular new builds we’re seeing",
     homeBrowseShowcase: "Browse showcase →",
     homeShowcaseNote:
-      "Featured for market awareness only. Not Cervantes listings — no inquire on these products.",
+      "Featured for market awareness only. Not Cervantes listings — browse, then contact SoCal’s New Homes for details.",
     homeConciergeBody:
       "Concierge helps you sell your home faster and for more money — with no hassle for you.",
     homeConciergeQuote: "“Sold our home in 6 days above asking.” — Michael S.",
@@ -819,7 +819,7 @@ const STRINGS: Record<Lang, Strings> = {
       "Activas y recién cerradas — dirección completa, tour y siguientes pasos.",
     showcaseTitle: "Escaparate de obra nueva",
     showcaseBody:
-      "Solo exploración — a propósito general, sin consultas aquí.",
+      "Solo exploración — a propósito general.",
     buyTitle: "Comprar, paso a paso",
     buyEyebrow: "Compra con Cervantes",
     buyLead:
@@ -893,17 +893,17 @@ const STRINGS: Record<Lang, Strings> = {
 
     newHomesFromIg: "Desde Instagram",
     newHomesFromIgBody:
-      "Bienvenido — explora el escaparate de SoCal’s New Homes. Solo descubrimiento; sin consultas en estas comunidades.",
+      "Bienvenido — explora el escaparate de SoCal’s New Homes. Solo descubrimiento; contacta a SoCal’s New Homes para detalles de comunidad.",
     newHomesTitle: "Escaparate de obra nueva",
     newHomesLead:
       "Patrones comunes de obra nueva de los que hablamos — a propósito generales. No son listados de Cervantes.",
     newHomesBrowseOnly:
-      "Solo exploración. Sin consultas en estos productos. Para detalles de comunidad o constructor, ve directo. ¿Ayuda para decidir reventa vs nueva?",
+      "Solo exploración — contacta a SoCal’s New Homes para detalles de comunidad o constructor. ¿Ayuda para decidir reventa vs nueva?",
     newHomesCompareLink: "Compara nueva vs reventa",
     newHomesOr: "o",
     newHomesBuyLink: "inicia una conversación de compra",
     newHomesFootnote:
-      "~25% de la historia de doble marca vive aquí — descubrimiento, no inventario propio.",
+      "Cervantes × SoCal’s New Homes — escaparate de descubrimiento, no inventario que listamos.",
     newHomesLoading: "Cargando escaparate…",
 
     showcaseLoading: "Cargando escaparate…",
