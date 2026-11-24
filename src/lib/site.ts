@@ -32,17 +32,16 @@ export const ENCLOSED_DOOR_IMAGE =
 export const SNH_DOOR_IMAGE = "";
 
 /**
- * Live SoCal’s New Homes questionnaire (Railway).
+ * Live SoCal’s New Homes questionnaire (custom domain on Railway).
  * Cannot be iframed (X-Frame-Options: SAMEORIGIN) — open in a new tab.
  * Hard-refresh the Railway URL if an old funnel still caches.
  *
  * Public short links (use these in bios / ads — never the raw Railway host):
  * - https://cervantesre.com/start  → questionnaire with source=ig
- * - Optional dedicated SNH domain can CNAME onto the questionnaire Railway
- *   service, or URL-forward to https://cervantesre.com/start
+ * - Brand domain https://socalsnewhomes.com is the questionnaire host
  */
 export const SNH_QUESTIONNAIRE_URL =
-  "https://web-production-a651e071.up.railway.app/";
+  "https://socalsnewhomes.com/";
 
 /** Clean bio / ad entry on this site. */
 export const SNH_START_PATH = "/start";
