@@ -201,14 +201,122 @@ export function MortgageCalculator({
     ? "border border-black/5 bg-white p-6 md:p-7"
     : "overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-28px_rgba(26,26,26,0.55)] ring-1 ring-black/5";
 
+  const paymentBlock = (
+    <div
+      className={
+        isPage
+          ? "p-5 md:p-7 bg-white"
+          : "pb-6"
+      }
+    >
+      {!isPage && (
+        <h3
+          className={`font-serif font-medium tracking-tight text-[#1a1a1a] mb-5 ${
+            isCompact ? "text-xl" : "text-2xl"
+          }`}
+        >
+          {title ?? t.estimatePayment}
+        </h3>
+      )}
+      <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
+        {t.monthlyPaymentLabel}
+      </p>
+      <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
+        <p className="font-serif text-4xl md:text-5xl leading-none tracking-tight tabular-nums text-[#1a1a1a]">
+          {formatCurrency(monthly)}
+        </p>
+        <p className="pb-1 text-sm text-gray-500">
+          {fill(t.atRateTerm, {
+            rate: rate.toFixed(2),
+            term: termYears,
+          })}
+        </p>
+      </div>
+
+      <div className="mt-6 flex items-center gap-5">
+        <PaymentDonut segments={segments} size={isSidebar ? 124 : 168} />
+        <ul className="space-y-3 text-sm min-w-0 flex-1">
+          <li className="flex items-center gap-2.5">
+            <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.pi }} />
+            <span className="text-gray-600 truncate">{t.principalInterest}</span>
+            <span className="ml-auto font-bold tabular-nums">
+              {formatCurrency(result.monthlyPI)}
+            </span>
+          </li>
+          {includeTaxIns && (
+            <>
+              <li className="flex items-center gap-2.5">
+                <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.tax }} />
+                <span className="text-gray-600 truncate">{t.propertyTaxes}</span>
+                <span className="ml-auto font-bold tabular-nums">
+                  {formatCurrency(result.monthlyTax)}
+                </span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.ins }} />
+                <span className="text-gray-600 truncate">{t.homeInsurance}</span>
+                <span className="ml-auto font-bold tabular-nums">
+                  {formatCurrency(result.monthlyIns)}
+                </span>
+              </li>
+            </>
+          )}
+          {includeMip && result.monthlyMip > 0 && (
+            <li className="flex items-center gap-2.5">
+              <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.mip }} />
+              <span className="text-gray-600 truncate">MIP</span>
+              <span className="ml-auto font-bold tabular-nums">
+                {formatCurrency(result.monthlyMip)}
+              </span>
+            </li>
+          )}
+          {hoaMonthly > 0 && (
+            <li className="flex items-center gap-2.5">
+              <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.hoa }} />
+              <span className="text-gray-600 truncate">HOA</span>
+              <span className="ml-auto font-bold tabular-nums">
+                {formatCurrency(result.monthlyHoa)}
+              </span>
+            </li>
+          )}
+        </ul>
+      </div>
+
+      <dl className="mt-6 grid grid-cols-3 gap-3 rounded-xl border border-black/10 p-4 text-sm">
+        <div>
+          <dt className="text-[11px] text-gray-500">{t.loanAmount}</dt>
+          <dd className="mt-1 font-bold tabular-nums">
+            {formatCurrency(result.loanAmount)}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-[11px] text-gray-500">{t.totalInterestPaid}</dt>
+          <dd className="mt-1 font-bold tabular-nums">
+            {formatCurrency(result.totalInterest)}
+          </dd>
+        </div>
+        <div>
+          <dt className="text-[11px] text-gray-500">{t.payoffDate}</dt>
+          <dd className="mt-1 font-bold tabular-nums">{payoff}</dd>
+        </div>
+      </dl>
+    </div>
+  );
+
   const inputs = (
-    <div className={isPage ? "bg-[#f3f1ec] p-5 md:p-7 h-full" : ""}>
+    <div
+      className={
+        isPage
+          ? "bg-[#f3f1ec] p-5 md:p-7"
+          : "border-t border-black/[0.06] pt-6"
+      }
+    >
       <h3
         className={`font-serif font-medium tracking-tight text-[#1a1a1a] mb-5 ${
           isCompact ? "text-xl" : "text-2xl"
         }`}
       >
-        {isPage ? t.loanDetails : title ?? t.estimatePayment}
+        {t.loanDetails}
       </h3>
 
       <div className="grid gap-4">
@@ -413,144 +521,49 @@ export function MortgageCalculator({
     </div>
   );
 
-  const results = (
+  const footer = (
     <div
       className={
         isPage
-          ? "p-5 md:p-7 flex flex-col h-full bg-white"
-          : "mt-6 border-t border-black/[0.06] pt-6"
+          ? "bg-white px-5 md:px-7 pb-5 md:pb-7 pt-2 space-y-2.5"
+          : "mt-6 space-y-2.5"
       }
     >
-      <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-1">
-        {t.monthlyPaymentLabel}
+      {showPreapproval && (
+        <a
+          href={buyTypeform("calculator")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-6 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#c9a84c]"
+        >
+          {t.getMyRateCta}
+        </a>
+      )}
+      {showPreapproval && (
+        <p className="flex items-center justify-center gap-1.5 text-[12px] text-gray-500">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#c9a84c]" />
+          {t.noCreditImpact}
+        </p>
+      )}
+      {showLinkToFull && (
+        <Link
+          to="/calculator"
+          className="block text-center text-[11px] font-bold uppercase tracking-[0.14em] text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
+        >
+          {t.openFullCalc}
+        </Link>
+      )}
+      <p className="text-[11px] text-gray-400 leading-relaxed text-center pt-1">
+        {t.mortgageDisclaimer}
       </p>
-      <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-        <p className="font-serif text-4xl md:text-5xl leading-none tracking-tight tabular-nums text-[#1a1a1a]">
-          {formatCurrency(monthly)}
-        </p>
-        <p className="pb-1 text-sm text-gray-500">
-          {fill(t.atRateTerm, {
-            rate: rate.toFixed(2),
-            term: termYears,
-          })}
-        </p>
-      </div>
-
-      <div className="mt-6 flex items-center gap-5">
-        <PaymentDonut segments={segments} size={isSidebar ? 124 : 168} />
-        <ul className="space-y-3 text-sm min-w-0 flex-1">
-          <li className="flex items-center gap-2.5">
-            <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.pi }} />
-            <span className="text-gray-600 truncate">{t.principalInterest}</span>
-            <span className="ml-auto font-bold tabular-nums">
-              {formatCurrency(result.monthlyPI)}
-            </span>
-          </li>
-          {includeTaxIns && (
-            <>
-              <li className="flex items-center gap-2.5">
-                <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.tax }} />
-                <span className="text-gray-600 truncate">{t.propertyTaxes}</span>
-                <span className="ml-auto font-bold tabular-nums">
-                  {formatCurrency(result.monthlyTax)}
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.ins }} />
-                <span className="text-gray-600 truncate">{t.homeInsurance}</span>
-                <span className="ml-auto font-bold tabular-nums">
-                  {formatCurrency(result.monthlyIns)}
-                </span>
-              </li>
-            </>
-          )}
-          {includeMip && result.monthlyMip > 0 && (
-            <li className="flex items-center gap-2.5">
-              <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.mip }} />
-              <span className="text-gray-600 truncate">MIP</span>
-              <span className="ml-auto font-bold tabular-nums">
-                {formatCurrency(result.monthlyMip)}
-              </span>
-            </li>
-          )}
-          {hoaMonthly > 0 && (
-            <li className="flex items-center gap-2.5">
-              <i className="h-3 w-3 shrink-0 rounded-sm" style={{ background: COLORS.hoa }} />
-              <span className="text-gray-600 truncate">HOA</span>
-              <span className="ml-auto font-bold tabular-nums">
-                {formatCurrency(result.monthlyHoa)}
-              </span>
-            </li>
-          )}
-        </ul>
-      </div>
-
-      <dl className="mt-6 grid grid-cols-3 gap-3 rounded-xl border border-black/10 p-4 text-sm">
-        <div>
-          <dt className="text-[11px] text-gray-500">{t.loanAmount}</dt>
-          <dd className="mt-1 font-bold tabular-nums">
-            {formatCurrency(result.loanAmount)}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-[11px] text-gray-500">{t.totalInterestPaid}</dt>
-          <dd className="mt-1 font-bold tabular-nums">
-            {formatCurrency(result.totalInterest)}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-[11px] text-gray-500">{t.payoffDate}</dt>
-          <dd className="mt-1 font-bold tabular-nums">{payoff}</dd>
-        </div>
-      </dl>
-
-      <div className="mt-auto pt-6 space-y-2.5">
-        {showPreapproval && (
-          <a
-            href={buyTypeform("calculator")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-6 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#c9a84c]"
-          >
-            {t.getMyRateCta}
-          </a>
-        )}
-        {showPreapproval && (
-          <p className="flex items-center justify-center gap-1.5 text-[12px] text-gray-500">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#c9a84c]" />
-            {t.noCreditImpact}
-          </p>
-        )}
-        {showLinkToFull && (
-          <Link
-            to="/calculator"
-            className="block text-center text-[11px] font-bold uppercase tracking-[0.14em] text-[#1a1a1a] hover:text-[#c9a84c] transition-colors"
-          >
-            {t.openFullCalc}
-          </Link>
-        )}
-        <p className="text-[11px] text-gray-400 leading-relaxed text-center pt-1">
-          {t.mortgageDisclaimer}
-        </p>
-      </div>
     </div>
   );
 
-  if (isPage) {
-    return (
-      <div className={`${shell} ${className}`}>
-        <div className="grid lg:grid-cols-2 min-h-[560px]">
-          {inputs}
-          {results}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={`${shell} ${className}`}>
+      {paymentBlock}
       {inputs}
-      {results}
+      {footer}
     </div>
   );
 }

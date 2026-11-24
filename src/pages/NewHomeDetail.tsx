@@ -126,11 +126,8 @@ const NewHomeDetail = () => {
                   <Snap label={t.labelIncentives} value={home.incentives} />
                   <Snap label={t.labelVerified} value={home.verifiedDate} />
                 </dl>
-                <p className="text-xs text-gray-400 mb-12">
-                  {t.showcaseAddressNote}
-                </p>
 
-                <h2 className="font-serif text-2xl mb-3">{t.whyBuyersTitle}</h2>
+                <h2 className="font-serif text-2xl mb-3 mt-12">{t.whyBuyersTitle}</h2>
                 <p className="text-gray-700 leading-relaxed max-w-2xl mb-10">
                   {home.whyBuyers}
                 </p>
