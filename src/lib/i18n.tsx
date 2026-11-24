@@ -126,7 +126,6 @@ type Strings = {
   labelAssessments: string;
   labelIncentives: string;
   labelVerified: string;
-  showcaseAddressNote: string;
   showcaseBadge: string;
   showcasePriceNote: string;
   photosComingSoon: string;
@@ -453,8 +452,6 @@ const STRINGS: Record<Lang, Strings> = {
     labelAssessments: "Special assessments",
     labelIncentives: "Builder incentives",
     labelVerified: "Info verified",
-    showcaseAddressNote:
-      "Exact community names and street addresses are not shown. Ask SoCal’s New Homes for private details.",
     showcaseBadge: "Showcase · SoCal’s New Homes",
     showcasePriceNote:
       "Prices and availability are based on currently published information and can change without notice.",
@@ -927,8 +924,6 @@ const STRINGS: Record<Lang, Strings> = {
     labelAssessments: "Evaluaciones especiales",
     labelIncentives: "Incentivos del constructor",
     labelVerified: "Info verificada",
-    showcaseAddressNote:
-      "No se muestran nombres exactos de comunidad ni direcciones. Pregunta a SoCal’s New Homes por detalles privados.",
     showcaseBadge: "Escaparate · SoCal’s New Homes",
     showcasePriceNote:
       "Precios y disponibilidad se basan en información publicada y pueden cambiar sin aviso.",
