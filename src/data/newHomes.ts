@@ -32,7 +32,8 @@ export const NEW_HOME_SLUG_ALIASES: Record<string, string> = {
   "bloom-brookfield-ontario": "ontario-area-townhomes",
   "serrano-oaks-dr-horton": "jurupa-valley-townhomes",
   "solara-trumark": "south-corona-homes",
-  "jurupa-riverside-new-homes": "eastvale-area-new-homes",
+  "jurupa-riverside-new-homes": "jurupa-valley-new-homes",
+  "eastvale-area-new-homes": "jurupa-valley-new-homes",
 };
 
 /**
@@ -151,9 +152,9 @@ export const NEW_HOMES: NewHome[] = [
   },
   {
     id: "nh-5",
-    slug: "eastvale-area-new-homes",
-    title: "New Homes in the Eastvale Area",
-    area: "Eastvale / East Riverside Area",
+    slug: "jurupa-valley-new-homes",
+    title: "New Homes in Jurupa Valley",
+    area: "Jurupa Valley",
     fromPrice: 400000,
     priceHigh: 890000,
     priceLabel: "Upper $300,000s to upper $800,000s",
@@ -162,9 +163,9 @@ export const NEW_HOMES: NewHome[] = [
     sqft: "≈850–2,900",
     style: "Attached & single-family · garage options",
     blurb:
-      "A master-planned collection of newly built homes on the Eastvale / east-county side — from efficient attached plans to roomier single-family layouts. Expect modern finishes, flexible bedroom counts, community amenities, and quick freeway access for workdays and weekend trips across the Inland Empire.",
+      "A master-planned collection of newly built homes in Jurupa Valley — from efficient attached plans to roomier single-family layouts. Expect modern finishes, flexible bedroom counts, community amenities, and quick freeway access for workdays and weekend trips across the Inland Empire.",
     compareToResale: [
-      "Brand-new systems and warranties vs. established east-side resale that often needs inspection credits.",
+      "Brand-new systems and warranties vs. established Jurupa Valley resale that often needs inspection credits.",
       "Attached and detached options in one community — match privacy and yard needs against older freestanding stock nearby.",
       "Model the full monthly with SoCal’s New Homes (taxes, insurance, HOA, any special assessments) before you pick new vs. renovated resale.",
     ],
