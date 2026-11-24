@@ -456,7 +456,7 @@ const STRINGS: Record<Lang, Strings> = {
     showcasePriceNote:
       "Prices and availability are based on currently published information and can change without notice.",
     photosComingSoon: "Photos coming soon",
-    contactSnh: "Ask SoCal’s New Homes",
+    contactSnh: "Contact SoCal’s New Homes",
     whyBuyersTitle: "Next step",
     whyCompareTitle: "Why buyers compare this to resale",
     notCervantesListing: "SoCal’s New Homes",

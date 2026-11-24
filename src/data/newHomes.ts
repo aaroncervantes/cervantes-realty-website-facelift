@@ -148,6 +148,34 @@ export const NEW_HOMES: NewHome[] = [
     image: "",
     gallery: [],
   },
+  {
+    id: "nh-5",
+    slug: "jurupa-riverside-new-homes",
+    title: "New Homes Near Riverside",
+    area: "Jurupa Valley / West Riverside Area",
+    fromPrice: 400000,
+    priceHigh: 890000,
+    priceLabel: "Upper $300,000s to upper $800,000s",
+    beds: "1–4",
+    baths: "1–3",
+    sqft: "≈850–2,900",
+    style: "Attached & single-family · garage options",
+    blurb:
+      "A master-planned stretch of newly built homes on the Jurupa Valley side of the Riverside edge — from efficient attached plans to roomier single-family layouts. Expect modern finishes, flexible bedroom counts, community amenities, and quick links to I-15, SR-60, and SR-91 for workdays and weekend trips into Riverside and beyond.",
+    compareToResale: [
+      "Brand-new systems and warranties vs. established west-county resale that often needs inspection credits.",
+      "Attached and detached options in one community — match privacy and yard needs against older freestanding stock nearby.",
+      "Model the full monthly with SoCal’s New Homes (taxes, insurance, HOA, any special assessments) before you pick new vs. renovated resale.",
+    ],
+    whyBuyers:
+      "Contact SoCal’s New Homes for availability, floor plans, incentives, and a private tour. Prices and availability are based on currently published information and can change without notice.",
+    hoa: "Confirm current dues with SoCal’s New Homes",
+    specialAssessments: "Confirm with SoCal’s New Homes before modeling payment",
+    incentives: "Ask SoCal’s New Homes about current incentives",
+    verifiedDate: "Nov 24, 2026",
+    image: "",
+    gallery: [],
+  },
 ];
 
 export const FALLBACK_NEW_HOMES = NEW_HOMES;

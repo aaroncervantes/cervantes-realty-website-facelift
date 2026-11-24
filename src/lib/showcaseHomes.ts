@@ -125,7 +125,11 @@ export function usePublicShowcaseHomes() {
         return [...FALLBACK_NEW_HOMES];
       }
       if (!data?.length) return [...FALLBACK_NEW_HOMES];
-      return (data as ShowcaseHomeRow[]).map(fromShowcaseRow);
+      const cms = (data as ShowcaseHomeRow[]).map(fromShowcaseRow);
+      const cmsSlugs = new Set(cms.map((h) => h.slug));
+      // Seed-only cards (not yet upserted in CMS) still show on the public site.
+      const extras = FALLBACK_NEW_HOMES.filter((h) => !cmsSlugs.has(h.slug));
+      return [...cms, ...extras];
     },
     staleTime: 60_000,
   });

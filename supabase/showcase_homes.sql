@@ -106,3 +106,55 @@ create policy "Admin delete listing media"
   on storage.objects for delete
   to authenticated
   using (bucket_id = 'listing-media');
+
+-- Optional: upsert the Jurupa/Riverside edge showcase card (vague public copy; blank photos).
+-- Safe to re-run — conflicts on slug.
+insert into public.showcase_homes (
+  slug, title, area, from_price, price_high, beds, baths, sqft, style, blurb,
+  compare_to_resale, why_buyers, hoa, special_assessments, incentives,
+  verified_date, image, gallery, video_url, sort_order, is_published
+) values (
+  'jurupa-riverside-new-homes',
+  'New Homes Near Riverside',
+  'Jurupa Valley / West Riverside Area',
+  400000,
+  890000,
+  '1–4',
+  '1–3',
+  '≈850–2,900',
+  'Attached & single-family · garage options',
+  'A master-planned stretch of newly built homes on the Jurupa Valley side of the Riverside edge — from efficient attached plans to roomier single-family layouts. Expect modern finishes, flexible bedroom counts, community amenities, and quick links to I-15, SR-60, and SR-91 for workdays and weekend trips into Riverside and beyond.',
+  array[
+    'Brand-new systems and warranties vs. established west-county resale that often needs inspection credits.',
+    'Attached and detached options in one community — match privacy and yard needs against older freestanding stock nearby.',
+    'Model the full monthly with SoCal’s New Homes (taxes, insurance, HOA, any special assessments) before you pick new vs. renovated resale.'
+  ],
+  'Contact SoCal’s New Homes for availability, floor plans, incentives, and a private tour. Prices and availability are based on currently published information and can change without notice.',
+  'Confirm current dues with SoCal’s New Homes',
+  'Confirm with SoCal’s New Homes before modeling payment',
+  'Ask SoCal’s New Homes about current incentives',
+  'Nov 24, 2026',
+  '',
+  '{}',
+  '',
+  5,
+  true
+)
+on conflict (slug) do update set
+  title = excluded.title,
+  area = excluded.area,
+  from_price = excluded.from_price,
+  price_high = excluded.price_high,
+  beds = excluded.beds,
+  baths = excluded.baths,
+  sqft = excluded.sqft,
+  style = excluded.style,
+  blurb = excluded.blurb,
+  compare_to_resale = excluded.compare_to_resale,
+  why_buyers = excluded.why_buyers,
+  hoa = excluded.hoa,
+  special_assessments = excluded.special_assessments,
+  incentives = excluded.incentives,
+  verified_date = excluded.verified_date,
+  sort_order = excluded.sort_order,
+  is_published = excluded.is_published;
